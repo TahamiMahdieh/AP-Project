@@ -1,11 +1,11 @@
-package org.project;
+package org.common;
 
 import java.io.Serializable;
 
 // the class responsible for exchanging objects between server and client
 public class Bridge implements Serializable {
     private Commands command = null;
-    private Errors errors = null;
+    private Response response = null;
     private Object message = null;
     private String jwToken = null;
 
@@ -14,19 +14,15 @@ public class Bridge implements Serializable {
         this.message = message;
     }
 
-    public Bridge(Errors errors) {
-        this.errors = errors;
-    }
-
     public Bridge(Commands command, Object message, String jwToken) {
         this.command = command;
         this.message = message;
         this.jwToken = jwToken;
     }
 
-    public Bridge(Commands command, Errors errors, Object message, String jwToken) {
+    public Bridge(Commands command, Response response, Object message, String jwToken) {
         this.command = command;
-        this.errors = errors;
+        this.response = response;
         this.message = message;
         this.jwToken = jwToken;
     }
@@ -46,10 +42,10 @@ public class Bridge implements Serializable {
     public void setJwToken(String jwToken) {
         this.jwToken = jwToken;
     }
-    public Errors getErrors() {
-        return errors;
+    public Response getResponse() {
+        return response;
     }
-    public void setErrors(Errors errors) {
-        this.errors = errors;
+    public void setResponse(Response response) {
+        this.response = response;
     }
 }

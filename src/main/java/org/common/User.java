@@ -1,4 +1,4 @@
-package org.project;
+package org.common;
 
 public class User {
     private String email;
@@ -37,4 +37,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
