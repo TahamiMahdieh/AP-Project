@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Server {
+public class MainServer {
 
     public static void main(String[] args) throws IOException {
         try  {
@@ -24,7 +24,7 @@ public class Server {
             e.printStackTrace();
         }
 
-        SQLConnection.closeConnection();
+        //SQLConnection.closeConnection();
         System.out.println("Server closed");
     }
 }

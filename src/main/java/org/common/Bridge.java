@@ -27,6 +27,17 @@ public class Bridge implements Serializable {
         this.jwToken = jwToken;
     }
 
+//    public void makeJwToken(String username , String secret){
+//        String JWT_HEADER = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
+//        JSONObject payload = new JSONObject();
+//        try {
+//            payload.put("username",username);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        String signature = hmacSha256(encode(JWT_HEADER.getBytes()) + "." + encode(payload.toString().getBytes()), secret);
+//        jwToken = encode(JWT_HEADER.getBytes()) + "." + encode(payload.toString().getBytes()) + "." + signature;
+//    }
     public Commands getCommand() {
         return command;
     }

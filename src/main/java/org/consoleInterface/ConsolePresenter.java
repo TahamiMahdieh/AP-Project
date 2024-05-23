@@ -14,14 +14,14 @@ public class ConsolePresenter{
     public synchronized static void ShowConnectionFailure(){
         System.out.println("connection failed");
     }
-    public synchronized static void showWelcomePage(Socket socket, ObjectOutputStream writer, ObjectInputStream reader){
+    public synchronized static void showWelcomePage(Socket socket, ObjectOutputStream writer, String jwt){
         System.out.println("welcome to LinkedIn!");
         System.out.println("1. sign up");
         System.out.println("2. sign in");
         System.out.println("3. exit");
         String command = readFromUser();
         if (Integer.parseInt(command) == 1){
-            showSignInPage(socket, writer,reader);
+            showSignInPage(socket, writer, jwt);
         }
         else if (Integer.parseInt(command)== 2){
 
@@ -33,7 +33,7 @@ public class ConsolePresenter{
             System.out.println("invalid input");
         }
     }
-    private synchronized static void showSignInPage(Socket socket, ObjectOutputStream writer, ObjectInputStream reader, String jwt){
+    private synchronized static void showSignInPage(Socket socket, ObjectOutputStream writer, String jwt){
         System.out.print("firstname: ");
         String firstname = readFromUser();
         while (!isValidName(firstname)){
@@ -57,7 +57,7 @@ public class ConsolePresenter{
         System.out.print("password: ");
         String password = readFromUser();
         while (!isValidPassword(password)){
-            System.out.println("password most have at least 8chars, made of numbers and letters");
+            System.out.println("password must have at least 8chars, made of numbers and letters");
             System.out.print("correct password: ");
             password = readFromUser();
         }
@@ -69,7 +69,7 @@ public class ConsolePresenter{
         }
         User u = new User(email, firstname, lastname, password);
         Bridge bridge = new Bridge(Commands.SIGN_UP, u, jwt);
-        SendMessage.send(bridge, writer, socket);
+        SendMessage.send(bridge, writer);
 
     }
 

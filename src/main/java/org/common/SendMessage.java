@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class SendMessage {
-    public static void send (Bridge bridge, ObjectOutputStream writer, Socket socket){
+    public static void send (Bridge bridge, ObjectOutputStream writer){
         try {
             writer.writeObject(bridge);
             writer.flush();

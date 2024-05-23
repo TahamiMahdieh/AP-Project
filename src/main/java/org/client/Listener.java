@@ -13,7 +13,6 @@ import java.util.LinkedList;
 // this is a thread that listens to client and executes its commands
 public class Listener implements Runnable {
     private Socket socket;
-    private final Hashtable<Integer, LinkedList<Listener>> listeners = new Hashtable<>();
     private ObjectInputStream input = null;
     private ObjectOutputStream output = null;
     private String jwToken;

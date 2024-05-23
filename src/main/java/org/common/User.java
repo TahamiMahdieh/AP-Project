@@ -1,6 +1,8 @@
 package org.common;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String email;
     private String firstname;
     private String lastname;
