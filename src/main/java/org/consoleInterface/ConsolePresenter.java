@@ -21,7 +21,7 @@ public class ConsolePresenter{
         System.out.println("3. exit");
         String command = readFromUser();
         if (Integer.parseInt(command) == 1){
-            showSignInPage(socket, writer, jwt);
+            showSignUpPage(socket, writer, jwt);
         }
         else if (Integer.parseInt(command)== 2){
 
@@ -33,7 +33,7 @@ public class ConsolePresenter{
             System.out.println("invalid input");
         }
     }
-    private synchronized static void showSignInPage(Socket socket, ObjectOutputStream writer, String jwt){
+    private synchronized static void showSignUpPage(Socket socket, ObjectOutputStream writer, String jwt){
         System.out.print("firstname: ");
         String firstname = readFromUser();
         while (!isValidName(firstname)){

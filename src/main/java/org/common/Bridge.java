@@ -59,4 +59,8 @@ public class Bridge implements Serializable {
     public void setResponse(Response response) {
         this.response = response;
     }
+    @SuppressWarnings("unchecked")
+    public <T> T get() {
+        return (T) message;
+    }
 }

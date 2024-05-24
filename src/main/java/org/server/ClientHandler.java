@@ -2,6 +2,8 @@ package org.server;
 
 import org.common.Bridge;
 import org.common.Commands;
+import org.common.User;
+import org.common.UserToBeSigned;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -34,10 +36,10 @@ public class ClientHandler implements Runnable{
                 Bridge bridge = (Bridge) reader.readObject();
                 switch (bridge.getCommand()){
                     case SIGN_UP -> {
-//                        UserToBeSigned user = (UserToBeSigned) model.get();
-//                        Bridge res = PagesToBeShownToUser.signUpPage(user);
-//                        res.makeJwToken(user.getUsername(), secret);
-//                        write(res);
+                        UserToBeSigned user = bridge.get();
+                        Bridge res = PagesToBeShownToUser.signUpPage(user);
+                        res.makeJwToken(user.getUsername(), secret);
+                        write(res);
                         System.out.println("okkkkkkkkkkkkkkkkk");
                     }
                 }
