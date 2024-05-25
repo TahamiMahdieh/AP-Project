@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class ClientHandler implements Runnable{
     private Socket connectionSocket;
-    private ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+    private static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
     private ObjectOutputStream writer = null;
     private ObjectInputStream reader = null;
 
@@ -38,7 +38,7 @@ public class ClientHandler implements Runnable{
                     case SIGN_UP -> {
                         UserToBeSigned user = bridge.get();
                         Bridge res = PagesToBeShownToUser.signUpPage(user);
-                        res.makeJwToken(user.getUsername(), secret);
+                        res.makeJwToken(user.getUsername());
                         write(res);
                         System.out.println("okkkkkkkkkkkkkkkkk");
                     }

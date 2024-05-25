@@ -24,7 +24,7 @@ public class SQLConnection {
 
     public void connect() throws SQLException{
         if (connection == null) {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:5000/Project", "root", "SQL-Account/Mah83?@Ta");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:5000/Project", "root", "Dragonfly/345");
         }
         createTables();
     }
