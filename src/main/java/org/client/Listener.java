@@ -32,7 +32,7 @@ public class Listener implements Runnable {
                 switch (b.getCommand()) {
                     case SIGN_UP:
                         if (b.getResponse() == Response.SUCCESSFUL){
-                            this.jwToken = b.getJwToken(); // it sets this threads token with bridge
+                            this.jwToken = b.getJwToken(); // it sets this thread's token with bridge
                             //ConsoleUtil.printLoginMessage((UserToBeSigned) model.data);
                             //ConsoleImpl.openChatPage(socket, writer,jwToken);
                         } else {

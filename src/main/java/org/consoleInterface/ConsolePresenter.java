@@ -33,7 +33,7 @@ public class ConsolePresenter{
             System.out.println("invalid input");
         }
     }
-    private synchronized static void showSignUpPage(Socket socket, ObjectOutputStream writer, String jwt){
+    private static synchronized void showSignUpPage(Socket socket, ObjectOutputStream writer, String jwt){
         System.out.print("firstname: ");
         String firstname = readFromUser();
         while (!isValidName(firstname)){

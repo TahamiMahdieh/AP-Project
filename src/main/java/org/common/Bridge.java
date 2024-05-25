@@ -19,6 +19,9 @@ public class Bridge implements Serializable {
         this.message = message;
         this.jwToken = jwToken;
     }
+    public Bridge(Response response){
+        this.response = response;
+    }
 
     public Bridge(Commands command, Response response, Object message, String jwToken) {
         this.command = command;
@@ -27,7 +30,7 @@ public class Bridge implements Serializable {
         this.jwToken = jwToken;
     }
 
-//    public void makeJwToken(String username , String secret){
+//    public void makeJwToken(String username , StLring secret){
 //        String JWT_HEADER = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
 //        JSONObject payload = new JSONObject();
 //        try {
