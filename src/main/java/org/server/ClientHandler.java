@@ -2,9 +2,7 @@ package org.server;
 
 import org.Database.DataBaseActions;
 import org.Database.DatabaseConnection;
-import org.common.Bridge;
-import org.common.Response;
-import org.common.User;
+import org.common.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -39,21 +37,26 @@ public class ClientHandler implements Runnable{
                 switch (bridge.getCommand()){
                     case SIGN_UP -> {
                         User user = bridge.get();
+                        Bridge result = null;
                         // invalid inputs. sign up failed
                         if (!isValidEmail(user.getEmail()) || !isValidName(user.getFirstname()) || !isValidName(user.getLastname()) || !isValidPassword(user.getPassword())){
-                            Bridge failedSignUp = new Bridge(Response.FAILED_SIGNUP_INVALID_DATA);
-                            writer.writeObject(failedSignUp);
+                            result = new Bridge(Commands.SIGN_UP, Response.FAILED_SIGNUP_INVALID_DATA);
                         }
                         // check if email already exists
-                        else if (dataBaseActions.doesEmailExist()){
-                            Bridge failedSignUp = new Bridge(Response.FAILED_SIGNUP_DUPLICATED_EMAIL);
-
+                        else if (dataBaseActions.doesEmailExist(user.getEmail())){
+                            result = new Bridge(Commands.SIGN_UP, Response.FAILED_SIGNUP_DUPLICATED_EMAIL);
                         }
                         // user can be signed up now
                         else {
-
+                            boolean done = dataBaseActions.addUserToUsersTable(user);
+                            if (done){
+                                result = new Bridge(Commands.SIGN_UP, Response.SUCCESSFUL_SIGNUP);
+                            }
+                            else {
+                                result = new Bridge (Commands.SIGN_UP, Response.FAILED_SIGNUP_DATABASE_FAILURE);
+                            }
                         }
-                        System.out.println("okkkkkkkkkkkkkkkkk");
+                        SendMessage.send(result, writer);
                     }
                 }
             }

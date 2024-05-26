@@ -19,7 +19,8 @@ public class Bridge implements Serializable {
         this.message = message;
         this.jwToken = jwToken;
     }
-    public Bridge(Response response){
+    public Bridge(Commands command , Response response){
+        this.command = command;
         this.response = response;
     }
 

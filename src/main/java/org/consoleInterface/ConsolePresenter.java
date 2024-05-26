@@ -33,7 +33,7 @@ public class ConsolePresenter{
             System.out.println("invalid input");
         }
     }
-    private static synchronized void showSignUpPage(Socket socket, ObjectOutputStream writer, String jwt){
+    public static synchronized void showSignUpPage(Socket socket, ObjectOutputStream writer, String jwt){
         System.out.print("firstname: ");
         String firstname = readFromUser();
         while (!isValidName(firstname)){
@@ -70,9 +70,17 @@ public class ConsolePresenter{
         User u = new User(email, firstname, lastname, password);
         Bridge bridge = new Bridge(Commands.SIGN_UP, u, jwt);
         SendMessage.send(bridge, writer);
-
     }
 
+    public static synchronized void showHome(Socket socket, ObjectOutputStream writer, String jwt) {
+        System.out.println("O KAY!");
+        System.out.println("1. exit");
+    }
+
+    public static synchronized void showErrorPage(Socket socket, ObjectOutputStream writer, String jwt) {
+        System.out.println("ERROR :((((((");
+        System.out.println("1. exit");
+    }
     private static String readFromUser() {
         Scanner s = new Scanner(System.in);
         String command = s.nextLine();
