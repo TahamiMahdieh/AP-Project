@@ -15,33 +15,57 @@ public class ConsolePresenter{
         System.out.println("connection failed");
     }
     public synchronized static void showWelcomePage(Socket socket, ObjectOutputStream writer, String jwt){
-        System.out.println("welcome to LinkedIn!");
-        System.out.println("1. sign up");
-        System.out.println("2. sign in");
-        System.out.println("3. exit");
+        System.out.println("-WELCOME TO LINKEDIN-");
+        System.out.println("1. Sign Up");
+        System.out.println("2. Sign In");
+        System.out.println("3. Exit");
         String command = readFromUser();
-        if (Integer.parseInt(command) == 1){
-            showSignUpPage(socket, writer, jwt);
-        }
-        else if (Integer.parseInt(command)== 2){
 
-        }
-        else if (Integer.parseInt(command) == 3){
+        try {
+            if (Integer.parseInt(command) == 1) {
+                showSignUpPage(socket, writer, jwt);
+            } else if (Integer.parseInt(command) == 2) {
+                showSignInPage(socket, writer, jwt);
+            } else if (Integer.parseInt(command) == 3) {
 
+            }
+            else {
+                System.out.println("You must choose a number between 1 and 3.\n Please Try again.");
+            }
         }
-        else {
-            System.out.println("invalid input");
+        catch (NumberFormatException e) {
+            System.out.println("Please choose a NUMBER between 1 and 3. Try again.");
         }
     }
+    public static synchronized void showSignInPage(Socket socket, ObjectOutputStream writer, String jwt) {
+        System.out.println("-SIGN IN-");
+        System.out.print("Email: ");
+        String email = readFromUser();
+        while (!isValidEmail(email)){
+            System.out.println("Invalid email. Try again");
+            email = readFromUser();
+        }
+        System.out.print("Password: ");
+        String password = readFromUser();
+        while (!isValidPassword(password)){
+            System.out.println("Password must be at least 8 characters, made up of numbers and letters");
+            System.out.print("Corrected password: ");
+            password = readFromUser();
+        }
+        User u = new User(email, password);
+        Bridge bridge = new Bridge(Commands.SIGN_IN, u, jwt);
+        SendMessage.send(bridge, writer);
+    }
     public static synchronized void showSignUpPage(Socket socket, ObjectOutputStream writer, String jwt){
-        System.out.print("firstname: ");
+        System.out.println("-SIGN UP-");
+        System.out.print("First name: ");
         String firstname = readFromUser();
         while (!isValidName(firstname)){
-            System.out.println("firstname has to be made of letters only");
-            System.out.print("correct firstname: ");
+            System.out.println("First name has to be made up of letters only. Try again.");
+            System.out.print("Corrected first name: ");
             firstname = readFromUser();
         }
-        System.out.print("lastname: ");
+        System.out.print("Last Name: ");
         String lastname = readFromUser();
         while (!isValidName(lastname)){
             System.out.println("lastname has to be made of letters only");

@@ -29,17 +29,28 @@ public class Listener implements Runnable {
             while (socket.isConnected()) {
                 Bridge b = (Bridge) input.readObject();
                 switch (b.getCommand()) {
-                    case SIGN_UP:
-                        if (b.getResponse() == Response.SUCCESSFUL_SIGNUP){
+                    case SIGN_UP -> {
+                        if (b.getResponse() == Response.SUCCESSFUL_SIGNUP) {
 //                            this.jwToken = b.getJwToken(); // it sets this thread's token with bridge
                             ConsolePresenter.showHome(socket, output, null);
-                        } else {
+                        }
+                        else {
                             //ConsoleUtil.printErrorMSg(model);
                             //ConsoleImpl.openAccountMenu(socket, writer,jwToken);
-
                             ConsolePresenter.showErrorPage(socket, output, null);
                         }
-                        break;
+                    }
+                    case SIGN_IN -> {
+                        if (b.getResponse() == Response.SUCCESSFUL_SIGN_IN){
+//                            this.jwToken = b.getJwToken(); // it sets this thread's token with bridge
+                            ConsolePresenter.showHome(socket, output, null);
+                        }
+                        else {
+                            //ConsoleUtil.printErrorMSg(model);
+                            //ConsoleImpl.openAccountMenu(socket, writer,jwToken);
+                            ConsolePresenter.showErrorPage(socket, output, null);
+                        }
+                    }
                 }
             }
         }

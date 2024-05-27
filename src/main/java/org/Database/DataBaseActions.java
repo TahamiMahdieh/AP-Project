@@ -1,5 +1,6 @@
 package org.Database;
 
+import org.common.Response;
 import org.common.User;
 
 import java.sql.*;
@@ -12,7 +13,7 @@ public class DataBaseActions {
     }
 
     public boolean doesEmailExist (String email){
-        String query = "SELECT COUNT(*) FROM users where email = ? ;";
+        String query = "SELECT COUNT(*) FROM users WHERE email = ?;";
         try {
             PreparedStatement statement = connection.prepareStatement(query);// this converts our query to sql code
             statement.setString(1, email);
@@ -23,6 +24,22 @@ public class DataBaseActions {
             }
         }
         catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean checkPassword(String email, String givenPassword) {
+        String query = "SELECT pass FROM users WHERE email = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String correctPassword = resultSet.getNString("pass");
+                return givenPassword.equals(correctPassword);
+            }
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
