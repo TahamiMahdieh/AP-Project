@@ -2,6 +2,7 @@ package org.client;
 
 import org.common.Bridge;
 import org.common.Response;
+import org.common.User;
 import org.consoleInterface.ConsolePresenter;
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class Listener implements Runnable {
                     case SIGN_UP -> {
                         if (b.getResponse() == Response.SUCCESSFUL_SIGNUP) {
 //                            this.jwToken = b.getJwToken(); // it sets this thread's token with bridge
-                            ConsolePresenter.showHome(socket, output, null);
+                            ConsolePresenter.showHome((User) b.getMessage(), socket, output, null);
                         }
                         else {
                             //ConsoleUtil.printErrorMSg(model);
@@ -43,7 +44,7 @@ public class Listener implements Runnable {
                     case SIGN_IN -> {
                         if (b.getResponse() == Response.SUCCESSFUL_SIGN_IN){
 //                            this.jwToken = b.getJwToken(); // it sets this thread's token with bridge
-                            ConsolePresenter.showHome(socket, output, null);
+                            ConsolePresenter.showHome((User) b.getMessage(), socket, output, null);
                         }
                         else {
                             //ConsoleUtil.printErrorMSg(model);

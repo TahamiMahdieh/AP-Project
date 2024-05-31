@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ClientHandler implements Runnable{
+public class ClientHandler implements Runnable {
     private Socket connectionSocket;
     private static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
     private ObjectOutputStream writer = null;
