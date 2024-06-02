@@ -159,6 +159,9 @@ public class ConsolePresenter{
                             System.out.print("New first name: ");
                             System.out.print("New last name: ");
                         }
+                        case 2 -> {
+
+                        }
                     }
                 }
 
