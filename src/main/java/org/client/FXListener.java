@@ -1,4 +1,4 @@
-package org.client;
+/*package org.client;
 
 import controller.LinkedInApplication;
 import controller.SignInController;
@@ -85,4 +85,4 @@ public class FXListener implements Runnable{
     public void setController(SignInController controller) {
         this.controller = controller;
     }
-}
+}*/
