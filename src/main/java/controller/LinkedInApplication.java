@@ -5,15 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.client.Listener;
 import org.common.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class LinkedInApplication extends Application {
 //    @Override
@@ -34,7 +31,7 @@ public class LinkedInApplication extends Application {
 //        launch();
 //    }
     private static Scene backScene = null;
-    private static User thisuser = null;
+    private static String thisUserEmail = null;
     private static Socket socket = null;
     private static ObjectOutputStream writer = null;
     private static ObjectInputStream reader = null;
@@ -72,20 +69,20 @@ public class LinkedInApplication extends Application {
         stage.show();
     }
 
-    public static HomePageController showHomePage(String jwt) {
-        HomePageController controller2 = changeScene(stage, "homePage.fxml", "LinkedIn");
-        controller2.setSocket(socket);
-        controller2.setJwt(jwt);
-        controller2.setWriter(writer);
-        return controller2;
+    public static void showHomePage(String jwt) {
+        HomePageController controller = changeScene(stage, "homePage.fxml", "LinkedIn");
+        controller.setSocket(socket);
+        controller.setJwt(jwt);
+        controller.setWriter(writer);
     }
 
-    public static SignUpController showSignUpPage (Stage stage, Socket socket, ObjectOutputStream writer, String jwt){
-        SignUpController controller2 = changeScene(stage, "signUpPage.fxml", "LinkedIn");
-        controller2.setSocket(socket);
-        controller2.setJwt(jwt);
-        controller2.setWriter(writer);
-        return controller2;
+    public static void showSignUpPage (Stage stage, Socket socket, ObjectOutputStream writer, String jwt){
+        SignUpController controller = changeScene(stage, "signUpPage.fxml", "LinkedIn");
+        controller.setSocket(socket);
+        controller.setJwt(jwt);
+        controller.setReader(reader);
+        controller.setWriter(writer);
+        stage.setTitle("LinkedIn");
     }
 
     public static Scene getBackScene() {
@@ -94,11 +91,11 @@ public class LinkedInApplication extends Application {
     public static void setBackScene(Scene backScene) {
         LinkedInApplication.backScene = backScene;
     }
-    public static User getThisuser() {
-        return thisuser;
+    public static String getThisUserEmail() {
+        return thisUserEmail;
     }
-    public static void setThisUser(User thisuser) {
-        LinkedInApplication.thisuser = thisuser;
+    public static void setThisUserEmail(String thisUserEmail) {
+        LinkedInApplication.thisUserEmail = thisUserEmail;
     }
     public static <T> T changeScene(Stage stage, String fxmlFile, String title) {
         Parent root = null;

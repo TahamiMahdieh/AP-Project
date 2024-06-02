@@ -50,7 +50,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="emailTextField" promptText="Email" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="firstNameTextField" prefColumnCount="0" promptText="First name" GridPane.columnIndex="1" />
                   <TextField fx:id="passwordTextField" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label text="First name :">
                      <font>
@@ -63,19 +63,19 @@
                      </font>
                   </Label>
                   <Label text="Repeat password :" GridPane.rowIndex="4" />
-                  <TextField fx:id="firstName" promptText="First name" GridPane.columnIndex="1" />
-                  <TextField fx:id="lastName" promptText="Last name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="emailTextField" promptText="Email" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="lastNameTextField" promptText="Last name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="repeatPasswordTextField" promptText="Repeat Password" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                </children>
             </GridPane>
-            <Button fx:id="signUpButton" layoutX="82.0" layoutY="288.0" mnemonicParsing="false" onAction="#signUpButtonPressed" prefHeight="38.0" prefWidth="118.0" style="-fx-background-color: #0a66cb;" text="Sign up" textAlignment="CENTER" textFill="WHITE" />
+            <Button fx:id="signUpButton" layoutX="82.0" layoutY="302.0" mnemonicParsing="false" onAction="#signUpButtonPressed" prefHeight="38.0" prefWidth="118.0" style="-fx-background-color: #0a66cb;" text="Sign up" textAlignment="CENTER" textFill="WHITE" />
             <Label layoutX="100.0" layoutY="45.0" prefHeight="47.0" prefWidth="100.0" style="-fx-border-image-width: bold;" text="Sign up">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="signUpMessageLabel" alignment="CENTER" layoutX="33.0" layoutY="266.0" prefHeight="18.0" prefWidth="215.0" textFill="#ef4343" />
-            <Button fx:id="cancelButton" layoutX="82.0" layoutY="334.0" mnemonicParsing="false" onAction="#cancelButtonPressed" prefHeight="38.0" prefWidth="118.0" style="-fx-background-color: #0a66cb;" text="Cancel" textAlignment="CENTER" textFill="WHITE" />
+            <Label fx:id="signUpMessageLabel" alignment="CENTER" layoutX="33.0" layoutY="266.0" prefHeight="30.0" prefWidth="215.0" textFill="#ef4343" />
+            <Button fx:id="cancelButton" layoutX="82.0" layoutY="348.0" mnemonicParsing="false" onAction="#cancelButtonPressed" prefHeight="38.0" prefWidth="118.0" style="-fx-background-color: #0a66cb;" text="Cancel" textAlignment="CENTER" textFill="WHITE" />
             <ImageView fx:id="keyImage" fitHeight="23.0" fitWidth="52.0" layoutX="113.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../pictures/UserInterface/key-icon.png" />

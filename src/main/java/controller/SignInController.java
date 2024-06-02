@@ -54,7 +54,7 @@ public class SignInController implements Initializable {
             }
             else { // this is when fields have been filled properly
                 User u = new User(emailTextField.getText(), passwordTextField.getText());
-                Bridge bridge = new Bridge(Commands.SIGN_IN, u, null);
+                Bridge bridge = new Bridge(Commands.SIGN_IN, u, jwt);
                 loginMessageLabel.setText("Loading ...");
                 SendMessage.send(bridge, writer);
                 startSignInTask();
@@ -66,7 +66,6 @@ public class SignInController implements Initializable {
         Stage stage = (Stage) signupButton.getScene().getWindow();
         LinkedInApplication.showSignUpPage(stage,socket,writer,jwt);
     }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         File linkedInFile = new File("pictures/UserInterface/welcomePage.png");
@@ -91,7 +90,6 @@ public class SignInController implements Initializable {
         // Start the thread
         backgroundThread.start();
     }
-
     public void runSignInTask() {
         try {
             Bridge b = (Bridge) reader.readObject();
@@ -99,7 +97,7 @@ public class SignInController implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        LinkedInApplication.setThisUser((User) b.getMessage());
+                        LinkedInApplication.setThisUserEmail(emailTextField.getText());
                         LinkedInApplication.showHomePage(jwt);
                     }
                 });
@@ -141,11 +139,9 @@ public class SignInController implements Initializable {
     private static boolean isValidName(String name) {
         return name != null && name.matches("[a-zA-Z]+");
     }
-
     private static boolean isValidPassword(String password) {
         return password != null && password.length()>= 8 && password.matches(".*[a-zA-Z].*") && password.matches(".*[0-9].*");
     }
-
     public String getLoginMessageLabel() {
         return loginMessageLabel.getText();
     }
