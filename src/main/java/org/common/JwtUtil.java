@@ -4,6 +4,7 @@ package org.common;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.WeakKeyException;
 
 import java.util.Date;
 
@@ -12,14 +13,19 @@ public class JwtUtil {
     private static final long EXPIRATION_DATE = 3600000; // one hour in milliseconds
 
     public static String generateToken(String email) {
-        String token = Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_DATE))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-                .compact();
-
-        return token;
+        try {
+            String token = Jwts.builder()
+                    .setSubject(email)
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_DATE))
+                    .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                    .compact();
+            return token;
+        }
+        catch (WeakKeyException e) {
+            System.out.println("forget about it");
+        }
+        return null;
     }
 
     public static Claims validateToken(String token) {
