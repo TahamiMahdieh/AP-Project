@@ -50,9 +50,9 @@ public class ClientHandler implements Runnable {
                         else {
                             boolean done = dataBaseActions.addUserToUsersTable(user);
                             if (done){
-                                String jwToken = JwtUtil.generateToken(user.getEmail());
-                                result = new Bridge(Commands.SIGN_UP, Response.SUCCESSFUL_SIGNUP, user, jwToken);
-                                result.setJwToken(jwToken);
+                                //String jwToken = JwtUtil.generateToken(user.getEmail());
+                                result = new Bridge(Commands.SIGN_UP, Response.SUCCESSFUL_SIGNUP, user, null);
+                                result.setJwToken(null);
                             }
                             else {
                                 result = new Bridge (Commands.SIGN_UP, Response.FAILED_SIGNUP_DATABASE_FAILURE);
