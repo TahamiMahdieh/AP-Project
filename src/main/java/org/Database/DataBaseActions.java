@@ -358,7 +358,7 @@ public class DataBaseActions {
         }
     }
 
-    public boolean addEducation(String email, String schoolName, String fieldOfStudy, Date startDate, Date endDate, double grade, String activitiesAndSocieties, String description, JsonArray skills, boolean notifyNetwork) {
+    /*public boolean addEducation(String email, String schoolName, String fieldOfStudy, Date startDate, Date endDate, double grade, String activitiesAndSocieties, String description, JsonArray skills, boolean notifyNetwork) {
         try {
             connection.setAutoCommit(false);
             String getUserId = "SELECT id FROM users WHERE email = ?;";
@@ -375,7 +375,7 @@ public class DataBaseActions {
         } catch (SQLException e) {
 
         }
-    }
+    }*/
 
     private static int insertAndGetId(Connection conn, String sql, Object... params) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
