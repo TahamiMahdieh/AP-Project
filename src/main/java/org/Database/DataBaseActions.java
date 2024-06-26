@@ -88,10 +88,6 @@ public class DataBaseActions {
         return getStringFromUserProfile(email, "headline");
     }
 
-    public boolean setHeadline(String email, String newHeadline) {
-        return true;
-    }
-
     public String getProfileUrl(String email) {
         return getStringFromContactInfo(email, "profile_url");
     }
@@ -194,11 +190,10 @@ public class DataBaseActions {
         String query = "SELECT " + label + " FROM user_profile WHERE id = ?;";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, email);
+            statement.setString(1, String.valueOf(id));
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                String answer = resultSet.getNString(label);
-                return answer;
+                return resultSet.getNString(label);
             }
         }
         catch (Exception e) {
@@ -212,7 +207,7 @@ public class DataBaseActions {
         String query = "SELECT " + label + " FROM user_profile WHERE id = ?;";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, email);
+            statement.setString(1, String.valueOf(id));
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 int answer = resultSet.getInt(label);
@@ -241,14 +236,28 @@ public class DataBaseActions {
         }
         return null;
     }
-
+    public boolean setHeadline(String email, String newHeadline) {
+        int id = getIntFromUsers(email, "user_profile_id");
+        String query = "UPDATE user_profile SET headline = ? WHERE id = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, newHeadline);
+            statement.setString(2, String.valueOf(id));
+            System.out.println(statement.executeUpdate());
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     private String getStringFromContactInfo(String email, String label) {
         int userProfileId = getIntFromUsers(email, "user_profile_id");
         int id = getIntFromUserProfile(email, "contact_info_id");
         String query = "SELECT " + label + " FROM contact_info WHERE id = ?;";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, email);
+            statement.setString(1, String.valueOf(id));
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String answer = resultSet.getNString(label);

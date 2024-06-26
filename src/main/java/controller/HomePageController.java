@@ -11,6 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.Database.DataBaseActions;
@@ -19,6 +20,7 @@ import java.io.File;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class HomePageController implements Initializable {
@@ -44,15 +46,13 @@ public class HomePageController implements Initializable {
     private ListView<String> myInformationListView;
     @FXML
     private ImageView profilePicture;
+    @FXML
+    private TextField postTextField;
     public void initialize (URL location, ResourceBundle resource) {
         // if user presses ENTER while writing in searchTextField, search will be executed
         searchTextField.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case ENTER:
-                    search();
-                    break;
-                default:
-                    break;
+            if (Objects.requireNonNull(event.getCode()) == KeyCode.ENTER) {
+                search();
             }
         });
     }
@@ -80,6 +80,7 @@ public class HomePageController implements Initializable {
                 return new CustomListCell();
             }
         });
+        // initializing the profile picture
         File profileFile = new File(da.getProfilePicture(email));
         Image prof = new Image(profileFile.toURI().toString());
         profilePicture.setImage(prof);
@@ -109,8 +110,11 @@ public class HomePageController implements Initializable {
     void notificationsButtonPressed(ActionEvent event) {
 
     }
-    public void search (){
-        String searchedQuery = searchTextField.getText();
+    public void post (){
+        postTextField.getParent().requestFocus();
+        LinkedInApplication.showPostingPage();
+    }
+    public void search () {
         searchTextField.getParent().requestFocus();
     }
     public Socket getSocket() {
@@ -145,7 +149,7 @@ public class HomePageController implements Initializable {
                 setGraphic(null);
             } else {
                 setText(item);
-                setStyle("-fx-font-size: 13px; -fx-alignment: CENTER;");
+                setStyle("-fx-font-size: 13px; -fx-alignment: LEFT;");
             }
         }
     }

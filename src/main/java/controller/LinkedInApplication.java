@@ -50,6 +50,12 @@ public class LinkedInApplication extends Application {
         showSignInPage(null);
     }
 
+    public static void showPostingPage(){
+        PostingPage controller = changeScene(stage, "postingPage.fxml", "LinkedIn");
+        controller.setEmail(thisUserEmail);
+        controller.setSocket(socket);
+        controller.setWriter(writer);
+    }
     public static void showSignInPage(String jwt) {
         FXMLLoader fxmlLoader = new FXMLLoader(LinkedInApplication.class.getResource("login.fxml"));
         Scene scene = null;
@@ -65,6 +71,7 @@ public class LinkedInApplication extends Application {
         controller.setWriter(writer);
         stage.setTitle("LinkedIn");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -83,7 +90,6 @@ public class LinkedInApplication extends Application {
         controller.setJwt(jwt);
         controller.setReader(reader);
         controller.setWriter(writer);
-        stage.setTitle("LinkedIn");
     }
 
     public static Scene getBackScene() {
