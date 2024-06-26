@@ -1,7 +1,5 @@
 package org.Database;
 
-import com.mysql.cj.xdevapi.JsonArray;
-import org.common.Response;
 import org.common.User;
 
 import java.sql.*;
@@ -70,16 +68,16 @@ public class DataBaseActions {
         return true;
     }
 
-    public Blob getProfilePicture(String email) {
-        return getBlobFromUserProfile(email, "profile_picture");
+    public String getProfilePicture(String email) {
+        return getPicture(email, "profile_picture");
     }
 
     public boolean setProfilePicture(String email, String filePath) {
         return true;
     }
 
-    public Blob getBackgroundPicture(String email) {
-        return getBlobFromUserProfile(email, "background_picture");
+    public String getBackgroundPicture(String email) {
+        return getPicture(email, "background_picture");
     }
 
     public boolean setBackgroundPicture(String email, String filePath) {
@@ -227,16 +225,15 @@ public class DataBaseActions {
         return 0;
     }
 
-    private Blob getBlobFromUserProfile(String email, String label) {
+    private String getPicture(String email, String label) {
         int id = getIntFromUsers(email, "user_profile_id");
         String query = "SELECT " + label + " FROM user_profile WHERE id = ?;";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, email);
+            statement.setString(1, String.valueOf(id));
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                Blob answer = resultSet.getBlob(label);
-                return answer;
+                return resultSet.getString(label);
             }
         }
         catch (Exception e) {

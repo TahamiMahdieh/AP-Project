@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.common.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -41,7 +40,7 @@ public class LinkedInApplication extends Application {
     public void start(Stage stage) {
         try {
             this.stage = stage;
-            socket = new Socket("127.0.0.1", 8080);
+            socket = new Socket("127.0.0.1", 8000);
             writer = new ObjectOutputStream(socket.getOutputStream());
             reader = new ObjectInputStream(socket.getInputStream());
 
@@ -71,9 +70,11 @@ public class LinkedInApplication extends Application {
 
     public static void showHomePage(String jwt) {
         HomePageController controller = changeScene(stage, "homePage.fxml", "LinkedIn");
+        controller.setEmail(thisUserEmail);
         controller.setSocket(socket);
         controller.setJwt(jwt);
         controller.setWriter(writer);
+        controller.postInitialization();
     }
 
     public static void showSignUpPage (Stage stage, Socket socket, ObjectOutputStream writer, String jwt){

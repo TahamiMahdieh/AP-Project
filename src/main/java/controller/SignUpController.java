@@ -78,7 +78,7 @@ public class SignUpController implements Initializable {
                 signUpMessageLabel.setText("Invalid name. Please try again");
             }
             else if (!passwordTextField.getText().equals(repeatPasswordTextField.getText())){
-                signUpMessageLabel.setText("Password doesn't match the repetition.\n Please try again");
+                signUpMessageLabel.setText("Password doesn't match the repetition.\n                Please try again");
             }
             else { // this is when fields have been filled properly
                 User u = new User(emailTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText(), passwordTextField.getText());
