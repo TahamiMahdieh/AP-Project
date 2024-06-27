@@ -392,13 +392,21 @@ public class DataBaseActions {
     }
     public ArrayList<String> search (String phrase) {
         ArrayList<String> foundEmails = new ArrayList<>();
-        String query = "SELECT email FROM users WHERE firstname LIKE ? OR lastname LIKE ? OR email LIKE ?";
+        //String query = "SELECT email FROM users WHERE firstname LIKE ? OR lastname LIKE ? OR email LIKE ?";
+        String query = "SELECT users.*, user_profile.* FROM users JOIN user_profile ON users.user_profile_id = user_profile.id WHERE "
+                + "users.firstname LIKE ? "
+                + "Or users.lastname LIKE ? "
+                + "OR users.email LIKE ? "
+                + "OR user_profile.headline LIKE ? "
+                + "OR user_profile.additional_name LIKE ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             // Set the parameters for the prepared statement
             String searchPhrase = "%" + phrase + "%";
             statement.setString(1, searchPhrase);
             statement.setString(2, searchPhrase);
             statement.setString(3, searchPhrase);
+            statement.setString(4,searchPhrase);
+            statement.setString(5, searchPhrase);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     foundEmails.add(getFirstname(resultSet.getString("email")) + " " + getLastname(resultSet.getString("email")));
