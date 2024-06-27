@@ -3,9 +3,10 @@ package org.Database;
 import org.common.User;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DataBaseActions {
-    private Connection connection;
+    private final Connection connection;
 
     public DataBaseActions() {
         this.connection = DatabaseConnection.getConnection();
@@ -43,15 +44,12 @@ public class DataBaseActions {
         }
         return false;
     }
-
     public String getFirstname(String email) {
         return getStringFromUsers(email, "firstname");
     }
-
     public boolean setFirstname(String email, String newFirstname) {
         return true;
     }
-
     public String getLastname(String email) {
         return getStringFromUsers(email, "lastname");
     }
@@ -158,8 +156,7 @@ public class DataBaseActions {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                String answer = resultSet.getNString(label);
-                return answer;
+                return resultSet.getNString(label);
             }
         }
         catch (Exception e) {
@@ -175,8 +172,7 @@ public class DataBaseActions {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                int answer = resultSet.getInt(label);
-                return answer;
+                return resultSet.getInt(label);
             }
         }
         catch (Exception e) {
@@ -210,8 +206,7 @@ public class DataBaseActions {
             statement.setString(1, String.valueOf(id));
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                int answer = resultSet.getInt(label);
-                return answer;
+                return resultSet.getInt(label);
             }
         }
         catch (Exception e) {
@@ -260,8 +255,7 @@ public class DataBaseActions {
             statement.setString(1, String.valueOf(id));
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                String answer = resultSet.getNString(label);
-                return answer;
+                return resultSet.getNString(label);
             }
         }
         catch (Exception e) {
@@ -279,8 +273,7 @@ public class DataBaseActions {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                int answer = resultSet.getInt(label);
-                return answer;
+                return resultSet.getInt(label);
             }
         }
         catch (Exception e) {
@@ -298,8 +291,7 @@ public class DataBaseActions {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                Date answer = resultSet.getDate(label);
-                return answer;
+                return resultSet.getDate(label);
             }
         }
         catch (Exception e) {
@@ -317,8 +309,7 @@ public class DataBaseActions {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                boolean answer = resultSet.getBoolean(label);
-                return answer;
+                return resultSet.getBoolean(label);
             }
         }
         catch (Exception e) {
@@ -398,6 +389,25 @@ public class DataBaseActions {
                 }
             }
         }
+    }
+    public ArrayList<String> search (String phrase) {
+        ArrayList<String> foundEmails = new ArrayList<>();
+        String query = "SELECT email FROM users WHERE firstname LIKE ? OR lastname LIKE ? OR email LIKE ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            // Set the parameters for the prepared statement
+            String searchPhrase = "%" + phrase + "%";
+            statement.setString(1, searchPhrase);
+            statement.setString(2, searchPhrase);
+            statement.setString(3, searchPhrase);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    foundEmails.add(getFirstname(resultSet.getString("email")) + " " + getLastname(resultSet.getString("email")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return foundEmails;
     }
 
     private static void insertWithTwoIds(Connection conn, String sql, long id1, long id2) throws SQLException {

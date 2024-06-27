@@ -51,7 +51,7 @@ public class LinkedInApplication extends Application {
     }
 
     public static void showPostingPage(){
-        PostingPage controller = changeScene(stage, "postingPage.fxml", "LinkedIn");
+        PostingPageController controller = changeScene(stage, "postingPage.fxml", "LinkedIn");
         controller.setEmail(thisUserEmail);
         controller.setSocket(socket);
         controller.setWriter(writer);
@@ -80,6 +80,7 @@ public class LinkedInApplication extends Application {
         controller.setEmail(thisUserEmail);
         controller.setSocket(socket);
         controller.setJwt(jwt);
+        controller.setReader(reader);
         controller.setWriter(writer);
         controller.postInitialization();
     }
