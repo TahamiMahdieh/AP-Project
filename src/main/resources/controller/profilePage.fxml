@@ -57,26 +57,31 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="100.0" fitWidth="800.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="backgroundPhotoImage" fitHeight="100.0" fitWidth="800.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="profilePhotoImage" fitHeight="80.0" fitWidth="80.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
             <GridPane layoutY="116.0" prefHeight="330.0" prefWidth="400.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="320.0" minHeight="10.0" prefHeight="223.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label prefHeight="21.0" prefWidth="402.0" text="Label" GridPane.columnSpan="2147483647" />
-                  <Label prefHeight="17.0" prefWidth="414.0" text="Label" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+                  <Label fx:id="headlineLabel" prefHeight="25.0" prefWidth="414.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
                      <children>
-                        <Label prefHeight="32.0" prefWidth="313.0" text="Label" />
-                        <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="88.0" text="Contact Info" />
+                        <Label fx:id="locationLabel" prefHeight="25.0" prefWidth="280.0" />
+                        <Button fx:id="contactInfoButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="92.0" text="Contact Info" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="20.0" prefWidth="294.0" GridPane.columnSpan="2147483647">
+                     <children>
+                        <Label fx:id="nameLabel" prefHeight="25.0" prefWidth="346.0" />
+                        <Button fx:id="editInfoButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" text="✏ Edit Info" />
                      </children>
                   </HBox>
                </children>
