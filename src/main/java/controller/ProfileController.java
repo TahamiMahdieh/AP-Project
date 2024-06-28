@@ -48,6 +48,8 @@ public class ProfileController implements Initializable {
     @FXML
     private Button editInfoButton;
     @FXML
+    private Button editPicturesButton;
+    @FXML
     private Label headlineLabel;
     @FXML
     private Label locationLabel;
@@ -68,7 +70,7 @@ public class ProfileController implements Initializable {
         Image bg = new Image(backgroundFile.toURI().toString());
         backgroundPhotoImage.setImage(bg);
 
-        nameLabel.setText(da.getFirstname(email) + da.getLastname(email));
+        nameLabel.setText(da.getFirstname(email) + " " + da.getLastname(email));
         headlineLabel.setText(da.getHeadline(email));
         locationLabel.setText(da.getAddress(email));
     }
@@ -100,7 +102,11 @@ public class ProfileController implements Initializable {
     }
     @FXML
     void editInfoButtonPressed(ActionEvent event) {
-
+        LinkedInApplication.showEditInfoPage();
+    }
+    @FXML
+    void editPicturesButtonPressed(ActionEvent event) {
+        LinkedInApplication.showEditPicturesPage();
     }
     @FXML
     void contactInfoButtonPressed(ActionEvent event) {

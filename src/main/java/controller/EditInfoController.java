@@ -38,53 +38,61 @@ public class EditInfoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    public void postInitialization() {
         DataBaseActions da = new DataBaseActions();
         firstNameTextField.setText(da.getFirstname(email));
         lastNameTextField.setText(da.getLastname(email));
-        additionalNameTextField.setText("" + da.getAdditionalName(email));
+        additionalNameTextField.setText(da.getAdditionalName(email));
         headlineTextArea.setText(da.getHeadline(email));
     }
+
     @FXML
     void firstNamePressed(ActionEvent event) {
-        newFirstName = firstNameTextField.getText();
-        if (newFirstName.trim().equals("")) {
-            warningLabel.setText("First name cannot be empty.");
-        }
+
     }
     @FXML
     void lastNamePressed(ActionEvent event) {
-        newLastName = lastNameTextField.getText();
-        if (newLastName.trim().equals("")) {
-            warningLabel.setText("Last name cannot be empty.");
-        }
+
     }
     @FXML
     void additionalNamePressed(ActionEvent event) {
-        newAdditionalName = additionalNameTextField.getText();
+
     }
     @FXML
     void headlinePressed(ActionEvent event) {
-        newHeadline = headlineTextArea.getText();
-        if (newHeadline.trim().equals("")) {
-            warningLabel.setText("Headline cannot be empty.");
-        }
+
     }
     @FXML
     void donePressed(ActionEvent event) {
-        DataBaseActions da = new DataBaseActions();
-        if (newFirstName != null && !newFirstName.trim().equals(""))
-            da.setFirstname(email, newFirstName);
-        if (newLastName != null && !newLastName.trim().equals(""))
-            da.setLastname(email, newLastName);
-        if (newAdditionalName != null)
-            da.setAdditionalName(email, newAdditionalName);
-        if (newHeadline != null && !newHeadline.trim().equals(""))
-            da.setHeadline(email, newHeadline);
+        if (!warningChecker()) {
+            DataBaseActions da = new DataBaseActions();
+            da.setFirstname(email, firstNameTextField.getText().trim());
+            da.setLastname(email, lastNameTextField.getText().trim());
+            da.setAdditionalName(email, firstNameTextField.getText() == null ? null : firstNameTextField.getText().trim());
+            da.setHeadline(email, headlineTextArea.getText().trim());
 
+            LinkedInApplication.showProfilePage();
+        }
     }
     @FXML
     void cancelPressed(ActionEvent event) {
+        LinkedInApplication.showProfilePage();
+    }
 
+    public boolean warningChecker() {
+        if (firstNameTextField.getText() == null || firstNameTextField.getText().trim().isEmpty())
+            warningLabel.setText("First name cannot be empty.");
+        else if (lastNameTextField.getText() == null || lastNameTextField.getText().trim().isEmpty())
+            warningLabel.setText("Last name cannot be empty.");
+        else if (headlineTextArea.getText() == null || headlineTextArea.getText().trim().isEmpty())
+            warningLabel.setText("Headline cannot be empty.");
+        else
+            return false; // no warnings
+
+        return true; // there are warning(s)
     }
 
     public String getEmail() {

@@ -48,14 +48,14 @@ public class DataBaseActions {
         return getStringFromUsers(email, "firstname");
     }
     public boolean setFirstname(String email, String newFirstname) {
-        return true;
+        return setStringToUsers(email, "firstname", newFirstname);
     }
     public String getLastname(String email) {
         return getStringFromUsers(email, "lastname");
     }
 
     public boolean setLastname(String email, String newLastname) {
-        return true;
+        return setStringToUsers(email, "lastname", newLastname);
     }
 
     public String getAdditionalName(String email) {
@@ -63,7 +63,7 @@ public class DataBaseActions {
     }
 
     public boolean setAdditionalName(String email, String newAdditionalName) {
-        return true;
+        return setStringToUserProfile(email, "additional_name", newAdditionalName);
     }
 
     public String getProfilePicture(String email) {
@@ -71,7 +71,7 @@ public class DataBaseActions {
     }
 
     public boolean setProfilePicture(String email, String filePath) {
-        return true;
+        return setStringToUserProfile(email, "profile_picture", filePath);
     }
 
     public String getBackgroundPicture(String email) {
@@ -79,7 +79,7 @@ public class DataBaseActions {
     }
 
     public boolean setBackgroundPicture(String email, String filePath) {
-        return true;
+        return setStringToUserProfile(email, "background_picture", filePath);
     }
 
     public String getHeadline(String email) {
@@ -87,19 +87,7 @@ public class DataBaseActions {
     }
 
     public boolean setHeadline(String email, String newHeadline) {
-        int id = getIntFromUsers(email, "user_profile_id");
-        String query = "UPDATE user_profile SET headline = ? WHERE id = ?;";
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, newHeadline);
-            statement.setString(2, String.valueOf(id));
-            System.out.println(statement.executeUpdate());
-            return true;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        return setStringToUserProfile(email, "headline", newHeadline);
     }
 
     public String getProfileUrl(String email) {
@@ -319,6 +307,47 @@ public class DataBaseActions {
         }
         return false;
     }
+
+
+
+
+
+    private boolean setStringToUsers(String email, String label, String newStr) {
+        String query = "UPDATE users SET " + label + " = \"" + newStr + "\" WHERE email = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, email);
+            statement.executeUpdate();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    private boolean setStringToUserProfile(String email, String label, String newStr) {
+        int id = getIntFromUsers(email, "user_profile_id");
+        String query = "UPDATE user_profile SET " + label + " = \"" + newStr + "\" WHERE id = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, String.valueOf(id));
+            statement.executeUpdate();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+
+
+
+
+
+
 
     public boolean addUserToUsersTable (User user) {
         try {
