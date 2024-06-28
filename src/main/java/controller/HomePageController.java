@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -105,7 +106,31 @@ public class HomePageController implements Initializable {
     @FXML
     void myProfileButtonPressed(ActionEvent event) {
 
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                runProfilePage();
+            }
+        };
+
+        // Run the task in a background thread
+        Thread backgroundThread = new Thread(task);
+        // Terminate the running thread if the application exits
+        backgroundThread.setDaemon(true);
+        // Start the thread
+        backgroundThread.start();
     }
+
+    public void runProfilePage() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+//                LinkedInApplication.setThisUserEmail(email);
+                LinkedInApplication.showProfilePage(jwt);
+            }
+        });
+    }
+
     @FXML
     void notificationsButtonPressed(ActionEvent event) {
 

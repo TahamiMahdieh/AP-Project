@@ -88,6 +88,22 @@ public class DataBaseActions {
         return getStringFromUserProfile(email, "headline");
     }
 
+    public boolean setHeadline(String email, String newHeadline) {
+        int id = getIntFromUsers(email, "user_profile_id");
+        String query = "UPDATE user_profile SET headline = ? WHERE id = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, newHeadline);
+            statement.setString(2, String.valueOf(id));
+            System.out.println(statement.executeUpdate());
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public String getProfileUrl(String email) {
         return getStringFromContactInfo(email, "profile_url");
     }
@@ -236,21 +252,7 @@ public class DataBaseActions {
         }
         return null;
     }
-    public boolean setHeadline(String email, String newHeadline) {
-        int id = getIntFromUsers(email, "user_profile_id");
-        String query = "UPDATE user_profile SET headline = ? WHERE id = ?;";
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, newHeadline);
-            statement.setString(2, String.valueOf(id));
-            System.out.println(statement.executeUpdate());
-            return true;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+
     private String getStringFromContactInfo(String email, String label) {
         int userProfileId = getIntFromUsers(email, "user_profile_id");
         int id = getIntFromUserProfile(email, "contact_info_id");
