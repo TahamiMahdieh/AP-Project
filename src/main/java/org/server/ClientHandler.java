@@ -1,6 +1,7 @@
 package org.server;
 
 import org.Database.DataBaseActions;
+import org.Database.DatabaseConnection;
 import org.common.*;
 
 import java.io.IOException;
@@ -61,7 +62,7 @@ public class ClientHandler implements Runnable {
                     }
                     case SIGN_IN -> {
                         User user = bridge.get();
-                        Bridge result;
+                        Bridge result = null;
                         if (!isValidEmail(user.getEmail()) || !isValidPassword(user.getPassword())){
                             result = new Bridge(Commands.SIGN_IN, Response.FAILED_SIGN_IN_INVALID_DATA);
                         }
@@ -75,12 +76,6 @@ public class ClientHandler implements Runnable {
                             result = new Bridge(Commands.SIGN_IN, Response.SUCCESSFUL_SIGN_IN);
                         }
                         SendMessage.send(result, writer);
-                    }
-                    case SEARCH -> {
-                        String phrase = bridge.get();
-                        ArrayList<String> found = dataBaseActions.search(phrase);
-                        Bridge b = new Bridge(Commands.SEARCH, found);
-                        SendMessage.send(b, writer);
                     }
                 }
             }
