@@ -115,6 +115,7 @@ public class HomePageController implements Initializable {
     @FXML
     void myProfileButtonPressed(ActionEvent event) {
     }
+
     @FXML
     void notificationsButtonPressed(ActionEvent event) {
 
