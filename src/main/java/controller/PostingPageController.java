@@ -3,7 +3,7 @@ package controller;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class PostingPage {
+public class PostingPageController {
     private Socket socket;
     private ObjectOutputStream writer;
     private String email;
