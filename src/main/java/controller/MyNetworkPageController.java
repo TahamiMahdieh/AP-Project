@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.event.ActionEvent;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -34,4 +36,5 @@ public class MyNetworkPageController {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

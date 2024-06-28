@@ -40,7 +40,7 @@ public class LinkedInApplication extends Application {
     public void start(Stage stage) {
         try {
             this.stage = stage;
-            socket = new Socket("127.0.0.1", 8000);
+            socket = new Socket("127.0.0.1", 8080);
             writer = new ObjectOutputStream(socket.getOutputStream());
             reader = new ObjectInputStream(socket.getInputStream());
 
@@ -56,6 +56,14 @@ public class LinkedInApplication extends Application {
         controller.setSocket(socket);
         controller.setWriter(writer);
         controller.setReader(reader);
+    }
+    public static void showProfilePage(){
+        ProfileController controller = changeScene(stage, "profilePage.fxml", "LinkedIn");
+        controller.setEmail(thisUserEmail);
+        controller.setSocket(socket);
+        controller.setWriter(writer);
+        controller.setReader(reader);
+        controller.postInitialization();
     }
     public static void showMyNetworkPage (){
         MyNetworkPageController controller = changeScene(stage, "myNetworkPage.fxml", "LinkedIn");
