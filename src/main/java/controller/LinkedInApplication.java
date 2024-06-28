@@ -55,6 +55,14 @@ public class LinkedInApplication extends Application {
         controller.setEmail(thisUserEmail);
         controller.setSocket(socket);
         controller.setWriter(writer);
+        controller.setReader(reader);
+    }
+    public static void showMyNetworkPage (){
+        MyNetworkPageController controller = changeScene(stage, "myNetworkPage.fxml", "LinkedIn");
+        controller.setReader(reader);
+        controller.setEmail(thisUserEmail);
+        controller.setSocket(socket);
+        controller.setWriter(writer);
     }
     public static void showSignInPage(String jwt) {
         FXMLLoader fxmlLoader = new FXMLLoader(LinkedInApplication.class.getResource("login.fxml"));

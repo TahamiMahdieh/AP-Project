@@ -409,7 +409,7 @@ public class DataBaseActions {
             statement.setString(5, searchPhrase);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    foundEmails.add(getFirstname(resultSet.getString("email")) + " " + getLastname(resultSet.getString("email")));
+                    foundEmails.add(getFirstname(resultSet.getString("email")) + " " + getLastname(resultSet.getString("email")) + " -> " + resultSet.getString("email"));
                 }
             }
         } catch (SQLException e) {

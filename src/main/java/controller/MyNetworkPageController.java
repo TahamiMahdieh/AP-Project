@@ -4,10 +4,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class PostingPageController {
+public class MyNetworkPageController {
     private Socket socket;
-    private ObjectOutputStream writer;
     private ObjectInputStream reader;
+    private ObjectOutputStream writer;
     private String email;
 
     public Socket getSocket() {
@@ -15,6 +15,12 @@ public class PostingPageController {
     }
     public void setSocket(Socket socket) {
         this.socket = socket;
+    }
+    public ObjectInputStream getReader() {
+        return reader;
+    }
+    public void setReader(ObjectInputStream reader) {
+        this.reader = reader;
     }
     public ObjectOutputStream getWriter() {
         return writer;
@@ -27,11 +33,5 @@ public class PostingPageController {
     }
     public void setEmail(String email) {
         this.email = email;
-    }
-    public ObjectInputStream getReader() {
-        return reader;
-    }
-    public void setReader(ObjectInputStream reader) {
-        this.reader = reader;
     }
 }

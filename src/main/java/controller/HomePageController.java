@@ -110,7 +110,7 @@ public class HomePageController implements Initializable {
     }
     @FXML
     void myNetworkButtonPressed(ActionEvent event) {
-
+        LinkedInApplication.showMyNetworkPage();
     }
     @FXML
     void myProfileButtonPressed(ActionEvent event) {
