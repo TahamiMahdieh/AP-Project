@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.Database.DataBaseActions;
 
+import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -55,15 +56,17 @@ public class ProfileController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+    }
+    public void postInitialization (){
         DataBaseActions da = new DataBaseActions();
 
-        String profilePhotoFilepath = da.getProfilePicture(email);
-        Image profilePhoto = new Image(profilePhotoFilepath);
-        profilePhotoImage.setImage(profilePhoto);
-
-        String backgroundPhotoFilepath = da.getProfilePicture(email);
-        Image backgroundPhoto = new Image(backgroundPhotoFilepath);
-        backgroundPhotoImage.setImage(backgroundPhoto);
+        File profileFile = new File(da.getProfilePicture(email));
+        Image prof = new Image(profileFile.toURI().toString());
+        profilePhotoImage.setImage(prof);
+        File backgroundFile = new File(da.getBackgroundPicture(email));
+        Image bg = new Image(backgroundFile.toURI().toString());
+        backgroundPhotoImage.setImage(bg);
 
         nameLabel.setText(da.getFirstname(email) + da.getLastname(email));
         headlineLabel.setText(da.getHeadline(email));

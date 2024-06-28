@@ -114,6 +114,7 @@ public class HomePageController implements Initializable {
     }
     @FXML
     void myProfileButtonPressed(ActionEvent event) {
+        LinkedInApplication.showProfilePage();
     }
 
     @FXML
