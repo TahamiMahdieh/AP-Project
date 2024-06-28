@@ -81,11 +81,10 @@ public class EditInfoController implements Initializable {
         if (newHeadline != null && !newHeadline.trim().equals(""))
             da.setHeadline(email, newHeadline);
 
-        LinkedInApplication.showProfilePage(jwt);
     }
     @FXML
     void cancelPressed(ActionEvent event) {
-        LinkedInApplication.showProfilePage(jwt);
+
     }
 
     public String getEmail() {

@@ -92,24 +92,6 @@ public class LinkedInApplication extends Application {
         controller.setWriter(writer);
     }
 
-    public static void showProfilePage (String jwt) {
-        ProfileController controller = changeScene(stage, "profilePage.fxml", "LinkedIn");
-        controller.setEmail(thisUserEmail);
-//        controller.setSocket(socket);
-        controller.setJwt(jwt);
-//        controller.setReader(reader);
-//        controller.setWriter(writer);
-    }
-
-    public static void shoeEditInfoPage (String jwt) {
-        EditInfoController controller = changeScene(stage, "editInfo.fxml", "LinkedIn");
-        controller.setEmail(thisUserEmail);
-//        controller.setSocket(socket);
-        controller.setJwt(jwt);
-//        controller.setReader(reader);
-//        controller.setWriter(writer);
-    }
-
     public static Scene getBackScene() {
         return backScene;
     }

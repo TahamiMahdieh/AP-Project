@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -98,7 +97,7 @@ public class ProfileController implements Initializable {
     }
     @FXML
     void editInfoButtonPressed(ActionEvent event) {
-        LinkedInApplication.shoeEditInfoPage(jwt);
+
     }
     @FXML
     void contactInfoButtonPressed(ActionEvent event) {
