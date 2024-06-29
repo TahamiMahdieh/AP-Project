@@ -1,11 +1,14 @@
 package org.server;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.Database.DataBaseActions;
 import org.common.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -80,6 +83,30 @@ public class ClientHandler implements Runnable {
                         String phrase = bridge.get();
                         ArrayList<String> found = dataBaseActions.search(phrase);
                         Bridge b = new Bridge(Commands.SEARCH, found);
+                        SendMessage.send(b, writer);
+                    }
+                    case HOMEPAGE_INFORMATION_LISTVIEW -> {
+                        String email = bridge.get();
+                        ArrayList<String> info = new ArrayList<>();
+                        info.add(dataBaseActions.getFirstname(email));
+                        info.add(dataBaseActions.getLastname(email));
+                        info.add(dataBaseActions.getHeadline(email));
+                        info.add(dataBaseActions.getProfilePicture(email));
+                        Bridge b = new Bridge(Commands.HOMEPAGE_INFORMATION_LISTVIEW, info);
+                        SendMessage.send(b, writer);
+                    }
+                    case GET_FOLLOWEE -> {
+                        String email = bridge.get();
+                        ArrayList<String> followee = new ArrayList<>();
+                        followee.addAll(dataBaseActions.getFolloweeInfoUsingEmail(email));
+                        Bridge b = new Bridge(Commands.GET_FOLLOWEE, followee);
+                        SendMessage.send(b, writer);
+                    }
+                    case GET_FOLLOWERS -> {
+                        String email = bridge.get();
+                        ArrayList<String> followers = new ArrayList<>();
+                        followers.addAll(dataBaseActions.getFollowersInfoUsingEmail(email));
+                        Bridge b = new Bridge(Commands.GET_FOLLOWERS, followers);
                         SendMessage.send(b, writer);
                     }
                 }
