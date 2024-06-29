@@ -448,7 +448,155 @@ public class DataBaseActions {
         }
         return foundEmails;
     }
-
+    public void followUsingEmail (String followerEmail, String followeeEmail){
+        int followerId = getIntFromUsers(followerEmail, "id");
+        int followeeId = getIntFromUsers(followeeEmail, "id");
+        String query = "INSERT INTO follows (follower_id, followee_id) VALUES (?, ?)";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, String.valueOf(followerId));
+            preparedStatement.setString(2,String.valueOf(followeeId));
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void followUsingId (int followerId, int followeeId){
+        String query = "INSERT INTO follows (follower_id, followee_id) VALUES (?, ?)";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(2,String.valueOf(followeeId));
+            preparedStatement.setString(1, String.valueOf(followerId));
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void unfollowUsingEmail (String followerEmail, String followeeEmail){
+        int followerId = getIntFromUsers(followerEmail, "id");
+        int followeeId = getIntFromUsers(followeeEmail, "id");
+        String query = "DELETE FROM Follows WHERE follower_id = ? AND followee_id = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, String.valueOf(followerId));
+            preparedStatement.setString(2,String.valueOf(followeeId));
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void unfollowUsingId (int followerId, int followeeId) {
+        String query = "DELETE FROM Follows WHERE follower_id = ? AND followee_id = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(2,String.valueOf(followeeId));
+            preparedStatement.setString(1, String.valueOf(followerId));
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public ArrayList<String> getFollowersEmailUsingEmail (String followeeEmail){
+        ArrayList<String> followersEmail = new ArrayList<>();
+        int followeeId = getIntFromUsers(followeeEmail, "id");
+        String query = "SELECT email FROM users JOIN follows ON users.id = follows.follower_id WHERE follows.followee_id = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, String.valueOf(followeeId));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    followersEmail.add(resultSet.getString("email"));
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return followersEmail;
+    }
+    public ArrayList<String> getFollowersEmailUsingId (int followeeId){
+        ArrayList<String> followersEmail = new ArrayList<>();
+        String query = "SELECT email FROM users JOIN follows ON users.id = follows.follower_id WHERE follows.followee_id = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, String.valueOf(followeeId));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    followersEmail.add(resultSet.getString("email"));
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return followersEmail;
+    }
+    public ArrayList<String> getFollowersInfoUsingEmail (String followeeEmail){
+        ArrayList<String> followersEmail = new ArrayList<>();
+        int followeeId = getIntFromUsers(followeeEmail, "id");
+        String query = "SELECT * FROM users JOIN follows ON users.id = follows.follower_id WHERE follows.followee_id = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, String.valueOf(followeeId));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    followersEmail.add(resultSet.getString("firstname") + " " + resultSet.getString("lastname") + " -> " + resultSet.getString("email"));
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return followersEmail;
+    }
+    public ArrayList<String> getFolloweeEmailsUsingEmail (String followerEmail){
+        ArrayList<String> followeeEmails = new ArrayList<>();
+        int followerId = getIntFromUsers(followerEmail, "id");
+        String query = "SELECT email FROM users JOIN follows ON users.id = follows.followee_id WHERE follows.follower_id = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, String.valueOf(followerId));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    followeeEmails.add(resultSet.getString("email"));
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return followeeEmails;
+    }
+    public ArrayList<String> getFolloweeEmailUsingId (int followerId){
+        ArrayList<String> followeeEmails = new ArrayList<>();
+        String query = "SELECT email FROM users JOIN follows ON users.id = follows.followee_id WHERE follows.follower_id = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, String.valueOf(followerId));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    followeeEmails.add(resultSet.getString("email"));
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return followeeEmails;
+    }
+    public ArrayList<String> getFolloweeInfoUsingEmail(String followerEmail){
+        ArrayList<String> followeeEmails = new ArrayList<>();
+        int followerId = getIntFromUsers(followerEmail, "id");
+        String query = "SELECT * FROM users JOIN follows ON users.id = follows.followee_id WHERE follows.follower_id = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, String.valueOf(followerId));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                ResultSetMetaData metaData = resultSet.getMetaData();
+                while (resultSet.next()) {
+                    followeeEmails.add(resultSet.getString("firstname") + " " + resultSet.getString("lastname") + " -> " + resultSet.getString("email"));
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return followeeEmails;
+    }
     private static void insertWithTwoIds(Connection conn, String sql, long id1, long id2) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, id1);

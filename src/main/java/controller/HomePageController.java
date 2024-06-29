@@ -65,35 +65,61 @@ public class HomePageController implements Initializable {
             }
         });
     }
-    public void postInitialization (){
+    public void postInitialization () {
         // define and manifest the information ListView
-        DataBaseActions da = new DataBaseActions();
-        if (da.getHeadline(email) != null) {
-            ObservableList<String> users = FXCollections.observableArrayList(
-                    da.getFirstname(email) + " " + da.getLastname(email),
-                    da.getHeadline(email)
-            );
-            // Set items to the ListView
-            myInformationListView.setItems(users);
-        }
-        else {
-            ObservableList<String> users = FXCollections.observableArrayList(
-                    da.getFirstname(email) + " " + da.getLastname(email)
-            );
-            // Set items to the ListView
-            myInformationListView.setItems(users);
-        }
-        myInformationListView.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+        Bridge bridge = new Bridge(Commands.HOMEPAGE_INFORMATION_LISTVIEW, email);
+        SendMessage.send(bridge, writer);
+        startInformationListViewTask();
+    }
+    public void startInformationListViewTask(){
+        Runnable task = new Runnable() {
             @Override
-            public ListCell<String> call(ListView<String> listView) {
-                return new CustomListCell();
+            public void run() {
+                runInformationListviewTask();
             }
-        });
-        // show the profile picture
-        File profileFile = new File(da.getProfilePicture(email));
-        Image prof = new Image(profileFile.toURI().toString());
-        profilePicture.setImage(prof);
+        };
 
+        // Run the task in a background thread
+        Thread backgroundThread = new Thread(task);
+        // Terminate the running thread if the application exits
+        backgroundThread.setDaemon(true);
+        // Start the thread
+        backgroundThread.start();
+    }
+    public void runInformationListviewTask () {
+        try {
+            Bridge b = (Bridge) reader.readObject();
+            if (b.getCommand() == Commands.HOMEPAGE_INFORMATION_LISTVIEW) {
+                ArrayList<String> info = b.get();
+                if (info.get(2) != null) {
+                    ObservableList<String> users = FXCollections.observableArrayList(
+                            info.get(0) + " " + info.get(1),
+                            info.get(2)
+                    );
+                    // Set items to the ListView
+                    myInformationListView.setItems(users);
+                } else {
+                    ObservableList<String> users = FXCollections.observableArrayList(
+                            info.get(0) + " " + info.get(1)
+                    );
+                    // Set items to the ListView
+                    myInformationListView.setItems(users);
+                }
+                myInformationListView.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+                    @Override
+                    public ListCell<String> call(ListView<String> listView) {
+                        return new CustomListCell();
+                    }
+                });
+                // show the profile picture
+                File profileFile = new File(info.get(3));
+                Image prof = new Image(profileFile.toURI().toString());
+                profilePicture.setImage(prof);
+            }
+        }
+        catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
     }
     @FXML
     void exitButtonPressed(ActionEvent event) {

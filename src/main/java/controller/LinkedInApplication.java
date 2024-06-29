@@ -12,23 +12,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class LinkedInApplication extends Application {
-//    @Override
-//    public void start(Stage stage) {
-//        try {
-//            FXMLLoader fxmlLoader = new FXMLLoader(LinkedInApplication.class.getResource("login.fxml"));
-//            Scene scene = new Scene(fxmlLoader.load(), 520, 400);
-//            stage.setTitle("LinkedIn");
-//            stage.setScene(scene);
-//            stage.show();
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-
-    //    public static void main(String[] args) {
-//        launch();
-//    }
     private static Scene backScene = null;
     private static String thisUserEmail = null;
     private static Socket socket = null;
@@ -82,6 +65,7 @@ public class LinkedInApplication extends Application {
         controller.setEmail(thisUserEmail);
         controller.setSocket(socket);
         controller.setWriter(writer);
+        controller.postInitialize();
     }
     public static void showSignInPage(String jwt) {
         FXMLLoader fxmlLoader = new FXMLLoader(LinkedInApplication.class.getResource("login.fxml"));

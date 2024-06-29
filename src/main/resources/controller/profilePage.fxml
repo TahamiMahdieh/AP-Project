@@ -58,7 +58,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="backgroundPhotoImage" fitHeight="100.0" fitWidth="800.0" layoutX="3.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="backgroundPhotoImage" fitHeight="100.0" fitWidth="800.0" layoutX="3.0" nodeOrientation="INHERIT" pickOnBounds="true" />
             <ImageView fx:id="profilePhotoImage" fitHeight="80.0" fitWidth="80.0" layoutX="31.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
             <GridPane layoutY="116.0" prefHeight="330.0" prefWidth="400.0">
               <columnConstraints>

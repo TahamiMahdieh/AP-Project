@@ -3,6 +3,7 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -69,6 +70,8 @@ public class ProfileController implements Initializable {
         File backgroundFile = new File(da.getBackgroundPicture(email));
         Image bg = new Image(backgroundFile.toURI().toString());
         backgroundPhotoImage.setImage(bg);
+        Rectangle2D viewport = new Rectangle2D(0, 0, 800, 100);
+        backgroundPhotoImage.setViewport(viewport);
 
         nameLabel.setText(da.getFirstname(email) + " " + da.getLastname(email));
         headlineLabel.setText(da.getHeadline(email));
