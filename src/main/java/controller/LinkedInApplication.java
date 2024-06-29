@@ -57,7 +57,8 @@ public class LinkedInApplication extends Application {
         controller.postInitialization();
     }
     public static void showEditPicturesPage() {
-
+        EditPicturesController controller = changeScene(stage, "editPictures.fxml", "LinkedIn");
+        controller.setEmail(thisUserEmail);
     }
     public static void showMyNetworkPage (){
         MyNetworkPageController controller = changeScene(stage, "myNetworkPage.fxml", "LinkedIn");

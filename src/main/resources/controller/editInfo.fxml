@@ -7,10 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditInfoController">
    <children>
-      <VBox layoutX="25.0" layoutY="44.0" prefHeight="229.0" prefWidth="351.0">
+      <VBox layoutX="25.0" layoutY="44.0" prefHeight="276.0" prefWidth="351.0">
          <children>
             <Label prefHeight="17.0" prefWidth="362.0" text="First name*:" />
             <TextField fx:id="firstNameTextField" onAction="#firstNamePressed" />
@@ -19,11 +18,12 @@
             <Label prefHeight="17.0" prefWidth="398.0" text="Additional name:" />
             <TextField fx:id="additionalNameTextField" onAction="#additionalNamePressed" />
             <Label prefHeight="17.0" prefWidth="384.0" text="Headline*:" />
-            <TextArea fx:id="headlineTextArea" onDragDetected="#headlinePressed" prefHeight="78.0" prefWidth="351.0" promptText="Tell people a bit about yourself..." />
+            <TextArea fx:id="headlineTextArea" onDragDetected="#headlinePressed" prefHeight="62.0" prefWidth="351.0" promptText="Tell people a bit about yourself..." />
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="25.0" prefWidth="380.0" style="-fx-border-color: transparent; -fx-border-width: 0; -fx-background-radius: 0; -fx-background-color: transparent;" text="Edit Contact Info" textFill="BLUE" underline="true" />
          </children>
       </VBox>
       <Button fx:id="doneButton" layoutX="331.0" layoutY="359.0" mnemonicParsing="false" onAction="#donePressed" text="Done" />
       <Button fx:id="cancelButton" layoutX="25.0" layoutY="359.0" mnemonicParsing="false" onAction="#cancelPressed" text="Cancel" />
-      <Label fx:id="warningLabel" alignment="CENTER" layoutX="4.0" layoutY="273.0" prefHeight="17.0" prefWidth="393.0" textFill="RED" />
+      <Label fx:id="warningLabel" alignment="CENTER" layoutX="4.0" layoutY="331.0" prefHeight="17.0" prefWidth="393.0" textFill="RED" />
    </children>
 </AnchorPane>
