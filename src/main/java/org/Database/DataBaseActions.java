@@ -2,6 +2,7 @@ package org.Database;
 
 import org.common.User;
 
+import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -70,16 +71,16 @@ public class DataBaseActions {
         return getPicture(email, "profile_picture");
     }
 
-    public boolean setProfilePicture(String email, String filePath) {
-        return setStringToUserProfile(email, "profile_picture", filePath);
+    public boolean setProfilePicture(String email, Path filePath) {
+        return setFilePathToUserProfile(email, "profile_picture", filePath);
     }
 
     public String getBackgroundPicture(String email) {
         return getPicture(email, "background_picture");
     }
 
-    public boolean setBackgroundPicture(String email, String filePath) {
-        return setStringToUserProfile(email, "background_picture", filePath);
+    public boolean setBackgroundPicture(String email, Path filePath) {
+        return setFilePathToUserProfile(email, "background_picture", filePath);
     }
 
     public String getHeadline(String email) {
@@ -328,6 +329,23 @@ public class DataBaseActions {
     private boolean setStringToUserProfile(String email, String label, String newStr) {
         int id = getIntFromUsers(email, "user_profile_id");
         String query = "UPDATE user_profile SET " + label + " = \"" + newStr + "\" WHERE id = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, String.valueOf(id));
+            statement.executeUpdate();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean setFilePathToUserProfile(String email, String label, Path filePath) {
+        int id = getIntFromUsers(email, "user_profile_id");
+        String newPath = filePath.toString().replace("\\", "/"); // for some reason the former doesn't work
+        String query = "UPDATE user_profile SET " + label + " = \"" + newPath + "\" WHERE id = ?;";
+
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, String.valueOf(id));
