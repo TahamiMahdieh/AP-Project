@@ -144,7 +144,6 @@ public class EditPicturesController implements Initializable {
                 e.printStackTrace();
             }
         }
-
         LinkedInApplication.showProfilePage();
     }
 

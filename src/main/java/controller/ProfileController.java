@@ -63,7 +63,6 @@ public class ProfileController implements Initializable {
     }
     public void postInitialization (){
         DataBaseActions da = new DataBaseActions();
-
         File profileFile = new File(da.getProfilePicture(email));
         Image prof = new Image(profileFile.toURI().toString());
         profilePhotoImage.setImage(prof);

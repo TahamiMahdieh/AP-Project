@@ -109,6 +109,13 @@ public class ClientHandler implements Runnable {
                         Bridge b = new Bridge(Commands.GET_FOLLOWERS, followers);
                         SendMessage.send(b, writer);
                     }
+                    case GET_CONNECTION -> {
+                        String email = bridge.get();
+                        ArrayList<GetConnectionReturn> connection = new ArrayList<>();
+                        connection.addAll(dataBaseActions.getLinkedInConnections(email));
+                        Bridge b = new Bridge(Commands.GET_CONNECTION, connection);
+                        SendMessage.send(b, writer);
+                    }
                 }
             }
         }
