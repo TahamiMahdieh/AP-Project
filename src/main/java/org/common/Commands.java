@@ -8,6 +8,6 @@ public enum Commands {
     GET_FOLLOWERS,
     GET_FOLLOWEE,
     GET_CONNECTION,
+    POST_THIS,
     EDIT_PROFILE,
-    EXIT
 }

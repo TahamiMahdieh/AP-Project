@@ -26,7 +26,7 @@ public class ConnectionTextCell extends ListCell<GetConnectionReturn> {
     public ConnectionTextCell(String email) {
         this.email = email;
         gridPane = new GridPane();
-        gridPane.setPrefSize(708, 25);
+        gridPane.setPrefWidth(708);
         ColumnConstraints col1 = new ColumnConstraints();
         col1.setPrefWidth(300);
         ColumnConstraints col2 = new ColumnConstraints();
@@ -35,7 +35,6 @@ public class ConnectionTextCell extends ListCell<GetConnectionReturn> {
         gridPane.getColumnConstraints().addAll(col1, col2);
 
         RowConstraints row1 = new RowConstraints();
-        row1.setPrefHeight(25);
         gridPane.getRowConstraints().add(row1);
 
         userInfoLabel = new Label();
@@ -84,10 +83,13 @@ public class ConnectionTextCell extends ListCell<GetConnectionReturn> {
                             d.deleteRequest(email, item.getEmail());
                             getListView().getItems().remove(item);
                         });
+                        Label l = new Label("note: " + getItem().getNote());
+                        l.setWrapText(true);
+                        l.setMaxWidth(120);
                         HBox buttonsBox = new HBox();
                         buttonsBox.setSpacing(10);
                         buttonsBox.setAlignment(CENTER_RIGHT);
-                        buttonsBox.getChildren().addAll(disconnectButton);
+                        buttonsBox.getChildren().addAll(l, disconnectButton);
                         GridPane.setColumnIndex(buttonsBox, 1);
                         gridPane.getChildren().addAll(buttonsBox, userInfoLabel);
                     } else {
@@ -99,7 +101,9 @@ public class ConnectionTextCell extends ListCell<GetConnectionReturn> {
                             d.rejectConnectionRequest(item.getEmail(), email);
                             getListView().getItems().remove(item);
                         });
-
+                        Label l = new Label("note: " + getItem().getNote());
+                        l.setWrapText(true);
+                        l.setMaxWidth(120);
                         acceptButton = new Button("Accept");
                         acceptButton.setPrefSize(70, 26);
                         acceptButton.setStyle("-fx-background-color: #0a66cb; -fx-padding: 5px 10px;");
@@ -112,7 +116,7 @@ public class ConnectionTextCell extends ListCell<GetConnectionReturn> {
                         HBox buttonsBox = new HBox();
                         buttonsBox.setSpacing(10);
                         buttonsBox.setAlignment(CENTER_RIGHT);
-                        buttonsBox.getChildren().addAll(rejectButton, acceptButton);
+                        buttonsBox.getChildren().addAll(l, rejectButton, acceptButton);
                         GridPane.setColumnIndex(buttonsBox, 1);
                         gridPane.getChildren().addAll(buttonsBox, userInfoLabel);
                     }
@@ -130,10 +134,13 @@ public class ConnectionTextCell extends ListCell<GetConnectionReturn> {
                         Label l = new Label("Request was rejected");
                         l.setFont(new Font(11));
                         l.setStyle("-fx-text-fill: RED");
+                        Label ll = new Label("note: " + getItem().getNote());
+                        ll.setWrapText(true);
+                        ll.setMaxWidth(120);
                         HBox buttonsBox = new HBox();
                         buttonsBox.setSpacing(10);
                         buttonsBox.setAlignment(CENTER_RIGHT);
-                        buttonsBox.getChildren().addAll(l, disconnectButton);
+                        buttonsBox.getChildren().addAll(l, ll, disconnectButton);
                         GridPane.setColumnIndex(buttonsBox, 1);
                         gridPane.getChildren().addAll(buttonsBox, userInfoLabel);
                     }

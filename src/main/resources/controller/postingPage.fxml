@@ -1,16 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PostingPageController">
-   <center>
-      <Label prefHeight="158.0" prefWidth="286.0" text="posting page" BorderPane.alignment="CENTER">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="485.0" style="-fx-background-color: ecece7;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PostingPageController">
+   <children>
+      <TextArea fx:id="textTextField" layoutX="37.0" layoutY="50.0" prefHeight="136.0" prefWidth="414.0" promptText="Text post  ">
          <font>
-            <Font size="31.0" />
+            <Font size="13.0" />
+         </font>
+      </TextArea>
+      <Label layoutX="39.0" layoutY="20.0" prefHeight="18.0" prefWidth="169.0" text="Create your post:">
+         <font>
+            <Font size="13.0" />
          </font>
       </Label>
-   </center>
-</BorderPane>
+      <Button fx:id="saveButton" layoutX="383.0" layoutY="410.0" mnemonicParsing="false" onAction="#saveButtonpressed" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: #0a66cb;" text="✔ Save" textFill="WHITE" />
+      <Button fx:id="cancelButton" layoutX="305.0" layoutY="410.0" mnemonicParsing="false" onAction="#cancelButtonPressed" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: #0a66cb;" text="❌ Cancel" textFill="WHITE" />
+      <Pane fx:id="imagePane" layoutX="37.0" layoutY="198.0" onDragDetected="#dragDetected" onDragDropped="#imageDragAndDropped" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: #bababa;">
+         <children>
+            <Label layoutX="74.0" layoutY="66.0" prefHeight="51.0" prefWidth="60.0" text="📷" textFill="#c4c4c4">
+               <font>
+                  <Font size="49.0" />
+               </font>
+            </Label>
+            <Label layoutX="30.0" layoutY="15.0" text="Drag and drop your image" textFill="#a6a6a6" />
+            <Label fx:id="pictureWarningLabel" alignment="TOP_CENTER" layoutX="27.0" layoutY="175.0" prefHeight="17.0" prefWidth="147.0" textAlignment="CENTER" />
+         </children>
+      </Pane>
+      <Pane fx:id="videoPane" layoutX="251.0" layoutY="198.0" onDragDetected="#dragDetected" onDragDropped="#videoDragAndDropped" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: #bababa;">
+         <children>
+            <Label layoutX="73.0" layoutY="68.0" prefHeight="71.0" prefWidth="49.0" text="🎥" textFill="#c4c4c4">
+               <font>
+                  <Font size="49.0" />
+               </font>
+            </Label>
+            <Label layoutX="30.0" layoutY="15.0" text="Drag and drop your video" textFill="#a6a6a6" />
+            <Label fx:id="videoWarningLabel" alignment="TOP_CENTER" layoutX="27.0" layoutY="175.0" prefHeight="17.0" prefWidth="147.0" textAlignment="CENTER" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -10,6 +10,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Array;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
 public class ClientHandler implements Runnable {
@@ -115,6 +118,30 @@ public class ClientHandler implements Runnable {
                         connection.addAll(dataBaseActions.getLinkedInConnections(email));
                         Bridge b = new Bridge(Commands.GET_CONNECTION, connection);
                         SendMessage.send(b, writer);
+                    }
+                    case POST_THIS -> {
+                        PostObject postObject = bridge.get();
+                        if (postObject.getImageFile() != null) {
+                            String fileName = postObject.getImageFile().getName();
+                            Path destination = Path.of("pictures/postImages", fileName);
+                            try {
+                                Files.copy(postObject.getImageFile().toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+                                postObject.setImageDestination(destination.toString());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (postObject.getVideoFile() != null) {
+                            String fileName2 = postObject.getVideoFile().getName();
+                            Path destination2 = Path.of("pictures/postVideos", fileName2);
+                            try {
+                                Files.copy(postObject.getVideoFile().toPath(), destination2, StandardCopyOption.REPLACE_EXISTING);
+                                postObject.setVideoDestination(destination2.toString());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        dataBaseActions.postThis(postObject);
                     }
                 }
             }

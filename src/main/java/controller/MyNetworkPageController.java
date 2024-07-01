@@ -117,7 +117,8 @@ public class MyNetworkPageController {
                     }
                 });
             }
-        } catch (IOException | ClassNotFoundException e ) {
+        }
+        catch (IOException | ClassNotFoundException e ) {
             e.printStackTrace();
         }
 

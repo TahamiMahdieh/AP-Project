@@ -8,12 +8,14 @@ public class GetConnectionReturn implements Serializable {
     private String email;
     private String status;
     private String myRole;
-    public GetConnectionReturn(String firstname, String lastname, String email, String status, String myRole) {
+    private String note;
+    public GetConnectionReturn(String firstname, String lastname, String email, String status, String myRole, String note) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.status = status;
         this.myRole = myRole;
+        this.note = note;
     }
 
     public String getFirstname() {
@@ -30,5 +32,8 @@ public class GetConnectionReturn implements Serializable {
     }
     public String getEmail() {
         return email;
+    }
+    public String getNote() {
+        return note;
     }
 }

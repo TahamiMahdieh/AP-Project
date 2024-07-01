@@ -1,6 +1,7 @@
 package org.Database;
 
 import org.common.GetConnectionReturn;
+import org.common.PostObject;
 import org.common.User;
 
 import java.nio.file.Path;
@@ -310,10 +311,6 @@ public class DataBaseActions {
         return false;
     }
 
-
-
-
-
     private boolean setStringToUsers(String email, String label, String newStr) {
         String query = "UPDATE users SET " + label + " = \"" + newStr + "\" WHERE email = ?;";
         try {
@@ -358,15 +355,6 @@ public class DataBaseActions {
             return false;
         }
     }
-
-
-
-
-
-
-
-
-
 
     public boolean addUserToUsersTable (User user) {
         try {
@@ -605,14 +593,15 @@ public class DataBaseActions {
         }
         return followeeEmails;
     }
-    public void sendConnectionRequest (String senderEmail, String receiverEmail){
+    public void sendConnectionRequest (String senderEmail, String receiverEmail, String note){
         int senderId = getIntFromUsers(senderEmail, "id");
         int receiverId = getIntFromUsers(receiverEmail, "id");
-        String query = "INSERT INTO connectionRequests (sender_id, receiver_id, status) VALUES (?, ?, ?)";
+        String query = "INSERT INTO connectionRequests (sender_id, receiver_id, status, note) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, String.valueOf(senderId));
             statement.setString(2, String.valueOf(receiverId));
             statement.setString(3, "pending");
+            statement.setString(4, note);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -706,7 +695,8 @@ public class DataBaseActions {
                                    String email = result.getString("email");
                                    String status = r.getString("status");
                                    String myRole = "sender";
-                                   connectedUsersInfo.add(new GetConnectionReturn(firstname, lastname, email, status, myRole));
+                                   String note = r.getString("note");
+                                   connectedUsersInfo.add(new GetConnectionReturn(firstname, lastname, email, status, myRole, note));
                                }
                            }
                        }
@@ -722,7 +712,8 @@ public class DataBaseActions {
                                    String email = result.getString("email");
                                    String status = r.getString("status");
                                    String myRole = "receiver";
-                                   connectedUsersInfo.add(new GetConnectionReturn(firstname, lastname, email, status, myRole));
+                                   String note = r.getString("note");
+                                   connectedUsersInfo.add(new GetConnectionReturn(firstname, lastname, email, status, myRole, note));
                                }
                            }
                        }
@@ -733,6 +724,22 @@ public class DataBaseActions {
             e.printStackTrace();
         }
         return connectedUsersInfo;
+    }
+    public void postThis(PostObject postObject){
+        int userId = getIntFromUsers(postObject.getUserEmail(), "id");
+        String videoPath = postObject.getVideoDestination();
+        String imagePath = postObject.getImageDestination();
+        String postText = postObject.getPostText();
+        String query = "INSERT INTO posts (user_id, post_text, image, video) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, String.valueOf(userId));
+            statement.setString(2, postText);
+            statement.setString(3, imagePath);
+            statement.setString(4, videoPath);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void insertWithTwoIds(Connection conn, String sql, long id1, long id2) throws SQLException {

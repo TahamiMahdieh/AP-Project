@@ -45,10 +45,6 @@ public class EditPicturesController implements Initializable {
         backgroundPhotoPane.setOnDragDropped(event -> handleBackgroundPhotoDragDropped(event));
     }
 
-    public void postInitialization() {
-
-    }
-
     @FXML
     private void handleDragOver(DragEvent event) {
         if (event.getDragboard().hasFiles()) {
@@ -83,7 +79,6 @@ public class EditPicturesController implements Initializable {
         event.setDropCompleted(success);
         event.consume();
     }
-
     @FXML
     private void handleBackgroundPhotoDragDropped(DragEvent event) {
         Dragboard dragboard = event.getDragboard();
@@ -110,7 +105,6 @@ public class EditPicturesController implements Initializable {
         event.setDropCompleted(success);
         event.consume();
     }
-
     @FXML
     void doneButtonPressed(ActionEvent event) {
         if (newProfilePhoto != null) {
