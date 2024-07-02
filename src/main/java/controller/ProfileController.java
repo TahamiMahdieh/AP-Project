@@ -1,22 +1,29 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.Database.DataBaseActions;
+import org.common.Education;
 
 import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ProfileController implements Initializable {
@@ -51,6 +58,12 @@ public class ProfileController implements Initializable {
     @FXML
     private Button editPicturesButton;
     @FXML
+    private Button addEducationButton;
+    @FXML
+    private ListView<String> educationListView;
+    @FXML
+    private ListView<String> skillsListView;
+    @FXML
     private Label headlineLabel;
     @FXML
     private Label locationLabel;
@@ -76,6 +89,17 @@ public class ProfileController implements Initializable {
         nameLabel.setText(da.getFirstname(email) + " " + da.getLastname(email));
         headlineLabel.setText(da.getHeadline(email));
         locationLabel.setText(da.getAddress(email));
+
+        List<Education> educations = da.getEducations(email);
+        List<String> educationsString = new ArrayList<>();
+        if (!(educations == null)) {
+            for (Education e : educations) {
+                educationsString.add(e.toString());
+            }
+            educationListView.setItems(FXCollections.observableList(educationsString));
+        }
+
+//        skillsListView.setItems(FXCollections.observableList());
     }
 
     @FXML
@@ -114,6 +138,10 @@ public class ProfileController implements Initializable {
     @FXML
     void contactInfoButtonPressed(ActionEvent event) {
 
+    }
+    @FXML
+    void addEducationButtonPressed (ActionEvent event) {
+        LinkedInApplication.showAddEducationPage();
     }
 
     public String getJwt() {

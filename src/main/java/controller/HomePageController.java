@@ -12,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.Database.DataBaseActions;
 import org.common.Bridge;
 import org.common.Commands;
 import org.common.SendMessage;
@@ -75,7 +74,7 @@ public class HomePageController implements Initializable {
         Runnable task = new Runnable() {
             @Override
             public void run() {
-                runInformationListviewTask();
+                runInformationListViewTask();
             }
         };
 
@@ -86,7 +85,7 @@ public class HomePageController implements Initializable {
         // Start the thread
         backgroundThread.start();
     }
-    public void runInformationListviewTask () {
+    public void runInformationListViewTask() {
         try {
             Bridge b = (Bridge) reader.readObject();
             if (b.getCommand() == Commands.HOMEPAGE_INFORMATION_LISTVIEW) {

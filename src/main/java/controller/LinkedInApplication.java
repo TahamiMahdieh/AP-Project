@@ -59,6 +59,11 @@ public class LinkedInApplication extends Application {
     public static void showEditPicturesPage() {
         EditPicturesController controller = changeScene(stage, "editPictures.fxml", "LinkedIn");
         controller.setEmail(thisUserEmail);
+        controller.postInitialization();
+    }
+    public static void showAddEducationPage() {
+        AddNewEducationController controller = changeScene(stage, "addNewEducation.fxml", "LinkedIn");
+        controller.setEmail(thisUserEmail);
     }
     public static void showMyNetworkPage (){
         MyNetworkPageController controller = changeScene(stage, "myNetworkPage.fxml", "LinkedIn");
@@ -67,6 +72,11 @@ public class LinkedInApplication extends Application {
         controller.setSocket(socket);
         controller.setWriter(writer);
         controller.postInitialize();
+    }
+    public static void showEditContactInfoPage() {
+        EditContactInfoController controller = changeScene(stage, "editContactInfo.fxml", "LinkedIn");
+        controller.setEmail(thisUserEmail);
+        controller.postInitialization();
     }
     public static void showSignInPage(String jwt) {
         FXMLLoader fxmlLoader = new FXMLLoader(LinkedInApplication.class.getResource("login.fxml"));

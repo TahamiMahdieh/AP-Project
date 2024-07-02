@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="800.0" prefHeight="607.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddNewEducationController">
+   <children>
+      <VBox fx:id="mainVBox" prefHeight="570.0" prefWidth="400.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="32.0" prefWidth="415.0" text="Add Education">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Separator prefHeight="1.0" prefWidth="360.0" />
+            <Label prefHeight="20.0" prefWidth="400.0" text="School*:" />
+            <TextField fx:id="schoolTextField">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </TextField>
+            <Label prefHeight="20.0" prefWidth="400.0" text="Field of study:" />
+            <TextField fx:id="fieldOfStudyTextField">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </TextField>
+            <Label prefHeight="20.0" prefWidth="400.0" text="Start date:" />
+            <DatePicker fx:id="startDateDatePicker" prefHeight="25.0" prefWidth="400.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </DatePicker>
+            <Label prefHeight="20.0" prefWidth="400.0" text="End date:" />
+            <DatePicker fx:id="endDateDatePicker" prefHeight="25.0" prefWidth="400.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </DatePicker>
+            <Label prefHeight="20.0" prefWidth="400.0" text="Grade:" />
+            <TextField fx:id="gradeTextField">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </TextField>
+            <Label prefHeight="20.0" prefWidth="400.0" text="Activities and societies:">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <TextArea fx:id="activitiesTextArea" prefHeight="50.0" prefWidth="400.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </TextArea>
+            <Label prefHeight="20.0" prefWidth="400.0" text="Description:" />
+            <TextArea fx:id="descriptionTextArea" prefHeight="75.0" prefWidth="360.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </TextArea>
+            <Label prefHeight="20.0" prefWidth="400.0" text="Skills (up to 5):" />
+            <VBox fx:id="skillsVBox" prefHeight="35.0" prefWidth="370.0">
+               <children>
+                  <Button fx:id="addSkillButton" mnemonicParsing="false" onAction="#addSkillButtonPressed" text="Add Skill">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </VBox>
+            <Label fx:id="warningLabel" alignment="CENTER" prefHeight="20.0" prefWidth="400.0" textFill="RED">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Label>
+            <CheckBox fx:id="notifyNetworkCheckBox" mnemonicParsing="false" text="Notify network" />
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" />
+         </padding>
+      </VBox>
+      <Button fx:id="doneButton" layoutX="341.0" layoutY="570.0" mnemonicParsing="false" onAction="#doneButtonPressed" text="Done" />
+      <Button fx:id="cancelButton" layoutX="14.0" layoutY="570.0" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" />
+   </children>
+</AnchorPane>
