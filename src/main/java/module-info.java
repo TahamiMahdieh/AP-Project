@@ -10,4 +10,5 @@ module org.main.javafx {
 
     opens controller to javafx.fxml;
     exports controller;
+    exports org.common;
 }

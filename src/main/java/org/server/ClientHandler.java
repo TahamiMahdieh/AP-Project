@@ -143,6 +143,12 @@ public class ClientHandler implements Runnable {
                         Bridge b = new Bridge(Commands.SHOW_MY_POSTS, postsArray);
                         SendMessage.send(b, writer);
                     }
+                    case SHOW_OTHERS_POSTS -> {
+                        String email = bridge.get();
+                        ArrayList<PostObject> postsArray = dataBaseActions.getOthersPosts(email);
+                        Bridge b = new Bridge(Commands.SHOW_OTHERS_POSTS, postsArray);
+                        SendMessage.send(b, writer);
+                    }
                     case IS_ALREADY_LIKED -> {
                         PostObject postObject = bridge.get();
                         Boolean aBoolean = dataBaseActions.hasLiked(postObject);
@@ -160,6 +166,12 @@ public class ClientHandler implements Runnable {
                     case DELETE_LIKE -> {
                         PostObject postObject = bridge.get();
                         dataBaseActions.deleteLike(postObject);
+                    }
+                    case SEE_LIKES_LIST -> {
+                        PostObject postObject = bridge.get();
+                        ArrayList<String> likes = dataBaseActions.getWhoHasLiked(postObject);
+                        Bridge b = new Bridge(Commands.SEE_LIKES_LIST, likes);
+                        SendMessage.send(b, writer);
                     }
                 }
             }

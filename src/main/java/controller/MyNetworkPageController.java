@@ -45,13 +45,6 @@ public class MyNetworkPageController {
                 ObservableList<String> followees = FXCollections.observableArrayList();
                 followees.addAll(followeeArray);
                 followingsListView.setItems(followees);
-                followingsListView.getSelectionModel().selectedItemProperty().
-                        addListener( new ChangeListener<String>() {
-                            @Override
-                            public void changed(ObservableValue<? extends String> ov, String oldValue, String newValue) {
-                                //TODO: handle what's ganna happen when you click on a followee
-                            }
-                        });
                 // set custom ListView cell factory
                 followingsListView.setCellFactory(new Callback<ListView<String>, ListCell<String >>() {
                     @Override
@@ -73,14 +66,6 @@ public class MyNetworkPageController {
                 ObservableList<String> followers = FXCollections.observableArrayList();
                 followers.addAll(followerArray);
                 followersListView.setItems(followers);
-                followersListView.getSelectionModel().selectedItemProperty().
-                        addListener( new ChangeListener<String>() {
-                            @Override
-                            public void changed(ObservableValue<? extends String> ov, String oldValue, String newValue) {
-                                //TODO: handle what's ganna happen when you click on a followee
-                            }
-                        });
-                // set custom ListView cell factory
                 followersListView.setCellFactory(new Callback<ListView<String>, ListCell<String >>() {
                     @Override
                     public ListCell<String> call(ListView<String> listView) {

@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.common.Bridge;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -67,6 +68,14 @@ public class LinkedInApplication extends Application {
         controller.setSocket(socket);
         controller.setWriter(writer);
         controller.postInitialize();
+    }
+    public static void showLikeListPage (Bridge bridge){
+        LikeListPageController controller = changeScene(stage, "likeListPage.fxml", "LinkedIn");
+        controller.setEmail(thisUserEmail);
+        controller.setWriter(writer);
+        controller.setReader(reader);
+        controller.setSocket(socket);
+        controller.postInitialize(bridge);
     }
     public static void showSignInPage(String jwt) {
         FXMLLoader fxmlLoader = new FXMLLoader(LinkedInApplication.class.getResource("login.fxml"));

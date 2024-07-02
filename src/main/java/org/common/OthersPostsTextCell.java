@@ -12,20 +12,17 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
-import org.Database.DataBaseActions;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class PostsTextCell extends ListCell<PostObject> {
+public class OthersPostsTextCell extends ListCell<PostObject> {
     private boolean playing = false;
     private VBox vBox;
     private Label label;
     private ImageView imageView;
     private MediaView mediaView;
-    private Button deleteButton;
     private Button likeButton;
     private Button showLikeListButton;
     private Button commentButton;
@@ -34,22 +31,20 @@ public class PostsTextCell extends ListCell<PostObject> {
     private ObjectOutputStream writer;
     private String email;
     private boolean isLiked;
-    public PostsTextCell(String email, ObjectInputStream reader, ObjectOutputStream writer) {
+    public OthersPostsTextCell(String email, ObjectInputStream reader, ObjectOutputStream writer) {
         this.reader = reader;
         this.writer = writer;
         this.email = email;
         vBox = new VBox();
-        vBox.setPrefWidth(340);
+        vBox.setPrefWidth(320);
         vBox.setAlignment(Pos.TOP_CENTER);
         vBox.setSpacing(10);
         vBox.setPadding(new Insets(10, 20, 10 ,20));
         vBox.setStyle("-fx-border-color: #acacac");
-        deleteButton = new Button("Delete");
         commentButton = new Button("Comment");
         showCommentListButton = new Button("See comments");
         showLikeListButton = new Button("See likes");
         likeButton = new Button("like");
-
     }
     @Override
     public void updateItem(PostObject item, boolean empty){
@@ -62,9 +57,9 @@ public class PostsTextCell extends ListCell<PostObject> {
             vBox.getChildren().clear();
 
             if (item.getPostText() != null){
-                label = new Label(item.getPostText());
+                label = new Label(item.getPostMakerName() + ": " + item.getPostText());
                 label.setWrapText(true);
-                label.setMaxWidth(340);
+                label.setMaxWidth(320);
                 label.setFont(new Font("Comic Sans MS", 13));
                 vBox.getChildren().add(label);
             }
@@ -73,7 +68,7 @@ public class PostsTextCell extends ListCell<PostObject> {
                 Image imageImage = new Image(imageFile.toURI().toString());
                 imageView = new ImageView(imageImage);
                 imageView.setPreserveRatio(true);
-                imageView.setFitWidth(340);
+                imageView.setFitWidth(320);
                 vBox.getChildren().add(imageView);
             }
             if (item.getVideoDestination() != null){
@@ -82,7 +77,7 @@ public class PostsTextCell extends ListCell<PostObject> {
                 Media media = new Media(absolutePath);
                 MediaPlayer mediaPlayer = new MediaPlayer(media);
                 mediaView = new MediaView(mediaPlayer);
-                mediaView.setFitWidth(340);
+                mediaView.setFitWidth(320);
                 Button playButton = new Button("▶");
                 playButton.setFont(new Font(12));
                 playButton.setOnAction(e -> {
@@ -98,12 +93,6 @@ public class PostsTextCell extends ListCell<PostObject> {
                 vBox.getChildren().addAll(mediaView, playButton);
             }
 
-            // delete button
-            deleteButton.setOnAction(event -> {
-                Bridge b = new Bridge(Commands.DELETE_MY_POST, item);
-                SendMessage.send(b, writer);
-                getListView().getItems().remove(item);
-            });
             //like button
             Bridge b = new Bridge(Commands.IS_ALREADY_LIKED, item);
             SendMessage.send(b, writer);
@@ -153,7 +142,7 @@ public class PostsTextCell extends ListCell<PostObject> {
             HBox hBox = new HBox();
             hBox.setPrefWidth(340);
             hBox.setSpacing(5);
-            hBox.getChildren().addAll(showCommentListButton, commentButton, showLikeListButton, likeButton, deleteButton);
+            hBox.getChildren().addAll(showCommentListButton, commentButton, showLikeListButton, likeButton);
             vBox.getChildren().add(hBox);
             setGraphic(vBox);
         }

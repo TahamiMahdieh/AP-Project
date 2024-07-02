@@ -7,6 +7,7 @@ import org.common.User;
 import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class DataBaseActions {
     private final Connection connection;
@@ -492,7 +493,7 @@ public class DataBaseActions {
             e.printStackTrace();
         }
     }
-    public ArrayList<String> getFollowersEmailUsingEmail (String followeeEmail){
+    public ArrayList<String> getFollowersIdUsingEmail(String followeeEmail){
         ArrayList<String> followersEmail = new ArrayList<>();
         int followeeId = getIntFromUsers(followeeEmail, "id");
         String query = "SELECT email FROM users JOIN follows ON users.id = follows.follower_id WHERE follows.followee_id = ?";
@@ -500,7 +501,7 @@ public class DataBaseActions {
             preparedStatement.setString(1, String.valueOf(followeeId));
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    followersEmail.add(resultSet.getString("email"));
+                    followersEmail.add(resultSet.getString("id"));
                 }
             }
         }
@@ -542,15 +543,15 @@ public class DataBaseActions {
         }
         return followersEmail;
     }
-    public ArrayList<String> getFolloweeEmailsUsingEmail (String followerEmail){
+    public ArrayList<String> getFolloweeIdsUsingEmail(String followerEmail){
         ArrayList<String> followeeEmails = new ArrayList<>();
         int followerId = getIntFromUsers(followerEmail, "id");
-        String query = "SELECT email FROM users JOIN follows ON users.id = follows.followee_id WHERE follows.follower_id = ?";
+        String query = "SELECT * FROM users JOIN follows ON users.id = follows.followee_id WHERE follows.follower_id = ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1, String.valueOf(followerId));
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    followeeEmails.add(resultSet.getString("email"));
+                    followeeEmails.add(resultSet.getString("id"));
                 }
             }
         }
@@ -674,6 +675,27 @@ public class DataBaseActions {
             e.printStackTrace();
         }
     }
+    public ArrayList<String> getUsersConnectedWithThis (String email){
+        int myId = getIntFromUsers(email, "id");
+        ArrayList<String> connectedIds = new ArrayList<>();
+        String query = "SELECT * FROM connections WHERE user1_id = ? OR user2_id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, String.valueOf(myId));
+            statement.setString(2, String.valueOf(myId));
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                if (resultSet.getString("user2_id").equals(String.valueOf(myId))){
+                    connectedIds.add(resultSet.getString("user1_id"));
+                }
+                else {
+                    connectedIds.add(resultSet.getString("user2_id"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connectedIds;
+    }
     public ArrayList<GetConnectionReturn> getLinkedInConnections (String userEmail) {
         int id = getIntFromUsers(userEmail, "id");
         ArrayList<GetConnectionReturn> connectedUsersInfo = new ArrayList<>();
@@ -771,6 +793,32 @@ public class DataBaseActions {
         }
         return postObjects;
     }
+    public ArrayList<PostObject> getOthersPosts(String myEmail){
+        ArrayList<PostObject> othersPosts = new ArrayList<>();
+        ArrayList<String> others = getFolloweeIdsUsingEmail(myEmail);
+        others.addAll(getUsersConnectedWithThis(myEmail));
+        String inClause = String.join(",", others.stream().map(id -> "?").toArray(String[]::new));
+        String query = "SELECT * FROM posts WHERE user_id IN (" + inClause + ");";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            for (int i = 0; i < others.size(); i++) {
+                statement.setString(i + 1, others.get(i));
+            }
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                PostObject p = new PostObject();
+                p.setPostText(resultSet.getString("post_text"));
+                p.setVideoDestination(resultSet.getString("video"));
+                p.setImageDestination(resultSet.getString("image"));
+                p.setPostMakerEmail(getEmailUsingId(resultSet.getString("user_id")));
+                p.setPostId(resultSet.getString("post_id"));
+                p.setPostMakerName(getNameUsingId(resultSet.getString("user_id")));
+                othersPosts.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return othersPosts;
+    }
     public void deleteLike(PostObject postObject){
         int userId = getIntFromUsers(postObject.getPostVisitor(), "id");
         String query = "DELETE FROM likes WHERE (user_id = ? AND post_id = ?)";
@@ -806,6 +854,50 @@ public class DataBaseActions {
             throw new RuntimeException(e);
         }
         return hasLiked;
+    }
+    public ArrayList<String> getWhoHasLiked (PostObject postObject){
+        ArrayList<String> likes = new ArrayList<>();
+        String query = "SELECT * FROM likes JOIN users ON users.id = likes.user_id WHERE post_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, postObject.getPostId());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                likes.add(resultSet.getString("firstname") + " " + resultSet.getString("lastname") + " -> " + resultSet.getString("email"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return likes;
+    }
+    public String getEmailUsingId (String id){
+        String email = null;
+        String query = "SELECT * FROM users WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                email = resultSet.getString("email");
+            }
+            return email;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return email;
+    }
+    public String getNameUsingId (String id){
+        String name = null;
+        String query = "SELECT * FROM users WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                name = resultSet.getString("firstname") + " " + resultSet.getString("lastname");
+            }
+            return name;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return name;
     }
     private static void insertWithTwoIds(Connection conn, String sql, long id1, long id2) {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {

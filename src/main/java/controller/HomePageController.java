@@ -1,8 +1,6 @@
 package controller;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.Database.DataBaseActions;
 import org.common.*;
 
 import java.io.File;
@@ -58,7 +55,7 @@ public class HomePageController implements Initializable {
     @FXML
     private TextField postTextField;
     @FXML
-    private ListView<PostObject> myContactsPostListView;
+    private ListView<PostObject> othersPostListView;
     @FXML
     private ListView<PostObject> myPostsListView;
     public void initialize (URL location, ResourceBundle resource) {
@@ -125,15 +122,32 @@ public class HomePageController implements Initializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+
+        Bridge bridge2 = new Bridge(Commands.SHOW_OTHERS_POSTS, email);
+        SendMessage.send(bridge2, writer);
+        try {
+            Bridge b = (Bridge) reader.readObject();
+            if (b.getCommand() == Commands.SHOW_OTHERS_POSTS) {
+                ArrayList<PostObject> posts = b.get();
+                ObservableList<PostObject> postsObservable = FXCollections.observableArrayList();
+                postsObservable.addAll(posts);
+                othersPostListView.setItems(postsObservable);
+                othersPostListView.setCellFactory(new Callback<ListView<PostObject>, ListCell<PostObject>>() {
+                    @Override
+                    public ListCell<PostObject> call(ListView<PostObject> param) {
+                        return new OthersPostsTextCell(email, reader, writer);
+                    }
+                });
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     void exitButtonPressed(ActionEvent event) {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
-    }
-    @FXML
-    void homeButtonPressed(ActionEvent event) {
-
     }
     @FXML
     void messagingButtonPressed(ActionEvent event) {

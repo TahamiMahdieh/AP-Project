@@ -12,7 +12,7 @@ public class PostObject implements Serializable {
     private String imageDestination;
     private String videoDestination;
     private String postId;
-
+    private String postMakerName;
 
     public String getImageDestination() {
         return imageDestination;
@@ -65,5 +65,13 @@ public class PostObject implements Serializable {
     }
     public void setPostVisitor(String postVisitor) {
         this.postVisitor = postVisitor;
+    }
+
+    public String getPostMakerName() {
+        return postMakerName;
+    }
+
+    public void setPostMakerName(String postMakerName) {
+        this.postMakerName = postMakerName;
     }
 }
