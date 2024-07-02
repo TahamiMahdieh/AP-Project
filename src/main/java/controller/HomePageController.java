@@ -11,10 +11,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import org.common.Bridge;
-import org.common.Commands;
-import org.common.SendMessage;
+import javafx.util.Callback;mon.SendMessage;
+
+import org.common.*;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +56,10 @@ public class HomePageController implements Initializable {
     private ImageView profilePicture;
     @FXML
     private TextField postTextField;
+    @FXML
+    private ListView<PostObject> othersPostListView;
+    @FXML
+    private ListView<PostObject> myPostsListView;
     public void initialize (URL location, ResourceBundle resource) {
         // if user presses ENTER while writing in searchTextField, search will be executed
         searchTextField.setOnKeyPressed(event -> {
@@ -119,15 +123,51 @@ public class HomePageController implements Initializable {
         catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
+        Bridge bridge1 = new Bridge(Commands.SHOW_MY_POSTS, email);
+        SendMessage.send(bridge1, writer);
+        try {
+            Bridge b = (Bridge) reader.readObject();
+            if (b.getCommand() == Commands.SHOW_MY_POSTS) {
+                ArrayList<PostObject> posts = b.get();
+                ObservableList<PostObject> postsObservable = FXCollections.observableArrayList();
+                postsObservable.addAll(posts);
+                myPostsListView.setItems(postsObservable);
+                myPostsListView.setCellFactory(new Callback<ListView<PostObject>, ListCell<PostObject>>() {
+                    @Override
+                    public ListCell<PostObject> call(ListView<PostObject> param) {
+                        return new PostsTextCell(email, reader, writer);
+                    }
+                });
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        Bridge bridge2 = new Bridge(Commands.SHOW_OTHERS_POSTS, email);
+        SendMessage.send(bridge2, writer);
+        try {
+            Bridge b = (Bridge) reader.readObject();
+            if (b.getCommand() == Commands.SHOW_OTHERS_POSTS) {
+                ArrayList<PostObject> posts = b.get();
+                ObservableList<PostObject> postsObservable = FXCollections.observableArrayList();
+                postsObservable.addAll(posts);
+                othersPostListView.setItems(postsObservable);
+                othersPostListView.setCellFactory(new Callback<ListView<PostObject>, ListCell<PostObject>>() {
+                    @Override
+                    public ListCell<PostObject> call(ListView<PostObject> param) {
+                        return new OthersPostsTextCell(email, reader, writer);
+                    }
+                });
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     void exitButtonPressed(ActionEvent event) {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
-    }
-    @FXML
-    void homeButtonPressed(ActionEvent event) {
-
     }
     @FXML
     void messagingButtonPressed(ActionEvent event) {

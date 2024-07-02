@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,6 +16,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.Database.DataBaseActions;
+
 import org.common.*;
 
 public class MyNetworkPageController {
@@ -25,7 +26,7 @@ public class MyNetworkPageController {
     private ObjectOutputStream writer;
     private String email;
     @FXML
-    private ListView<String> connectionListView;
+    private ListView<GetConnectionReturn> connectionListView;
     @FXML
     private Button exitButton;
     @FXML
@@ -44,13 +45,6 @@ public class MyNetworkPageController {
                 ObservableList<String> followees = FXCollections.observableArrayList();
                 followees.addAll(followeeArray);
                 followingsListView.setItems(followees);
-                followingsListView.getSelectionModel().selectedItemProperty().
-                        addListener( new ChangeListener<String>() {
-                            @Override
-                            public void changed(ObservableValue<? extends String> ov, String oldValue, String newValue) {
-                                //TODO: handle what's ganna happen when you click on a followee
-                            }
-                        });
                 // set custom ListView cell factory
                 followingsListView.setCellFactory(new Callback<ListView<String>, ListCell<String >>() {
                     @Override
@@ -72,14 +66,6 @@ public class MyNetworkPageController {
                 ObservableList<String> followers = FXCollections.observableArrayList();
                 followers.addAll(followerArray);
                 followersListView.setItems(followers);
-                followersListView.getSelectionModel().selectedItemProperty().
-                        addListener( new ChangeListener<String>() {
-                            @Override
-                            public void changed(ObservableValue<? extends String> ov, String oldValue, String newValue) {
-                                //TODO: handle what's ganna happen when you click on a followee
-                            }
-                        });
-                // set custom ListView cell factory
                 followersListView.setCellFactory(new Callback<ListView<String>, ListCell<String >>() {
                     @Override
                     public ListCell<String> call(ListView<String> listView) {
@@ -91,6 +77,36 @@ public class MyNetworkPageController {
         catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        Bridge bridge3 = new Bridge(Commands.GET_CONNECTION, email);
+        SendMessage.send(bridge3, writer);
+        try {
+            Bridge b = (Bridge) reader.readObject();
+            if (b.getCommand() == Commands.GET_CONNECTION) {
+                ArrayList<GetConnectionReturn> connections = b.get();
+                ObservableList<GetConnectionReturn> connectionObservable = FXCollections.observableArrayList();
+                connectionObservable.addAll(connections);
+                connectionListView.setItems(connectionObservable);
+                connectionListView.getSelectionModel().selectedItemProperty().
+                        addListener( new ChangeListener<GetConnectionReturn>() {
+                            @Override
+                            public void changed(ObservableValue<? extends GetConnectionReturn> observable, GetConnectionReturn oldValue, GetConnectionReturn newValue) {
+                                //TODO: handle what's ganna happen when you click on a followee
+                            }
+
+                        });
+                // set custom ListView cell factory
+                connectionListView.setCellFactory(new Callback<ListView<GetConnectionReturn>, ListCell<GetConnectionReturn>>() {
+                    @Override
+                    public ListCell<GetConnectionReturn> call(ListView<GetConnectionReturn> param) {
+                        return new ConnectionTextCell(email);
+                    }
+                });
+            }
+        }
+        catch (IOException | ClassNotFoundException e ) {
+            e.printStackTrace();
+        }
+
     }
     @FXML
     void exitButtonPressed(ActionEvent event) {

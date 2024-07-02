@@ -1,15 +1,15 @@
 package org.server;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import org.Database.DataBaseActions;
 import org.common.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Array;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
 public class ClientHandler implements Runnable {
@@ -97,16 +97,80 @@ public class ClientHandler implements Runnable {
                     }
                     case GET_FOLLOWEE -> {
                         String email = bridge.get();
-                        ArrayList<String> followee = new ArrayList<>();
-                        followee.addAll(dataBaseActions.getFolloweeInfoUsingEmail(email));
+                        ArrayList<String> followee = dataBaseActions.getFolloweeInfoUsingEmail(email);
                         Bridge b = new Bridge(Commands.GET_FOLLOWEE, followee);
                         SendMessage.send(b, writer);
                     }
                     case GET_FOLLOWERS -> {
                         String email = bridge.get();
-                        ArrayList<String> followers = new ArrayList<>();
-                        followers.addAll(dataBaseActions.getFollowersInfoUsingEmail(email));
+                        ArrayList<String> followers = dataBaseActions.getFollowersInfoUsingEmail(email);
                         Bridge b = new Bridge(Commands.GET_FOLLOWERS, followers);
+                        SendMessage.send(b, writer);
+                    }
+                    case GET_CONNECTION -> {
+                        String email = bridge.get();
+                        ArrayList<GetConnectionReturn> connection = dataBaseActions.getLinkedInConnections(email);
+                        Bridge b = new Bridge(Commands.GET_CONNECTION, connection);
+                        SendMessage.send(b, writer);
+                    }
+                    case POST_THIS -> {
+                        PostObject postObject = bridge.get();
+                        if (postObject.getImageFile() != null) {
+                            String fileName = postObject.getImageFile().getName();
+                            Path destination = Path.of("pictures/postImages", fileName);
+                            try {
+                                Files.copy(postObject.getImageFile().toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+                                postObject.setImageDestination(destination.toString());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (postObject.getVideoFile() != null) {
+                            String fileName2 = postObject.getVideoFile().getName();
+                            Path destination2 = Path.of("pictures/postVideos", fileName2);
+                            try {
+                                Files.copy(postObject.getVideoFile().toPath(), destination2, StandardCopyOption.REPLACE_EXISTING);
+                                postObject.setVideoDestination(destination2.toString());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        dataBaseActions.postThis(postObject);
+                    }
+                    case SHOW_MY_POSTS -> {
+                        String email = bridge.get();
+                        ArrayList<PostObject> postsArray = dataBaseActions.getMyPosts(email);
+                        Bridge b = new Bridge(Commands.SHOW_MY_POSTS, postsArray);
+                        SendMessage.send(b, writer);
+                    }
+                    case SHOW_OTHERS_POSTS -> {
+                        String email = bridge.get();
+                        ArrayList<PostObject> postsArray = dataBaseActions.getOthersPosts(email);
+                        Bridge b = new Bridge(Commands.SHOW_OTHERS_POSTS, postsArray);
+                        SendMessage.send(b, writer);
+                    }
+                    case IS_ALREADY_LIKED -> {
+                        PostObject postObject = bridge.get();
+                        Boolean aBoolean = dataBaseActions.hasLiked(postObject);
+                        Bridge b = new Bridge(Commands.IS_ALREADY_LIKED, aBoolean);
+                        SendMessage.send(b, writer);
+                    }
+                    case DELETE_MY_POST -> {
+                        PostObject postObject = bridge.get();
+                        dataBaseActions.deleteMyPost(postObject);
+                    }
+                    case ADD_LIKE -> {
+                        PostObject postObject = bridge.get();
+                        dataBaseActions.addLike(postObject);
+                    }
+                    case DELETE_LIKE -> {
+                        PostObject postObject = bridge.get();
+                        dataBaseActions.deleteLike(postObject);
+                    }
+                    case SEE_LIKES_LIST -> {
+                        PostObject postObject = bridge.get();
+                        ArrayList<String> likes = dataBaseActions.getWhoHasLiked(postObject);
+                        Bridge b = new Bridge(Commands.SEE_LIKES_LIST, likes);
                         SendMessage.send(b, writer);
                     }
                 }
