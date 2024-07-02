@@ -582,7 +582,6 @@ public class DataBaseActions {
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1, String.valueOf(followerId));
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                ResultSetMetaData metaData = resultSet.getMetaData();
                 while (resultSet.next()) {
                     followeeEmails.add(resultSet.getString("firstname") + " " + resultSet.getString("lastname") + " -> " + resultSet.getString("email"));
                 }
@@ -726,7 +725,7 @@ public class DataBaseActions {
         return connectedUsersInfo;
     }
     public void postThis(PostObject postObject){
-        int userId = getIntFromUsers(postObject.getUserEmail(), "id");
+        int userId = getIntFromUsers(postObject.getPostMakerEmail(), "id");
         String videoPath = postObject.getVideoDestination();
         String imagePath = postObject.getImageDestination();
         String postText = postObject.getPostText();
@@ -741,12 +740,80 @@ public class DataBaseActions {
             e.printStackTrace();
         }
     }
-
-    private static void insertWithTwoIds(Connection conn, String sql, long id1, long id2) throws SQLException {
+    public void deleteMyPost(PostObject postObject){
+        String query = "DELETE FROM posts WHERE posts.post_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, postObject.getPostId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public ArrayList<PostObject> getMyPosts(String email){
+        ArrayList<PostObject> postObjects = new ArrayList<>();
+        int id = getIntFromUsers(email, "id");
+        String query = "SELECT * FROM posts WHERE posts.user_id = ? ;";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, String.valueOf(id));
+            try (ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()){
+                    PostObject p = new PostObject();
+                    p.setPostText(resultSet.getString("post_text"));
+                    p.setVideoDestination(resultSet.getString("video"));
+                    p.setImageDestination(resultSet.getString("image"));
+                    p.setPostMakerEmail(email);
+                    p.setPostId(resultSet.getString("post_id"));
+                    postObjects.add(p);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return postObjects;
+    }
+    public void deleteLike(PostObject postObject){
+        int userId = getIntFromUsers(postObject.getPostVisitor(), "id");
+        String query = "DELETE FROM likes WHERE (user_id = ? AND post_id = ?)";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, String.valueOf(userId));
+            statement.setString(2, postObject.getPostId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void addLike (PostObject postObject){
+        int userId = getIntFromUsers(postObject.getPostVisitor(), "id");
+        String query = "INSERT INTO likes (user_id, post_id) VALUES (?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, String.valueOf(userId));
+            statement.setString(2, postObject.getPostId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public boolean hasLiked(PostObject postObject){
+        boolean hasLiked;
+        int userId = getIntFromUsers(postObject.getPostVisitor(), "id");
+        String query = "SELECT * FROM likes WHERE user_id = ? AND post_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, String.valueOf(userId));
+            statement.setString(2, postObject.getPostId());
+            ResultSet resultSet = statement.executeQuery();
+            hasLiked = resultSet.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return hasLiked;
+    }
+    private static void insertWithTwoIds(Connection conn, String sql, long id1, long id2) {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, id1);
             stmt.setLong(2, id2);
             stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

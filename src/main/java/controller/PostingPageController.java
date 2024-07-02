@@ -8,24 +8,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import org.common.Bridge;
 import org.common.Commands;
 import org.common.PostObject;
 import org.common.SendMessage;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ResourceBundle;
 
 public class PostingPageController implements Initializable {
@@ -123,7 +117,7 @@ public class PostingPageController implements Initializable {
     private void saveButtonpressed(ActionEvent event) {
         if (textTextField.getText() != null || video != null || image != null) {
             PostObject postObject = new PostObject();
-            postObject.setUserEmail(email);
+            postObject.setPostMakerEmail(email);
             if (textTextField.getText() != null) {
                 postObject.setPostText(textTextField.getText());
             }

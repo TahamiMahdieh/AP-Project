@@ -23,7 +23,7 @@ public class LinkedInApplication extends Application {
     public void start(Stage stage) {
         try {
             this.stage = stage;
-            socket = new Socket("127.0.0.1", 8080);
+            socket = new Socket("127.0.0.1", 8000);
             writer = new ObjectOutputStream(socket.getOutputStream());
             reader = new ObjectInputStream(socket.getInputStream());
 

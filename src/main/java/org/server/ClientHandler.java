@@ -1,14 +1,11 @@
 package org.server;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import org.Database.DataBaseActions;
 import org.common.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -100,22 +97,19 @@ public class ClientHandler implements Runnable {
                     }
                     case GET_FOLLOWEE -> {
                         String email = bridge.get();
-                        ArrayList<String> followee = new ArrayList<>();
-                        followee.addAll(dataBaseActions.getFolloweeInfoUsingEmail(email));
+                        ArrayList<String> followee = dataBaseActions.getFolloweeInfoUsingEmail(email);
                         Bridge b = new Bridge(Commands.GET_FOLLOWEE, followee);
                         SendMessage.send(b, writer);
                     }
                     case GET_FOLLOWERS -> {
                         String email = bridge.get();
-                        ArrayList<String> followers = new ArrayList<>();
-                        followers.addAll(dataBaseActions.getFollowersInfoUsingEmail(email));
+                        ArrayList<String> followers = dataBaseActions.getFollowersInfoUsingEmail(email);
                         Bridge b = new Bridge(Commands.GET_FOLLOWERS, followers);
                         SendMessage.send(b, writer);
                     }
                     case GET_CONNECTION -> {
                         String email = bridge.get();
-                        ArrayList<GetConnectionReturn> connection = new ArrayList<>();
-                        connection.addAll(dataBaseActions.getLinkedInConnections(email));
+                        ArrayList<GetConnectionReturn> connection = dataBaseActions.getLinkedInConnections(email);
                         Bridge b = new Bridge(Commands.GET_CONNECTION, connection);
                         SendMessage.send(b, writer);
                     }
@@ -142,6 +136,30 @@ public class ClientHandler implements Runnable {
                             }
                         }
                         dataBaseActions.postThis(postObject);
+                    }
+                    case SHOW_MY_POSTS -> {
+                        String email = bridge.get();
+                        ArrayList<PostObject> postsArray = dataBaseActions.getMyPosts(email);
+                        Bridge b = new Bridge(Commands.SHOW_MY_POSTS, postsArray);
+                        SendMessage.send(b, writer);
+                    }
+                    case IS_ALREADY_LIKED -> {
+                        PostObject postObject = bridge.get();
+                        Boolean aBoolean = dataBaseActions.hasLiked(postObject);
+                        Bridge b = new Bridge(Commands.IS_ALREADY_LIKED, aBoolean);
+                        SendMessage.send(b, writer);
+                    }
+                    case DELETE_MY_POST -> {
+                        PostObject postObject = bridge.get();
+                        dataBaseActions.deleteMyPost(postObject);
+                    }
+                    case ADD_LIKE -> {
+                        PostObject postObject = bridge.get();
+                        dataBaseActions.addLike(postObject);
+                    }
+                    case DELETE_LIKE -> {
+                        PostObject postObject = bridge.get();
+                        dataBaseActions.deleteLike(postObject);
                     }
                 }
             }

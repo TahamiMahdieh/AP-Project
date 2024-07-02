@@ -5,6 +5,7 @@ module org.main.javafx {
     requires mysql.connector.j;
     requires java.sql;
     requires jjwt.api;
+    requires javafx.media;
 
 
     opens controller to javafx.fxml;

@@ -9,5 +9,10 @@ public enum Commands {
     GET_FOLLOWEE,
     GET_CONNECTION,
     POST_THIS,
+    SHOW_MY_POSTS,
+    DELETE_MY_POST,
+    IS_ALREADY_LIKED,
+    DELETE_LIKE,
+    ADD_LIKE,
     EDIT_PROFILE,
 }

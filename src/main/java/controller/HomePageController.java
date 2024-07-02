@@ -1,6 +1,8 @@
 package controller;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,9 +15,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.Database.DataBaseActions;
-import org.common.Bridge;
-import org.common.Commands;
-import org.common.SendMessage;
+import org.common.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,6 +57,10 @@ public class HomePageController implements Initializable {
     private ImageView profilePicture;
     @FXML
     private TextField postTextField;
+    @FXML
+    private ListView<PostObject> myContactsPostListView;
+    @FXML
+    private ListView<PostObject> myPostsListView;
     public void initialize (URL location, ResourceBundle resource) {
         // if user presses ENTER while writing in searchTextField, search will be executed
         searchTextField.setOnKeyPressed(event -> {
@@ -69,24 +73,6 @@ public class HomePageController implements Initializable {
         // define and manifest the information ListView
         Bridge bridge = new Bridge(Commands.HOMEPAGE_INFORMATION_LISTVIEW, email);
         SendMessage.send(bridge, writer);
-        startInformationListViewTask();
-    }
-    public void startInformationListViewTask(){
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                runInformationListviewTask();
-            }
-        };
-
-        // Run the task in a background thread
-        Thread backgroundThread = new Thread(task);
-        // Terminate the running thread if the application exits
-        backgroundThread.setDaemon(true);
-        // Start the thread
-        backgroundThread.start();
-    }
-    public void runInformationListviewTask () {
         try {
             Bridge b = (Bridge) reader.readObject();
             if (b.getCommand() == Commands.HOMEPAGE_INFORMATION_LISTVIEW) {
@@ -118,6 +104,25 @@ public class HomePageController implements Initializable {
             }
         }
         catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        Bridge bridge1 = new Bridge(Commands.SHOW_MY_POSTS, email);
+        SendMessage.send(bridge1, writer);
+        try {
+            Bridge b = (Bridge) reader.readObject();
+            if (b.getCommand() == Commands.SHOW_MY_POSTS) {
+                ArrayList<PostObject> posts = b.get();
+                ObservableList<PostObject> postsObservable = FXCollections.observableArrayList();
+                postsObservable.addAll(posts);
+                myPostsListView.setItems(postsObservable);
+                myPostsListView.setCellFactory(new Callback<ListView<PostObject>, ListCell<PostObject>>() {
+                    @Override
+                    public ListCell<PostObject> call(ListView<PostObject> param) {
+                        return new PostsTextCell(email, reader, writer);
+                    }
+                });
+            }
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

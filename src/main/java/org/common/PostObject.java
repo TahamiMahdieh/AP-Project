@@ -2,15 +2,16 @@ package org.common;
 
 import java.io.File;
 import java.io.Serializable;
-import java.nio.file.Path;
 
 public class PostObject implements Serializable {
     private String postText;
     private File imageFile;
     private File videoFile;
-    private String userEmail;
+    private String postMakerEmail;
+    private String postVisitor;
     private String imageDestination;
     private String videoDestination;
+    private String postId;
 
 
     public String getImageDestination() {
@@ -35,25 +36,34 @@ public class PostObject implements Serializable {
     public void setPostText(String postText) {
         this.postText = postText;
     }
-    public String getUserEmail() {
-        return userEmail;
+    public String getPostMakerEmail() {
+        return postMakerEmail;
     }
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setPostMakerEmail(String postMakerEmail) {
+        this.postMakerEmail = postMakerEmail;
     }
     public File getImageFile() {
         return imageFile;
     }
-
     public void setImageFile(File imageFile) {
         this.imageFile = imageFile;
     }
-
     public File getVideoFile() {
         return videoFile;
     }
-
     public void setVideoFile(File videoFile) {
         this.videoFile = videoFile;
+    }
+    public String getPostId() {
+        return postId;
+    }
+    public void setPostId(String postId) {
+        this.postId = postId;
+    }
+    public String getPostVisitor() {
+        return postVisitor;
+    }
+    public void setPostVisitor(String postVisitor) {
+        this.postVisitor = postVisitor;
     }
 }
