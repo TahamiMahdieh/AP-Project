@@ -104,6 +104,7 @@ public class PostsTextCell extends ListCell<PostObject> {
                 SendMessage.send(b, writer);
                 getListView().getItems().remove(item);
             });
+
             //like button
             Bridge b = new Bridge(Commands.IS_ALREADY_LIKED, item);
             SendMessage.send(b, writer);
@@ -144,6 +145,25 @@ public class PostsTextCell extends ListCell<PostObject> {
                     Bridge bridge1 = (Bridge) reader.readObject();
                     if (bridge1.getCommand() == Commands.SEE_LIKES_LIST){
                         LinkedInApplication.showLikeListPage(bridge1);
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
+            //comment Button
+            commentButton.setOnAction(event -> {
+                LinkedInApplication.showCommentPage(item.getPostId());
+            });
+
+            //seeComments button
+            showCommentListButton.setOnAction(event -> {
+                Bridge bridge = new Bridge(Commands.SEE_COMMENTS_LIST, item);
+                SendMessage.send(bridge, writer);
+                try {
+                    Bridge bridge1 = (Bridge) reader.readObject();
+                    if (bridge1.getCommand() == Commands.SEE_COMMENTS_LIST){
+                        LinkedInApplication.shoCommentsListPage(item.getPostId(), bridge1);
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);

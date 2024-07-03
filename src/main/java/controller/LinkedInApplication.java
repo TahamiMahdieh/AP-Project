@@ -41,6 +41,23 @@ public class LinkedInApplication extends Application {
         controller.setWriter(writer);
         controller.setReader(reader);
     }
+    public static void shoCommentsListPage(String post_id, Bridge bridge){
+        CommentsListController controller = changeScene(stage, "commentsListPage.fxml", "LinkedIn");
+        controller.setEmail(thisUserEmail);
+        controller.setSocket(socket);
+        controller.setWriter(writer);
+        controller.setReader(reader);
+        controller.setPostId(post_id);
+        controller.postInitialize(bridge);
+    }
+    public static void showCommentPage (String post_id){
+        AddCommentController controller = changeScene(stage, "addCommentPage.fxml", "LinkedIn");
+        controller.setEmail(thisUserEmail);
+        controller.setSocket(socket);
+        controller.setWriter(writer);
+        controller.setReader(reader);
+        controller.setPostId(post_id);
+    }
     public static void showProfilePage(){
         ProfileController controller = changeScene(stage, "profilePage.fxml", "LinkedIn");
         controller.setEmail(thisUserEmail);
@@ -60,7 +77,6 @@ public class LinkedInApplication extends Application {
     public static void showEditPicturesPage() {
         EditPicturesController controller = changeScene(stage, "editPictures.fxml", "LinkedIn");
         controller.setEmail(thisUserEmail);
-        controller.postInitialization();
     }
     public static void showAddEducationPage() {
         AddNewEducationController controller = changeScene(stage, "addNewEducation.fxml", "LinkedIn");

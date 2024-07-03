@@ -137,6 +137,30 @@ public class ClientHandler implements Runnable {
                         }
                         dataBaseActions.postThis(postObject);
                     }
+                    case COMMENT_THIS -> {
+                        CommentObject commentObject = bridge.get();
+                        if (commentObject.getImageFile() != null) {
+                            String fileName = commentObject.getImageFile().getName();
+                            Path destination = Path.of("pictures/commentImages", fileName);
+                            try {
+                                Files.copy(commentObject.getImageFile().toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+                                commentObject.setImageDestination(destination.toString());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (commentObject.getVideoFile() != null) {
+                            String fileName2 = commentObject.getVideoFile().getName();
+                            Path destination2 = Path.of("pictures/commentVideos", fileName2);
+                            try {
+                                Files.copy(commentObject.getVideoFile().toPath(), destination2, StandardCopyOption.REPLACE_EXISTING);
+                                commentObject.setVideoDestination(destination2.toString());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        dataBaseActions.commentThis(commentObject);
+                    }
                     case SHOW_MY_POSTS -> {
                         String email = bridge.get();
                         ArrayList<PostObject> postsArray = dataBaseActions.getMyPosts(email);
@@ -171,6 +195,12 @@ public class ClientHandler implements Runnable {
                         PostObject postObject = bridge.get();
                         ArrayList<String> likes = dataBaseActions.getWhoHasLiked(postObject);
                         Bridge b = new Bridge(Commands.SEE_LIKES_LIST, likes);
+                        SendMessage.send(b, writer);
+                    }
+                    case SEE_COMMENTS_LIST -> {
+                        PostObject postObject = bridge.get();
+                        ArrayList<CommentObject> comments = dataBaseActions.getCommentObjects(postObject);
+                        Bridge b = new Bridge(Commands.SEE_COMMENTS_LIST, comments);
                         SendMessage.send(b, writer);
                     }
                 }

@@ -1,13 +1,12 @@
 package org.Database;
 
-import org.common.GetConnectionReturn;
-import org.common.PostObject;
-import org.common.User;
+import org.common.*;
 
 import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -373,9 +372,9 @@ public class DataBaseActions {
         }
     }
 
-    public boolean setDateToContactInfo(String email, String label, Date date) {
-        
-    }
+//    public boolean setDateToContactInfo(String email, String label, Date date) {
+//
+//    }
 
 
     public boolean addUserToUsersTable (User user) {
@@ -544,6 +543,46 @@ public class DataBaseActions {
             e.printStackTrace();
         }
         return foundEmails;
+    }
+    public void commentThis (CommentObject commentObject){
+        int userId = getIntFromUsers(commentObject.getCommentMakerEmail(), "id");
+        String videoPath = commentObject.getVideoDestination();
+        String imagePath = commentObject.getImageDestination();
+        String postText = commentObject.getCommentText();
+        String postId = commentObject.getPostId();
+        String query = "INSERT INTO comments (user_id, post_id, comment_text, image, video) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, String.valueOf(userId));
+            statement.setString(2, postId);
+            statement.setString(3, postText);
+            statement.setString(4, imagePath);
+            statement.setString(5, videoPath);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public ArrayList<CommentObject> getCommentObjects(PostObject postObject){
+        ArrayList<CommentObject> commentObjects = new ArrayList<>();
+        String postId = postObject.getPostId();
+        String query = "SELECT * FROM comments WHERE post_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, postId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                CommentObject commentObject = new CommentObject();
+                commentObject.setCommentText(resultSet.getString("comment_text"));
+                commentObject.setCommentMakerEmail(getEmailUsingId(resultSet.getString("user_id")));
+                commentObject.setCommentMakerName(getNameUsingId(resultSet.getString("user_id")));
+                commentObject.setPostId(postId);
+                commentObject.setImageDestination(resultSet.getString("image"));
+                commentObject.setVideoDestination(resultSet.getString("video"));
+                commentObjects.add(commentObject);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return commentObjects;
     }
     public void followUsingEmail (String followerEmail, String followeeEmail){
         int followerId = getIntFromUsers(followerEmail, "id");

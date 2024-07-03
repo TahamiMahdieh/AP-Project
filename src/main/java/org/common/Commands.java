@@ -16,5 +16,7 @@ public enum Commands {
     DELETE_LIKE,
     ADD_LIKE,
     SEE_LIKES_LIST,
-    EDIT_PROFILE,
+    COMMENT_THIS,
+    GET_POST_ID,
+    EDIT_PROFILE, SEE_COMMENTS_LIST,
 }

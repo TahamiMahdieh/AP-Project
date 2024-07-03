@@ -139,6 +139,25 @@ public class OthersPostsTextCell extends ListCell<PostObject> {
                 }
             });
 
+            //comment Button
+            commentButton.setOnAction(event -> {
+                LinkedInApplication.showCommentPage(item.getPostId());
+            });
+
+            //seeComments button
+            showCommentListButton.setOnAction(event -> {
+                Bridge bridge = new Bridge(Commands.SEE_COMMENTS_LIST, item);
+                SendMessage.send(bridge, writer);
+                try {
+                    Bridge bridge1 = (Bridge) reader.readObject();
+                    if (bridge1.getCommand() == Commands.SEE_COMMENTS_LIST){
+                        LinkedInApplication.shoCommentsListPage(item.getPostId(), bridge1);
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
             HBox hBox = new HBox();
             hBox.setPrefWidth(340);
             hBox.setSpacing(5);
