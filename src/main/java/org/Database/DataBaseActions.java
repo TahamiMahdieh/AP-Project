@@ -7,7 +7,9 @@ import org.common.User;
 import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
+
 import java.util.stream.Collectors;
+
 
 public class DataBaseActions {
     private final Connection connection;
@@ -357,6 +359,25 @@ public class DataBaseActions {
         }
     }
 
+    private boolean setStringToContactInfo(String email, String label, String newStr) {
+        String query = "UPDATE contact_info SET " + label + " = \"" + newStr + "\" WHERE email = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, email);
+            statement.executeUpdate();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean setDateToContactInfo(String email, String label, Date date) {
+        
+    }
+
+
     public boolean addUserToUsersTable (User user) {
         try {
             connection.setAutoCommit(false);
@@ -394,24 +415,92 @@ public class DataBaseActions {
         }
     }
 
-    /*public boolean addEducation(String email, String schoolName, String fieldOfStudy, Date startDate, Date endDate, double grade, String activitiesAndSocieties, String description, JsonArray skills, boolean notifyNetwork) {
+    public boolean addEducation(String email, String schoolName, String fieldOfStudy, Date startDate, Date endDate, double grade, String activitiesAndSocieties, String description, String skills, boolean notifyNetwork) {
         try {
             connection.setAutoCommit(false);
-            String getUserId = "SELECT id FROM users WHERE email = ?;";
-            PreparedStatement stmt = connection.prepareStatement(getUserId);
-            ;
-            int userId;
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                     userId = rs.getInt(1);
-                }
-            }
-            String addEducation = "INSERT INTO education () VALUES ();";
+
+            String insertIntoEducation = "INSERT INTO education (school_name, field_of_study, start_date, end_date, grade, activities_and_societies, edu_description, skills, notify_network) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            int education_id = insertAndGetId(connection, insertIntoEducation, schoolName, fieldOfStudy, startDate, endDate, grade, activitiesAndSocieties, description, skills, notifyNetwork);
+
+            int user_profile_id = getIntFromUsers(email, "user_profile_id");
+
+            String insertIntoJunction = "INSERT INTO user_profile_edu_junction (user_profile_id, education_id) VALUES (?, ?);";
+            insertWithTwoIds(connection, insertIntoJunction, user_profile_id, education_id);
+
+            connection.commit();
+
+            return true;
 
         } catch (SQLException e) {
-
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                    System.out.println("Transaction rolled back due to error: " + e.getMessage());
+                } catch (SQLException ex) {
+                    System.out.println("Error rolling back transaction: " + ex.getMessage());
+                }
+            }
+            return false;
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-    }*/
+    }
+
+    public ArrayList<Education> getEducations(String email) {
+        ArrayList<Education> educations = new ArrayList<>();
+        int user_profile_id = getIntFromUsers(email, "user_profile_id");
+        String query = "SELECT * FROM user_profile_edu_junction WHERE user_profile_id = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, String.valueOf(user_profile_id));
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int education_id = resultSet.getInt("education_id");
+                educations.add(getEducation(email, education_id));
+            }
+            return educations;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Education getEducation(String email, int education_id) {
+        String query = "SELECT * FROM education WHERE id = ?;";
+        Education education;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, education_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                ArrayList<String> skills = null;
+                if (!(resultSet.getString("skills") == null))
+                    skills = new ArrayList<>(List.of(resultSet.getString("skills").split(",")));
+
+                education = new Education(email,
+                        resultSet.getString("school_name"),
+                        resultSet.getString("field_of_study"),
+                        resultSet.getDate("start_date"),
+                        resultSet.getDate("end_date"),
+                        resultSet.getDouble("grade"),
+                        resultSet.getString("activities_and_societies"),
+                        resultSet.getString("edu_description"),
+                        skills,
+                        resultSet.getBoolean("notify_network"));
+
+                return education;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     private static int insertAndGetId(Connection conn, String sql, Object... params) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {

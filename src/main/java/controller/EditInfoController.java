@@ -30,12 +30,6 @@ public class EditInfoController implements Initializable {
     @FXML
     private Label warningLabel;
 
-    private String newFirstName = null;
-    private String newLastName = null;
-    private String newAdditionalName = null;
-    private String newHeadline = null;
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -49,22 +43,6 @@ public class EditInfoController implements Initializable {
         headlineTextArea.setText(da.getHeadline(email));
     }
 
-    @FXML
-    void firstNamePressed(ActionEvent event) {
-
-    }
-    @FXML
-    void lastNamePressed(ActionEvent event) {
-
-    }
-    @FXML
-    void additionalNamePressed(ActionEvent event) {
-
-    }
-    @FXML
-    void headlinePressed(ActionEvent event) {
-
-    }
     @FXML
     void donePressed(ActionEvent event) {
         if (!warningChecker()) {
@@ -80,6 +58,11 @@ public class EditInfoController implements Initializable {
     @FXML
     void cancelPressed(ActionEvent event) {
         LinkedInApplication.showProfilePage();
+    }
+
+    @FXML
+    void editContactInfoButtonPressed (ActionEvent event) {
+        LinkedInApplication.showEditContactInfoPage();
     }
 
     public boolean warningChecker() {

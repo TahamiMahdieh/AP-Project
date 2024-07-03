@@ -11,8 +11,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import javafx.util.Callback;mon.SendMessage;
+
 import org.common.*;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -70,6 +72,24 @@ public class HomePageController implements Initializable {
         // define and manifest the information ListView
         Bridge bridge = new Bridge(Commands.HOMEPAGE_INFORMATION_LISTVIEW, email);
         SendMessage.send(bridge, writer);
+        startInformationListViewTask();
+    }
+    public void startInformationListViewTask(){
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                runInformationListViewTask();
+            }
+        };
+
+        // Run the task in a background thread
+        Thread backgroundThread = new Thread(task);
+        // Terminate the running thread if the application exits
+        backgroundThread.setDaemon(true);
+        // Start the thread
+        backgroundThread.start();
+    }
+    public void runInformationListViewTask() {
         try {
             Bridge b = (Bridge) reader.readObject();
             if (b.getCommand() == Commands.HOMEPAGE_INFORMATION_LISTVIEW) {
