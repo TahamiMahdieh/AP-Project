@@ -921,6 +921,29 @@ public class DataBaseActions {
         }
         return postObjects;
     }
+    public ArrayList<PostObject> getMyHashtagPosts(String email, String hashtagWord){
+        ArrayList<PostObject> postObjects = new ArrayList<>();
+        int id = getIntFromUsers(email, "id");
+        String query = "SELECT * FROM posts WHERE posts.user_id = ? AND post_text LIKE ?;";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, String.valueOf(id));
+            statement.setString(2, "%" + hashtagWord + "%");
+            try (ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()){
+                    PostObject p = new PostObject();
+                    p.setPostText(resultSet.getString("post_text"));
+                    p.setVideoDestination(resultSet.getString("video"));
+                    p.setImageDestination(resultSet.getString("image"));
+                    p.setPostMakerEmail(email);
+                    p.setPostId(resultSet.getString("post_id"));
+                    postObjects.add(p);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return postObjects;
+    }
     public ArrayList<PostObject> getOthersPosts(String myEmail){
         ArrayList<PostObject> othersPosts = new ArrayList<>();
         ArrayList<String> others = getFolloweeIdsUsingEmail(myEmail);
@@ -931,6 +954,29 @@ public class DataBaseActions {
             for (int i = 0; i < others.size(); i++) {
                 statement.setString(i + 1, others.get(i));
             }
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                PostObject p = new PostObject();
+                p.setPostText(resultSet.getString("post_text"));
+                p.setVideoDestination(resultSet.getString("video"));
+                p.setImageDestination(resultSet.getString("image"));
+                p.setPostMakerEmail(getEmailUsingId(resultSet.getString("user_id")));
+                p.setPostId(resultSet.getString("post_id"));
+                p.setPostMakerName(getNameUsingId(resultSet.getString("user_id")));
+                othersPosts.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return othersPosts;
+    }
+    public  ArrayList<PostObject> getOthersHashtagPosts(String email, String hashtagWord){
+        ArrayList<PostObject> othersPosts = new ArrayList<>();
+        int myId = getIntFromUsers(email, "id");
+        String query = "SELECT * FROM posts WHERE user_id != ? AND post_text LIKE ? ;";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, String.valueOf(myId));
+            statement.setString(2, "%" + hashtagWord + "%");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 PostObject p = new PostObject();

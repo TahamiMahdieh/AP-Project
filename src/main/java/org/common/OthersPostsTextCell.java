@@ -6,12 +6,16 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,7 +24,7 @@ import java.io.ObjectOutputStream;
 public class OthersPostsTextCell extends ListCell<PostObject> {
     private boolean playing = false;
     private VBox vBox;
-    private Label label;
+    private TextFlow textFlow;
     private ImageView imageView;
     private MediaView mediaView;
     private Button likeButton;
@@ -46,6 +50,11 @@ public class OthersPostsTextCell extends ListCell<PostObject> {
         showLikeListButton = new Button("See likes");
         likeButton = new Button("like");
     }
+
+    private void handleHashTagClick (String hashTag) {
+        LinkedInApplication.showHashtagPage(hashTag);
+    }
+
     @Override
     public void updateItem(PostObject item, boolean empty){
         super.updateItem(item, empty);
@@ -57,11 +66,26 @@ public class OthersPostsTextCell extends ListCell<PostObject> {
             vBox.getChildren().clear();
 
             if (item.getPostText() != null){
-                label = new Label(item.getPostMakerName() + ": " + item.getPostText());
-                label.setWrapText(true);
-                label.setMaxWidth(320);
-                label.setFont(new Font("Comic Sans MS", 13));
-                vBox.getChildren().add(label);
+                String labelText = item.getPostText();
+                textFlow = new TextFlow();
+                Text name = new Text(item.getPostMakerName() + ": ");
+                name.setFont(new Font("Comic Sans MS", 13));
+                textFlow.getChildren().add(name);
+                String[] parts = labelText.split(" ");
+                for (String part : parts) {
+                    Text text;
+                    if (part.startsWith("#")) {
+                        text = new Text(part + " ");
+                        text.setStyle("-fx-fill: blue; -fx-underline: true");
+                        text.setOnMouseClicked(event -> handleHashTagClick(part));
+                    } else {
+                        text = new Text(part + " ");
+                    }
+                    text.setFont(new Font("Comic Sans MS", 13));
+                    textFlow.getChildren().add(text);
+                }
+                textFlow.setMaxWidth(340);
+                vBox.getChildren().add(textFlow);
             }
             if (item.getImageDestination() != null){
                 File imageFile = new File(item.getImageDestination());

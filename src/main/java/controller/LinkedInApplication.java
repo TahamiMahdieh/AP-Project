@@ -41,6 +41,14 @@ public class LinkedInApplication extends Application {
         controller.setWriter(writer);
         controller.setReader(reader);
     }
+    public static void showHashtagPage(String hashtagWord) {
+        HashtagPageController controller = changeScene(stage, "hashtagPage.fxml", "LinkedIn");
+        controller.setEmail(thisUserEmail);
+        controller.setSocket(socket);
+        controller.setReader(reader);
+        controller.setWriter(writer);
+        controller.postInitialization(hashtagWord);
+    }
     public static void shoCommentsListPage(String post_id, Bridge bridge){
         CommentsListController controller = changeScene(stage, "commentsListPage.fxml", "LinkedIn");
         controller.setEmail(thisUserEmail);
