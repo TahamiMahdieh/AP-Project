@@ -8,16 +8,17 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.Database.DataBaseActions;
-import org.common.Education;
+import org.common.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -25,6 +26,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static org.common.Commands.GET_EDUCATIONS;
 
 public class ProfileController implements Initializable {
     private Socket socket;
@@ -38,16 +41,6 @@ public class ProfileController implements Initializable {
     @FXML
     private Button homeButton;
     @FXML
-    private Button messagingButton;
-    @FXML
-    private Button myNetworkButton;
-    @FXML
-    private Button myProfileButton;
-    @FXML
-    private Button notificationsButton;
-    @FXML
-    private TextField searchTextField;
-    @FXML
     private ImageView backgroundPhotoImage;
     @FXML
     private ImageView profilePhotoImage;
@@ -60,9 +53,9 @@ public class ProfileController implements Initializable {
     @FXML
     private Button addEducationButton;
     @FXML
-    private ListView<String> educationListView;
+    private ListView<Education> educationListView;
     @FXML
-    private ListView<String> skillsListView;
+    private ListView<Education> skillsListView;
     @FXML
     private Label headlineLabel;
     @FXML
@@ -89,16 +82,33 @@ public class ProfileController implements Initializable {
         headlineLabel.setText(da.getHeadline(email));
         locationLabel.setText(da.getAddress(email));
 
-        List<Education> educations = da.getEducations(email);
-        List<String> educationsString = new ArrayList<>();
-        if (!(educations == null)) {
-            for (Education e : educations) {
-                educationsString.add(e.toString());
-            }
-            educationListView.setItems(FXCollections.observableList(educationsString));
-        }
+        Bridge bridge = new Bridge(GET_EDUCATIONS, email);
+        SendMessage.send(bridge, writer);
+        try {
+            Bridge b = (Bridge) reader.readObject();
+            if (b.getCommand() == GET_EDUCATIONS){
+                ArrayList<Education> educationsArray = b.get();
+                ObservableList<Education> educations = FXCollections.observableArrayList();
+                educations.addAll(educationsArray);
+                educationListView.setItems(educations);
+                educationListView.setCellFactory(new Callback<ListView<Education>, ListCell<Education>>() {
+                    @Override
+                    public ListCell<Education> call(ListView<Education> param) {
+                        return new EducationListCell(email, reader, writer);
+                    }
+                });
+                skillsListView.setItems(educations);
+                skillsListView.setCellFactory(new Callback<ListView<Education>, ListCell<Education>>() {
+                    @Override
+                    public ListCell<Education> call(ListView<Education> param) {
+                        return new SkillsListCell(email, reader, writer);
+                    }
+                });
 
-//        skillsListView.setItems(FXCollections.observableList());
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -108,23 +118,7 @@ public class ProfileController implements Initializable {
     }
     @FXML
     void homeButtonPressed(ActionEvent event) {
-
-    }
-    @FXML
-    void messagingButtonPressed(ActionEvent event) {
-
-    }
-    @FXML
-    void myNetworkButtonPressed(ActionEvent event) {
-
-    }
-    @FXML
-    void myProfileButtonPressed(ActionEvent event) {
-
-    }
-    @FXML
-    void notificationsButtonPressed(ActionEvent event) {
-
+        LinkedInApplication.showHomePage(null);
     }
     @FXML
     void editInfoButtonPressed(ActionEvent event) {

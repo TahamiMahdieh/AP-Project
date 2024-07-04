@@ -1,9 +1,11 @@
 package org.common;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class Education {
+public class Education implements Serializable {
+    private String educationId;
     private String email;
     private String schoolName;
     private String fieldOfStudy;
@@ -71,5 +73,13 @@ public class Education {
 
     public boolean isNotifyNetwork() {
         return notifyNetwork;
+    }
+
+    public String getEducationId() {
+        return educationId;
+    }
+
+    public void setEducationId(String educationId) {
+        this.educationId = educationId;
     }
 }

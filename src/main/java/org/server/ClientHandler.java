@@ -219,6 +219,12 @@ public class ClientHandler implements Runnable {
                         Bridge b = new Bridge(Commands.FIND_HASHTAG_OTHERS_POSTS, postsArray);
                         SendMessage.send(b, writer);
                     }
+                    case GET_EDUCATIONS -> {
+                        String email = bridge.get();
+                        ArrayList<Education> educations = dataBaseActions.getEducations(email);
+                        Bridge b = new Bridge(Commands.GET_EDUCATIONS, educations);
+                        SendMessage.send(b, writer);
+                    }
                 }
             }
         }

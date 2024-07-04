@@ -461,12 +461,11 @@ public class DataBaseActions {
                 int education_id = resultSet.getInt("education_id");
                 educations.add(getEducation(email, education_id));
             }
-            return educations;
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return educations;
     }
 
     public Education getEducation(String email, int education_id) {
@@ -491,6 +490,7 @@ public class DataBaseActions {
                         resultSet.getString("edu_description"),
                         skills,
                         resultSet.getBoolean("notify_network"));
+                education.setEducationId(resultSet.getString("id"));
 
                 return education;
             }
