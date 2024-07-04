@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OthersProfilePageController">
+   <children>
+      <HBox alignment="TOP_RIGHT" layoutX="1.0" prefHeight="54.0" prefWidth="800.0">
+         <children>
+            <Button fx:id="homeButton" focusTraversable="false" mnemonicParsing="false" onAction="#homeButtonPressed" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: #0a66cb;" text="🏠 Home" textFill="WHITE">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="myProfileButton" focusTraversable="false" mnemonicParsing="false" onAction="#myProfileButtonPressed" prefHeight="26.0" prefWidth="94.0" style="-fx-background-color: #0a66cb;" text="👤 My Profile" textFill="WHITE">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="exitButton" focusTraversable="false" mnemonicParsing="false" onAction="#exitButtonPressed" prefHeight="26.0" prefWidth="61.0" style="-fx-background-color: #0a66cb;" text="🚪 Exit" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </HBox>
+      <ImageView fx:id="backgroundPhotoImage" fitHeight="100.0" fitWidth="800.0" layoutY="54.0" nodeOrientation="INHERIT" pickOnBounds="true">
+         <image>
+            <Image url="@../../../../pictures/UserBackground/initialBackground.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="profilePhotoImage" fitHeight="80.0" fitWidth="80.0" layoutX="28.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../pictures/UserProfile/InitialProfile.jpg" />
+         </image>
+      </ImageView>
+      <VBox layoutY="169.0" prefHeight="125.0" prefWidth="400.0">
+         <padding>
+            <Insets left="15.0" />
+         </padding>
+         <children>
+            <Label fx:id="nameLabel" prefHeight="35.0" prefWidth="393.0" text="Name Surname">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="headlineLabel" prefHeight="20.0" prefWidth="385.0" text="Headline">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="20.0" prefWidth="300.0">
+               <children>
+                  <Label fx:id="locationLabel" prefHeight="17.0" prefWidth="334.0" text="Location">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="contactInfoButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: TRANSPARENT;" text="Contact Info" textFill="BLUE" />
+               </children>
+            </HBox>
+            <HBox fx:id="actionButtonsHBox" prefHeight="100.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+      <TabPane fx:id="postsAndCommentsTabPane" layoutX="14.0" layoutY="300.0" prefHeight="284.0" prefWidth="385.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Posts">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="postsListView" prefHeight="257.0" prefWidth="385.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Comments">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="commentsListView" prefHeight="257.0" prefWidth="385.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <VBox layoutX="401.0" layoutY="162.0" prefHeight="424.0" prefWidth="385.0">
+         <children>
+            <Label prefHeight="20.0" prefWidth="433.0" text="Education:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <ListView fx:id="educationListView" prefHeight="200.0" prefWidth="385.0" />
+            <Label text="Skills:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <ListView fx:id="skillsListView" prefHeight="200.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -46,7 +46,6 @@
                   <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="320.0" minHeight="10.0" prefHeight="223.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
@@ -59,28 +58,24 @@
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="294.0" GridPane.columnSpan="2147483647">
                      <children>
-                        <Label fx:id="nameLabel" prefHeight="47.0" prefWidth="291.0" text="Name">
+                        <Label fx:id="nameLabel" prefHeight="47.0" prefWidth="291.0">
                            <font>
                               <Font size="24.0" />
                            </font></Label>
                         <Button fx:id="editInfoButton" mnemonicParsing="false" onAction="#editInfoButtonPressed" prefHeight="47.0" prefWidth="107.0" text="✏ Edit Info" />
                      </children>
                   </HBox>
-                  <ListView fx:id="skillsListView" prefHeight="262.0" prefWidth="370.0" GridPane.rowIndex="4">
+                  <ListView prefHeight="210.0" prefWidth="370.0" GridPane.rowIndex="3">
                      <GridPane.margin>
-                        <Insets />
+                        <Insets top="25.0" />
                      </GridPane.margin>
                   </ListView>
-                  <Label prefHeight="25.0" prefWidth="425.0" text="Skills" GridPane.rowIndex="3">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
                </children>
                <padding>
                   <Insets bottom="30.0" left="30.0" />
                </padding>
             </GridPane>
+
             <Button fx:id="editPicturesButton" layoutX="677.0" layoutY="35.0" mnemonicParsing="false" onAction="#editPicturesButtonPressed" prefHeight="32.0" prefWidth="97.0" text="✏ Edit Pictures" />
             <ListView fx:id="educationListView" layoutX="415.0" layoutY="151.0" prefHeight="264.0" prefWidth="362.0" />
             <Label layoutX="415.0" layoutY="116.0" prefHeight="34.0" prefWidth="361.0" text="Education">
