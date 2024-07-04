@@ -146,6 +146,26 @@ public class OthersProfilePageController implements Initializable {
     void homeButtonPressed(ActionEvent event) {
         LinkedInApplication.showHomePage(jwt);
     }
+
+    @FXML
+    void myProfileButtonPressed(ActionEvent event) {
+        LinkedInApplication.showProfilePage();
+    }
+
+    @FXML
+    void followButtonPressed(ActionEvent event) {
+
+    }
+
+    @FXML
+    void connectButtonPressed(ActionEvent event) {
+
+    }
+
+    @FXML
+    void sendMessageButtonPressed(ActionEvent event) {
+
+    }
     
     public String getThisUsersEmail() {
         return thisUsersEmail;
