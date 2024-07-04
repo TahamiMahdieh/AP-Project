@@ -65,7 +65,7 @@
                         <Button fx:id="editInfoButton" mnemonicParsing="false" onAction="#editInfoButtonPressed" prefHeight="47.0" prefWidth="107.0" text="✏ Edit Info" />
                      </children>
                   </HBox>
-                  <ListView prefHeight="210.0" prefWidth="370.0" GridPane.rowIndex="3">
+                  <ListView fx:id="skillsListView" prefHeight="210.0" prefWidth="370.0" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets top="25.0" />
                      </GridPane.margin>

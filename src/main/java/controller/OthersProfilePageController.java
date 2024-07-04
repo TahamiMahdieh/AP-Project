@@ -72,8 +72,6 @@ public class OthersProfilePageController implements Initializable {
 
         nameLabel.setText(da.getFirstname(otherUsersEmail) + " " + da.getLastname(otherUsersEmail));
         headlineLabel.setText(da.getHeadline(otherUsersEmail));
-
-        if
     }
 
     @FXML
@@ -104,5 +102,9 @@ public class OthersProfilePageController implements Initializable {
 
     public void setJwt(String jwt) {
         this.jwt = jwt;
+    }
+
+    public void setEmail(String thisUserEmail) {
+        this.thisUsersEmail = thisUserEmail;
     }
 }

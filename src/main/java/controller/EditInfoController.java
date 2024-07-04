@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import org.Database.DataBaseActions;
 
 import java.net.URL;
@@ -27,6 +28,8 @@ public class EditInfoController implements Initializable {
     private Button doneButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    private Button editContactInfoButton;
     @FXML
     private Label warningLabel;
 
@@ -92,5 +95,17 @@ public class EditInfoController implements Initializable {
 
     public void setJwt(String jwt) {
         this.jwt = jwt;
+    }
+
+    public void firstNamePressed(ActionEvent actionEvent) {
+    }
+
+    public void lastNamePressed(ActionEvent actionEvent) {
+    }
+
+    public void additionalNamePressed(ActionEvent actionEvent) {
+    }
+
+    public void headlinePressed(MouseEvent mouseEvent) {
     }
 }
