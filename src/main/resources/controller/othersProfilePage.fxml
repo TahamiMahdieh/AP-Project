@@ -6,7 +6,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -43,16 +42,8 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>
       </HBox>
-      <ImageView fx:id="backgroundPhotoImage" fitHeight="100.0" fitWidth="800.0" layoutY="54.0" nodeOrientation="INHERIT" pickOnBounds="true">
-         <image>
-            <Image url="@../../../../pictures/UserBackground/initialBackground.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="profilePhotoImage" fitHeight="80.0" fitWidth="80.0" layoutX="28.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../pictures/UserProfile/InitialProfile.jpg" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="backgroundPhotoImage" fitHeight="100.0" fitWidth="800.0" layoutY="54.0" nodeOrientation="INHERIT" pickOnBounds="true" />
+      <ImageView fx:id="profilePhotoImage" fitHeight="80.0" fitWidth="80.0" layoutX="28.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
       <VBox layoutY="169.0" prefHeight="125.0" prefWidth="400.0">
          <padding>
             <Insets left="15.0" />
@@ -84,7 +75,21 @@
                   <Button fx:id="contactInfoButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: TRANSPARENT;" text="Contact Info" textFill="BLUE" />
                </children>
             </HBox>
-            <HBox fx:id="actionButtonsHBox" prefHeight="100.0" prefWidth="200.0" />
+            <HBox fx:id="actionButtonsHBox" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="followButton" mnemonicParsing="false" onAction="#followButtonPressed" text="Follow">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="connectButton" mnemonicParsing="false" onAction="#connectButtonPressed" text="Connect">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="sendMessageButton" mnemonicParsing="false" onAction="#sendMessageButtonPressed" text="Send Message" />
+               </children>
+            </HBox>
          </children>
       </VBox>
       <TabPane fx:id="postsAndCommentsTabPane" layoutX="14.0" layoutY="300.0" prefHeight="284.0" prefWidth="385.0" tabClosingPolicy="UNAVAILABLE">

@@ -25,6 +25,10 @@ public class EditInfoController implements Initializable {
     @FXML
     private TextArea headlineTextArea;
     @FXML
+    private TextField countryTextField;
+    @FXML
+    private TextField cityTextField;
+    @FXML
     private Button doneButton;
     @FXML
     private Button cancelButton;
@@ -44,6 +48,8 @@ public class EditInfoController implements Initializable {
         lastNameTextField.setText(da.getLastname(email));
         additionalNameTextField.setText(da.getAdditionalName(email));
         headlineTextArea.setText(da.getHeadline(email));
+        countryTextField.setText(da.getCountry(email));
+        cityTextField.setText(da.getCity(email));
     }
 
     @FXML
@@ -54,7 +60,8 @@ public class EditInfoController implements Initializable {
             da.setLastname(email, lastNameTextField.getText().trim());
             da.setAdditionalName(email, firstNameTextField.getText() == null ? null : firstNameTextField.getText().trim());
             da.setHeadline(email, headlineTextArea.getText().trim());
-
+            da.setCountry(email, countryTextField.getText());
+            da.setCity(email, cityTextField.getText());
             LinkedInApplication.showProfilePage();
         }
     }

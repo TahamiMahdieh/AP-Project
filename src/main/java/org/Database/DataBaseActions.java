@@ -95,6 +95,22 @@ public class DataBaseActions {
         return setStringToUserProfile(email, "headline", newHeadline);
     }
 
+    public String getCountry(String email) {
+        return getStringFromUserProfile(email, "country");
+    }
+
+    public boolean setCountry(String email, String newCountry) {
+        return setStringToUserProfile(email, "country", newCountry);
+    }
+
+    public String getCity(String email) {
+        return getStringFromUserProfile(email, "city");
+    }
+
+    public boolean setCity(String email, String newCity) {
+        return setStringToUserProfile(email, "city", newCity);
+    }
+
     public String getProfileUrl(String email) {
         return getStringFromContactInfo(email, "profile_url");
     }

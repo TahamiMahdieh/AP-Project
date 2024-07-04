@@ -1,6 +1,8 @@
 package controller;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -91,6 +93,7 @@ public class HomePageController implements Initializable {
                     // Set items to the ListView
                     myInformationListView.setItems(users);
                 }
+
                 myInformationListView.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
                     @Override
                     public ListCell<String> call(ListView<String> listView) {
@@ -222,6 +225,16 @@ public class HomePageController implements Initializable {
                             ObservableList<String> searchResults = FXCollections.observableArrayList();
                             searchResults.addAll(names);
                             searchListView.setItems(searchResults);
+
+                            searchListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+                                @Override
+                                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                                    if (newValue != null) {
+                                        System.out.println(newValue.split("->")[1].trim());
+                                        LinkedInApplication.showOthersProfilePage(newValue.split("->")[1].trim());
+                                    }
+                                }
+                            });
                         }
                     });
                 }

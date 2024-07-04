@@ -80,7 +80,7 @@ public class ProfileController implements Initializable {
 
         nameLabel.setText(da.getFirstname(email) + " " + da.getLastname(email));
         headlineLabel.setText(da.getHeadline(email));
-        locationLabel.setText(da.getAddress(email));
+        locationLabel.setText(da.getCity(email) + ", " + da.getCountry(email));
 
         Bridge bridge = new Bridge(GET_EDUCATIONS, email);
         SendMessage.send(bridge, writer);
@@ -175,4 +175,6 @@ public class ProfileController implements Initializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }

@@ -74,12 +74,13 @@ public class LinkedInApplication extends Application {
         controller.setReader(reader);
         controller.postInitialization();
     }
-    public static void showOthersProfilePage() {
+    public static void showOthersProfilePage(String othersEmail) {
         OthersProfilePageController controller = changeScene(stage, "othersProfilePage.fxml", "LinkedIn");
-        controller.setEmail(thisUserEmail);
-//        controller.setSocket(socket);
-//        controller.setWriter(writer);
-//        controller.setReader(reader);
+        controller.setThisUsersEmail(thisUserEmail);
+        controller.setOtherUsersEmail(othersEmail);
+        controller.setSocket(socket);
+        controller.setWriter(writer);
+        controller.setReader(reader);
         controller.postInitialization();
     }
     public static void showEditInfoPage() {
