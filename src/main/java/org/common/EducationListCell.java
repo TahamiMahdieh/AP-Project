@@ -25,7 +25,6 @@ public class EducationListCell extends ListCell<Education> {
     private ObjectOutputStream writer;
     private VBox vBox;
     private Button deleteButton;
-    private Button editButton;
 
     public EducationListCell(String email, ObjectInputStream reader, ObjectOutputStream writer) {
         this.reader = reader;
@@ -38,7 +37,6 @@ public class EducationListCell extends ListCell<Education> {
         vBox.setPadding(new Insets(10, 20, 10 ,20));
         vBox.setStyle("-fx-border-color: #acacac");
         deleteButton = new Button("Delete");
-        editButton = new Button("Edit");
     }
 
     @Override
@@ -84,14 +82,12 @@ public class EducationListCell extends ListCell<Education> {
             vBox.getChildren().add(bodyLabel4);
 
             deleteButton.setOnAction(event -> {
-
+                Bridge b = new Bridge(Commands.DELETE_EDUCATION, item);
+                SendMessage.send(b, writer);
+                getListView().getItems().remove(item);
             });
 
-            editButton.setOnAction(event -> {
-
-            });
-
-            HBox hBox = new HBox(deleteButton, editButton);
+            HBox hBox = new HBox(deleteButton);
             hBox.setSpacing(5);
             hBox.setAlignment(Pos.BOTTOM_RIGHT);
             vBox.getChildren().add(hBox);

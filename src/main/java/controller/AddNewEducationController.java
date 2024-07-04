@@ -72,14 +72,13 @@ public class AddNewEducationController implements Initializable {
             DataBaseActions da = new DataBaseActions();
             ArrayList<String> skills = new ArrayList<>();
 
-            for (int i = 0; i < skills.size(); i++) {
-                if (!skillsTextFields.get(i).getText().trim().isEmpty()) {
-                    skills.add(skillsTextFields.get(i).getText());
+            for (TextField skillsTextField : skillsTextFields) {
+                if (!skillsTextField.getText().trim().isEmpty()) {
+                    skills.add(skillsTextField.getText());
                 }
             }
 
             String skillsString = String.join(",", skills);
-
             da.addEducation(email, schoolTextField.getText(), fieldOfStudyTextField.getText(), Date.valueOf(startDateDatePicker.getValue()), Date.valueOf(endDateDatePicker.getValue()), Integer.parseInt(gradeTextField.getText()), activitiesTextArea.getText(), descriptionTextArea.getText(), skillsString,notifyNetworkCheckBox.isSelected());
             LinkedInApplication.showProfilePage();
         }

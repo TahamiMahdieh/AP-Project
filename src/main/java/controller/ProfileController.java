@@ -104,7 +104,6 @@ public class ProfileController implements Initializable {
                         return new SkillsListCell(email, reader, writer);
                     }
                 });
-
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

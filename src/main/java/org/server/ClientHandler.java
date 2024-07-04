@@ -225,6 +225,10 @@ public class ClientHandler implements Runnable {
                         Bridge b = new Bridge(Commands.GET_EDUCATIONS, educations);
                         SendMessage.send(b, writer);
                     }
+                    case DELETE_EDUCATION -> {
+                        Education education = bridge.get();
+                        dataBaseActions.deleteEducation(education);
+                    }
                 }
             }
         }

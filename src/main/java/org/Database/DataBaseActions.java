@@ -420,7 +420,6 @@ public class DataBaseActions {
 
             String insertIntoEducation = "INSERT INTO education (school_name, field_of_study, start_date, end_date, grade, activities_and_societies, edu_description, skills, notify_network) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
             int education_id = insertAndGetId(connection, insertIntoEducation, schoolName, fieldOfStudy, startDate, endDate, grade, activitiesAndSocieties, description, skills, notifyNetwork);
-
             int user_profile_id = getIntFromUsers(email, "user_profile_id");
 
             String insertIntoJunction = "INSERT INTO user_profile_edu_junction (user_profile_id, education_id) VALUES (?, ?);";
@@ -1083,4 +1082,19 @@ public class DataBaseActions {
         }
     }
 
+    public void deleteEducation(Education education) {
+        String educationId = education.getEducationId();
+        String query1 = "DELETE FROM education WHERE id = ?";
+        String query2 = "DELETE FROM user_profile_edu_junction WHERE education_id = ?";
+        try(PreparedStatement statement1 = connection.prepareStatement(query1);
+            PreparedStatement statement2 = connection.prepareStatement(query2)){
+            statement1.setString(1, educationId);
+            statement2.setString(1, educationId);
+            statement2.executeUpdate();
+            statement1.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
