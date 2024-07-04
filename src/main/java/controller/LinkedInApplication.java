@@ -74,6 +74,14 @@ public class LinkedInApplication extends Application {
         controller.setReader(reader);
         controller.postInitialization();
     }
+    public static void showOthersProfilePage() {
+        OthersProfilePageController controller = changeScene(stage, "othersProfilePage.fxml", "LinkedIn");
+        controller.setEmail(thisUserEmail);
+//        controller.setSocket(socket);
+//        controller.setWriter(writer);
+//        controller.setReader(reader);
+        controller.postInitialization();
+    }
     public static void showEditInfoPage() {
         EditInfoController controller = changeScene(stage, "editInfo.fxml", "LinkedIn");
         controller.setEmail(thisUserEmail);

@@ -72,6 +72,7 @@ public class HomePageController implements Initializable {
         // define and manifest the information ListView
         Bridge bridge = new Bridge(Commands.HOMEPAGE_INFORMATION_LISTVIEW, email);
         SendMessage.send(bridge, writer);
+
         try {
             Bridge b = (Bridge) reader.readObject();
             if (b.getCommand() == Commands.HOMEPAGE_INFORMATION_LISTVIEW) {
@@ -145,6 +146,10 @@ public class HomePageController implements Initializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+    }
+    public void runInformationListViewTask() {
+
     }
     @FXML
     void exitButtonPressed(ActionEvent event) {

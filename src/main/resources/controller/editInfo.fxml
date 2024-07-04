@@ -12,14 +12,14 @@
       <VBox layoutX="25.0" layoutY="44.0" prefHeight="276.0" prefWidth="351.0">
          <children>
             <Label prefHeight="17.0" prefWidth="362.0" text="First name*:" />
-            <TextField fx:id="firstNameTextField" />
+            <TextField fx:id="firstNameTextField" onAction="#firstNamePressed" />
             <Label prefHeight="17.0" prefWidth="397.0" text="Last name*:" />
-            <TextField fx:id="lastNameTextField" />
+            <TextField fx:id="lastNameTextField" onAction="#lastNamePressed" />
             <Label prefHeight="17.0" prefWidth="398.0" text="Additional name:" />
-            <TextField fx:id="additionalNameTextField" />
+            <TextField fx:id="additionalNameTextField" onAction="#additionalNamePressed" />
             <Label prefHeight="17.0" prefWidth="384.0" text="Headline*:" />
-            <TextArea fx:id="headlineTextArea" prefHeight="62.0" prefWidth="351.0" promptText="Tell people a bit about yourself..." />
-            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#editContactInfoButtonPressed" prefHeight="25.0" prefWidth="380.0" style="-fx-border-color: transparent; -fx-border-width: 0; -fx-background-radius: 0; -fx-background-color: transparent;" text="Edit Contact Info" textFill="BLUE" underline="true" />
+            <TextArea fx:id="headlineTextArea" onDragDetected="#headlinePressed" prefHeight="62.0" prefWidth="351.0" promptText="Tell people a bit about yourself..." />
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="25.0" prefWidth="380.0" style="-fx-border-color: transparent; -fx-border-width: 0; -fx-background-radius: 0; -fx-background-color: transparent;" text="Edit Contact Info" textFill="BLUE" underline="true" />
          </children>
       </VBox>
       <Button fx:id="doneButton" layoutX="331.0" layoutY="359.0" mnemonicParsing="false" onAction="#donePressed" text="Done" />
