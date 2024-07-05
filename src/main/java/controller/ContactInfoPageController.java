@@ -51,13 +51,13 @@ public class ContactInfoPageController implements Initializable {
 
     }
 
-    public void postInitialization() {
-        Bridge bridge = new Bridge(Commands.GET_CONTACT_INFO, email);
-        SendMessage.send(bridge, writer);
-        try {
-            Bridge b = (Bridge)
-        }
-    }
+//    public void postInitialization() {
+//        Bridge bridge = new Bridge(Commands.GET_CONTACT_INFO, email);
+//        SendMessage.send(bridge, writer);
+//        try {
+//            Bridge b = (Bridge)
+//        }
+//    }
 
     @FXML
     void okButtonPressed(ActionEvent event) {
