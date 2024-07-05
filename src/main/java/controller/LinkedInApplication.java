@@ -125,7 +125,8 @@ public class LinkedInApplication extends Application {
     public static void showContactInfoPage(String email) {
         ContactInfoPageController controller = changeScene(stage, "contactInfoPage.fxml", "LinkedIn");
         controller.setReader(reader);
-        controller.setEmail(email);
+        controller.setOthersEmail(email);
+        controller.setThisUsersEmail(thisUserEmail);
         controller.setSocket(socket);
         controller.setWriter(writer);
         if (email.equals(thisUserEmail)) {
