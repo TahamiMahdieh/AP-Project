@@ -53,33 +53,45 @@ public class EducationListCell extends ListCell<Education> {
             grade = item.getGrade();
             activities = item.getActivitiesAndSocieties();
             description = item.getDescription();
+            if (fieldOfStudy != null) {
+                String top = school + ": " + fieldOfStudy;
+                Label topLabel = new Label(top);
+                topLabel.setFont(new Font(15));
+                vBox.getChildren().add(topLabel);
+            }
+            else {
+                String top = school;
+                Label topLabel = new Label(top);
+                topLabel.setFont(new Font(15));
+                vBox.getChildren().add(topLabel);
+            }
 
-
-            String top = school + ": " + fieldOfStudy;
-            Label topLabel = new Label(top);
-            topLabel.setFont(new Font(15));
-            vBox.getChildren().add(topLabel);
-
-            String body = startDate + " / " + endDate;
-            Label bodyLabel = new Label(body);
-            bodyLabel.setStyle("-fx-text-fill: #626161");
-            bodyLabel.setFont(new Font(11));
-            vBox.getChildren().add(bodyLabel);
+            if (startDate != null && endDate != null) {
+                String body = startDate + " / " + endDate;
+                Label bodyLabel = new Label(body);
+                bodyLabel.setStyle("-fx-text-fill: #626161");
+                bodyLabel.setFont(new Font(11));
+                vBox.getChildren().add(bodyLabel);
+            }
 
             Label bodyLabel2 = new Label("Grade: " + grade);
             bodyLabel2.setStyle("-fx-text-fill: #626161");
             bodyLabel2.setFont(new Font(11));
             vBox.getChildren().add(bodyLabel2);
 
-            Label bodyLabel3 = new Label("Activities an societies: " + activities);
-            bodyLabel3.setStyle("-fx-text-fill: #626161");
-            bodyLabel3.setFont(new Font(11));
-            vBox.getChildren().add(bodyLabel3);
+            if (activities != null) {
+                Label bodyLabel3 = new Label("Activities an societies: " + activities);
+                bodyLabel3.setStyle("-fx-text-fill: #626161");
+                bodyLabel3.setFont(new Font(11));
+                vBox.getChildren().add(bodyLabel3);
+            }
 
-            Label bodyLabel4 = new Label("description: " + description);
-            bodyLabel4.setStyle("-fx-text-fill: #626161");
-            bodyLabel4.setFont(new Font(11));
-            vBox.getChildren().add(bodyLabel4);
+            if (description != null) {
+                Label bodyLabel4 = new Label("description: " + description);
+                bodyLabel4.setStyle("-fx-text-fill: #626161");
+                bodyLabel4.setFont(new Font(11));
+                vBox.getChildren().add(bodyLabel4);
+            }
 
             deleteButton.setOnAction(event -> {
                 Bridge b = new Bridge(Commands.DELETE_EDUCATION, item);

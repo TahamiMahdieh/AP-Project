@@ -170,15 +170,18 @@ public class OthersProfilePageController implements Initializable {
 
     @FXML
     void followButtonPressed(ActionEvent event) {
+
         DataBaseActions da = new DataBaseActions();
         da.followUsingEmail(thisUsersEmail, otherUsersEmail);
         followButton.setDisable(true);
+
     }
 
     @FXML
     void connectButtonPressed(ActionEvent event) {
         DataBaseActions da = new DataBaseActions();
         da.sendConnectionRequest(thisUsersEmail, otherUsersEmail, "");
+
     }
 
     @FXML
