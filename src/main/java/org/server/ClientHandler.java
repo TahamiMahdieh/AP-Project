@@ -52,9 +52,9 @@ public class ClientHandler implements Runnable {
                         else {
                             boolean done = dataBaseActions.addUserToUsersTable(user);
                             if (done){
-                                //String jwToken = JwtUtil.generateToken(user.getEmail());
-                                result = new Bridge(Commands.SIGN_UP, Response.SUCCESSFUL_SIGNUP, user, null);
-                                result.setJwToken(null);
+                                String jwToken = JwtUtil.generateToken(user.getEmail());
+                                result = new Bridge(Commands.SIGN_UP, Response.SUCCESSFUL_SIGNUP, user, jwToken);
+                                result.setJwToken(jwToken);
                             }
                             else {
                                 result = new Bridge (Commands.SIGN_UP, Response.FAILED_SIGNUP_DATABASE_FAILURE);
@@ -75,7 +75,9 @@ public class ClientHandler implements Runnable {
                             result = new Bridge(Commands.SIGN_IN, Response.FAILED_SIGN_IN_WRONG_PASSWORD);
                         }
                         else {
-                            result = new Bridge(Commands.SIGN_IN, Response.SUCCESSFUL_SIGN_IN);
+                            String jwToken = JwtUtil.generateToken(user.getEmail());
+                            result = new Bridge(Commands.SIGN_IN, Response.SUCCESSFUL_SIGN_IN, user, jwToken);
+                            result.setJwToken(jwToken);
                         }
                         SendMessage.send(result, writer);
                     }
@@ -254,7 +256,7 @@ public class ClientHandler implements Runnable {
                     case GET_CONTACT_INFO -> {
                         String email = bridge.get();
                         String[] contactInfo = {dataBaseActions.getProfileUrl(email), dataBaseActions.getContactInfoEmail(email), dataBaseActions.getPhoneNumber(email), dataBaseActions.getPhoneType(email), dataBaseActions.getAddress(email), dataBaseActions.getBirthDate(email).toString(), dataBaseActions.getInstantMessaging(email)};
-                        Bridge b = new Bridge(Commands.GET_SKILLS, contactInfo);
+                        Bridge b = new Bridge(Commands.GET_CONTACT_INFO, contactInfo);
                         SendMessage.send(b, writer);
                     }
                 }

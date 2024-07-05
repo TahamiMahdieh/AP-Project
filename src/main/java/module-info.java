@@ -7,7 +7,6 @@ module org.main.javafx {
     requires jjwt.api;
     requires javafx.media;
 
-
     opens controller to javafx.fxml;
     exports controller;
     exports org.common;

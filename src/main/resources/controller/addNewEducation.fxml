@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="800.0" prefHeight="607.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddNewEducationController">
+<AnchorPane maxHeight="800.0" prefHeight="607.0" prefWidth="400.0" style="-fx-background-color: ecece7;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddNewEducationController">
    <children>
       <VBox fx:id="mainVBox" prefHeight="570.0" prefWidth="400.0">
          <children>
@@ -24,31 +23,31 @@
             </Label>
             <Separator prefHeight="1.0" prefWidth="360.0" />
             <Label prefHeight="20.0" prefWidth="400.0" text="School*:" />
-            <TextField fx:id="schoolTextField">
+            <TextField fx:id="schoolTextField" promptText="School name ">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </TextField>
             <Label prefHeight="20.0" prefWidth="400.0" text="Field of study:" />
-            <TextField fx:id="fieldOfStudyTextField">
+            <TextField fx:id="fieldOfStudyTextField" promptText="Field of study">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </TextField>
             <Label prefHeight="20.0" prefWidth="400.0" text="Start date:" />
-            <DatePicker fx:id="startDateDatePicker" prefHeight="25.0" prefWidth="400.0">
+            <DatePicker fx:id="startDateDatePicker" prefHeight="25.0" prefWidth="400.0" promptText="Start date">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </DatePicker>
             <Label prefHeight="20.0" prefWidth="400.0" text="End date:" />
-            <DatePicker fx:id="endDateDatePicker" prefHeight="25.0" prefWidth="400.0">
+            <DatePicker fx:id="endDateDatePicker" prefHeight="25.0" prefWidth="400.0" promptText="End date">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </DatePicker>
             <Label prefHeight="20.0" prefWidth="400.0" text="Grade:" />
-            <TextField fx:id="gradeTextField">
+            <TextField fx:id="gradeTextField" promptText="Grade">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
@@ -58,13 +57,13 @@
                   <Insets />
                </VBox.margin>
             </Label>
-            <TextArea fx:id="activitiesTextArea" prefHeight="50.0" prefWidth="400.0">
+            <TextArea fx:id="activitiesTextArea" prefHeight="50.0" prefWidth="400.0" promptText="Activities and societies">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
             </TextArea>
             <Label prefHeight="20.0" prefWidth="400.0" text="Description:" />
-            <TextArea fx:id="descriptionTextArea" prefHeight="75.0" prefWidth="360.0">
+            <TextArea fx:id="descriptionTextArea" prefHeight="75.0" prefWidth="360.0" promptText="Description">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
@@ -93,7 +92,7 @@
             <Insets bottom="15.0" left="15.0" right="15.0" />
          </padding>
       </VBox>
-      <Button fx:id="doneButton" layoutX="341.0" layoutY="570.0" mnemonicParsing="false" onAction="#doneButtonPressed" text="Done" />
-      <Button fx:id="cancelButton" layoutX="14.0" layoutY="570.0" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" />
+      <Button fx:id="doneButton" layoutX="326.0" layoutY="570.0" mnemonicParsing="false" onAction="#doneButtonPressed" style="-fx-background-color: #0a66cb;" text="✔ Done" textFill="WHITE" />
+      <Button fx:id="cancelButton" layoutX="14.0" layoutY="570.0" mnemonicParsing="false" onAction="#cancelButtonPressed" style="-fx-background-color: #0a66cb;" text="❌ Cancel" textFill="WHITE" />
    </children>
 </AnchorPane>
