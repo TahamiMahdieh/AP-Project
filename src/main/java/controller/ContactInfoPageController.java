@@ -64,13 +64,13 @@ public class ContactInfoPageController implements Initializable {
                 messagingLabel.setText(contactInfo[7]);
 
                 if (thisUser) {
-                    birthDateLabel.setText(contactInfo[6]);
+                    birthDateLabel.setText(contactInfo[5]);
                 }
-                else if (contactInfo[5].equals("Only you")) {
+                else if (contactInfo[6].equals("Only you")) {
                     birthDateLabel.setText("");
                 }
-                else if (contactInfo[5].equals("All LinkedIn members")) {
-                    birthDateLabel.setText(contactInfo[6]);
+                else if (contactInfo[6].equals("All LinkedIn members")) {
+                    birthDateLabel.setText(contactInfo[5]);
                 }
                 else {
                     bridge = new Bridge(Commands.ARE_USERS_CONNECTED, new String[]{othersEmail, thisUsersEmail});
@@ -80,7 +80,7 @@ public class ContactInfoPageController implements Initializable {
                         if (b.getCommand() == Commands.ARE_USERS_CONNECTED) {
                             boolean areUsersConnected = b.get();
                             if (areUsersConnected)
-                                birthDateLabel.setText(contactInfo[6]);
+                                birthDateLabel.setText(contactInfo[5]);
                             else
                                 birthDateLabel.setText("");
                         }
