@@ -17,7 +17,7 @@
    <top>
       <HBox prefHeight="48.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="searchTextField" focusTraversable="false" prefHeight="26.0" prefWidth="165.0" promptText="🔎 Search">
+            <TextField fx:id="searchTextField" focusTraversable="false" prefHeight="26.0" prefWidth="165.0" promptText="🔎 Search users">
                <HBox.margin>
                   <Insets bottom="10.0" left="30.0" right="5.0" top="20.0" />
                </HBox.margin>
@@ -58,16 +58,18 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="postTextField" editable="false" focusTraversable="false" layoutX="91.0" layoutY="14.0" onMouseClicked="#post" prefHeight="27.0" prefWidth="349.0" promptText="Click here to start a post" />
-            <Label layoutX="10.0" layoutY="14.0" prefHeight="27.0" prefWidth="72.0" text="Start a Post:" />
+            <TextField fx:id="postTextField" editable="false" focusTraversable="false" layoutX="372.0" layoutY="14.0" onMouseClicked="#post" prefHeight="27.0" prefWidth="179.0" promptText="Click here to start a post" />
+            <Label layoutX="299.0" layoutY="14.0" prefHeight="27.0" prefWidth="72.0" text="Start a Post:" />
             <Label fx:id="noMatchFoundLabel" alignment="CENTER" layoutX="185.0" layoutY="44.0" prefHeight="26.0" prefWidth="255.0" textAlignment="CENTER" />
             <ListView fx:id="searchListView" focusTraversable="false" layoutX="7.0" layoutY="70.0" prefHeight="109.0" prefWidth="628.0" />
-            <Label layoutX="9.0" layoutY="48.0" prefHeight="17.0" prefWidth="97.0" text="Search results:" />
-            <Label layoutX="451.0" layoutY="11.0" prefHeight="33.0" prefWidth="88.0" text="📄  🎥  📷" textFill="#848383">
+            <Label layoutX="9.0" layoutY="48.0" prefHeight="17.0" prefWidth="120.0" text="User search results:" />
+            <Label layoutX="552.0" layoutY="11.0" prefHeight="33.0" prefWidth="88.0" text=" 🎥  📷 📄" textFill="#848383">
                <font>
-                  <Font size="18.0" />
+                  <Font size="17.0" />
                </font>
             </Label>
+            <TextField fx:id="searchPostTextField" editable="false" focusTraversable="false" layoutX="99.0" layoutY="14.0" onMouseClicked="#searchPost" prefHeight="27.0" prefWidth="179.0" promptText="🔎 Search posts" />
+            <Label layoutX="9.0" layoutY="14.0" prefHeight="27.0" prefWidth="78.0" text="Search Posts:" />
          </children>
       </Pane>
    </center>
