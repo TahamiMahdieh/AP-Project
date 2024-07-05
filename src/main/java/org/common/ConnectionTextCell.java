@@ -12,8 +12,11 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import org.Database.DataBaseActions;
 
+import java.io.ObjectOutputStream;
+
 import static javafx.geometry.Pos.CENTER_RIGHT;
 import static javafx.scene.paint.Color.WHITE;
+import static javafx.scene.paint.Color.web;
 
 public class ConnectionTextCell extends ListCell<GetConnectionReturn> {
     private GridPane gridPane;
@@ -21,9 +24,11 @@ public class ConnectionTextCell extends ListCell<GetConnectionReturn> {
     private Button disconnectButton;
     private Button acceptButton;
     private Button rejectButton;
+    private ObjectOutputStream writer;
     private final String email;
 
-    public ConnectionTextCell(String email) {
+    public ConnectionTextCell(String email, ObjectOutputStream writer) {
+        this.writer = writer;
         this.email = email;
         gridPane = new GridPane();
         gridPane.setPrefWidth(708);
@@ -63,7 +68,9 @@ public class ConnectionTextCell extends ListCell<GetConnectionReturn> {
                     disconnectButton.setStyle("-fx-background-color: #0a66cb;-fx-padding: 5px 10px;");
                     disconnectButton.setTextFill(WHITE);
                     disconnectButton.setOnAction(event -> {
-                        d.disconnect(email, item.getEmail());
+                        String[] emails = new String[]{email, item.getEmail()};
+                        Bridge b = new Bridge(Commands.DISCONNECT, emails);
+                        SendMessage.send(b, writer);
                         getListView().getItems().remove(item);
                     });
                     HBox buttonsBox = new HBox();
@@ -80,7 +87,9 @@ public class ConnectionTextCell extends ListCell<GetConnectionReturn> {
                         disconnectButton.setStyle("-fx-background-color: #0a66cb; -fx-padding: 5px 10px;");
                         disconnectButton.setTextFill(WHITE);
                         disconnectButton.setOnAction(event -> {
-                            d.deleteRequest(email, item.getEmail());
+                            String[] emails = new String[]{email, item.getEmail()};
+                            Bridge b = new Bridge(Commands.DISCONNECT, emails);
+                            SendMessage.send(b, writer);
                             getListView().getItems().remove(item);
                         });
                         Label l = new Label("note: " + getItem().getNote());
@@ -98,7 +107,9 @@ public class ConnectionTextCell extends ListCell<GetConnectionReturn> {
                         rejectButton.setStyle("-fx-background-color: #0a66cb; -fx-padding: 5px 10px;");
                         rejectButton.setTextFill(WHITE);
                         rejectButton.setOnAction(event -> {
-                            d.rejectConnectionRequest(item.getEmail(), email);
+                            String[] emails = new String[]{item.getEmail(), email};
+                            Bridge b = new Bridge(Commands.REJECT_CONNECTION_REQUEST, emails);
+                            SendMessage.send(b, writer);
                             getListView().getItems().remove(item);
                         });
                         Label l = new Label("note: " + getItem().getNote());
@@ -109,7 +120,9 @@ public class ConnectionTextCell extends ListCell<GetConnectionReturn> {
                         acceptButton.setStyle("-fx-background-color: #0a66cb; -fx-padding: 5px 10px;");
                         acceptButton.setTextFill(WHITE);
                         acceptButton.setOnAction(event -> {
-                            d.acceptConnection(item.getEmail(), email);
+                            String[] emails = new String[]{item.getEmail(), email};
+                            Bridge b = new Bridge(Commands.ACCEPT_CONNECTION_REQUEST, emails);
+                            SendMessage.send(b, writer);
                             acceptButton.setDisable(true);
                         });
 
@@ -128,7 +141,9 @@ public class ConnectionTextCell extends ListCell<GetConnectionReturn> {
                         disconnectButton.setStyle("-fx-background-color: #0a66cb; -fx-padding: 5px 10px;");
                         disconnectButton.setTextFill(WHITE);
                         disconnectButton.setOnAction(event -> {
-                            d.deleteRequest(email, item.getEmail());
+                            String[] emails = new String[]{email, item.getEmail()};
+                            Bridge b = new Bridge(Commands.DISCONNECT, emails);
+                            SendMessage.send(b, writer);
                             getListView().getItems().remove(item);
                         });
                         Label l = new Label("Request was rejected");

@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
@@ -263,6 +264,30 @@ public class ClientHandler implements Runnable {
                         String[] emails = bridge.get();
                         Bridge b = new Bridge(Commands.ARE_USERS_CONNECTED, dataBaseActions.doesConnectionExist(emails[0], emails[1]));
                         SendMessage.send(b, writer);
+                    }
+                    case UNFOLLOW_USING_EMAIL -> {
+                        String[] emails = bridge.get();
+                        dataBaseActions.unfollowUsingEmail(emails[0], emails[1]);
+                    }
+                    case DISCONNECT -> {
+                        String[] emails = bridge.get();
+                        dataBaseActions.disconnect(emails[0], emails[1]);
+                    }
+                    case REJECT_CONNECTION_REQUEST -> {
+                        String[] emails = bridge.get();
+                        dataBaseActions.rejectConnectionRequest(emails[0], emails[1]);
+                    }
+                    case ACCEPT_CONNECTION_REQUEST -> {
+                        String[] emails = bridge.get();
+                        dataBaseActions.acceptConnection(emails[0], emails[1]);
+                    }
+                    case SET_PROFILE -> {
+                        String[] message = bridge.get();
+                        dataBaseActions.setProfilePicture(message[0], Paths.get(message[1]));
+                    }
+                    case SET_BACKGROUND_PICTURE -> {
+                        String[] message = bridge.get();
+                        dataBaseActions.setBackgroundPicture(message[0], Paths.get(message[1]));
                     }
                 }
             }

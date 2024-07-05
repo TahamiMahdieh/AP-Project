@@ -103,6 +103,7 @@ public class LinkedInApplication extends Application {
     public static void showEditPicturesPage() {
         EditPicturesController controller = changeScene(stage, "editPictures.fxml", "LinkedIn");
         controller.setEmail(thisUserEmail);
+        controller.setWriter(writer);
     }
     public static void showAddEducationPage() {
         AddNewEducationController controller = changeScene(stage, "addNewEducation.fxml", "LinkedIn");

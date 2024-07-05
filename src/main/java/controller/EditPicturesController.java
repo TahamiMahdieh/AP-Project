@@ -10,9 +10,13 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import org.Database.DataBaseActions;
+import org.common.Bridge;
+import org.common.Commands;
+import org.common.SendMessage;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,6 +40,7 @@ public class EditPicturesController implements Initializable {
     private Button cancelButton;
     private File newProfilePhoto;
     private File newBackgroundPhoto;
+    private ObjectOutputStream writer;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -115,8 +120,9 @@ public class EditPicturesController implements Initializable {
                 Files.copy(newProfilePhoto.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
 
                 // Update the profile picture path in the database
-                DataBaseActions da = new DataBaseActions();
-                da.setProfilePicture(email, destination);
+                String [] message = new String[]{email, String.valueOf(destination)};
+                Bridge b = new Bridge(Commands.SET_PROFILE, message);
+                SendMessage.send(b, writer);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -131,8 +137,9 @@ public class EditPicturesController implements Initializable {
                 Files.copy(newBackgroundPhoto.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
 
                 // Update the profile picture path in the database
-                DataBaseActions da = new DataBaseActions();
-                da.setBackgroundPicture(email, destination);
+                String [] message = new String[]{email, String.valueOf(destination)};
+                Bridge b = new Bridge(Commands.SET_BACKGROUND_PICTURE, message);
+                SendMessage.send(b, writer);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -148,6 +155,9 @@ public class EditPicturesController implements Initializable {
 
     public String getEmail() {
         return email;
+    }
+    public void setWriter(ObjectOutputStream writer){
+        this.writer = writer;
     }
 
     public void setEmail(String email) {

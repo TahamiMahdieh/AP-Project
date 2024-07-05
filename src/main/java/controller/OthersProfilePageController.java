@@ -106,7 +106,7 @@ public class OthersProfilePageController implements Initializable {
 
         nameLabel.setText(da.getFirstname(otherUsersEmail) + " " + da.getLastname(otherUsersEmail));
         headlineLabel.setText(da.getHeadline(otherUsersEmail));
-        locationLabel.setText(da.getCity(otherUsersEmail) + ", " + da.getCountry(otherUsersEmail));
+        locationLabel.setText((da.getCity(otherUsersEmail) == null?" ":da.getCity(otherUsersEmail) + ", ") + (da.getCountry(otherUsersEmail) == null?" ":da.getCountry(otherUsersEmail)));
 
         Bridge bridge = new Bridge(GET_EDUCATIONS, otherUsersEmail);
         SendMessage.send(bridge, writer);

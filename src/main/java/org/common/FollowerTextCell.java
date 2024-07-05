@@ -39,10 +39,10 @@ public class FollowerTextCell extends ListCell<String> {
         deleteButton.setStyle("-fx-background-color: #0a66cb;");
         deleteButton.setTextFill(WHITE);
         deleteButton.setOnAction(event -> {
-            DataBaseActions d = new DataBaseActions();
             String[] split = userInfo.getText().split("->");
             String followerEmail = split[1].trim();
-            d.unfollowUsingEmail(followerEmail, followeeEmail);
+            String[] emails = new String[]{followerEmail, followeeEmail};
+            Bridge b = new Bridge(Commands.UNFOLLOW_USING_EMAIL, emails);
             String item = getItem();
             getListView().getItems().remove(item);
         });

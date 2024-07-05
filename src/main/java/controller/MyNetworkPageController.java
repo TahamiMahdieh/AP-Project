@@ -49,7 +49,7 @@ public class MyNetworkPageController {
                 followingsListView.setCellFactory(new Callback<ListView<String>, ListCell<String >>() {
                     @Override
                     public ListCell<String> call(ListView<String> listView) {
-                        return new FollowingTextCell(email);
+                        return new FollowingTextCell(email, writer, reader);
                     }
                 });
             }
@@ -98,7 +98,7 @@ public class MyNetworkPageController {
                 connectionListView.setCellFactory(new Callback<ListView<GetConnectionReturn>, ListCell<GetConnectionReturn>>() {
                     @Override
                     public ListCell<GetConnectionReturn> call(ListView<GetConnectionReturn> param) {
-                        return new ConnectionTextCell(email);
+                        return new ConnectionTextCell(email, writer);
                     }
                 });
             }

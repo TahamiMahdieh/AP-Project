@@ -13,14 +13,23 @@ import javafx.scene.text.Font;
 import org.Database.DataBaseActions;
 
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import static javafx.scene.paint.Color.WHITE;
+import static javafx.scene.paint.Color.web;
 
 public class FollowingTextCell extends ListCell<String> {
     private GridPane gridPane;
     private Label userInfo;
     private Button deleteButton;
+    private ObjectInputStream reader;
+    private ObjectOutputStream writer;
 
-    public FollowingTextCell(String followerEmail) {
+    public FollowingTextCell(String followerEmail, ObjectOutputStream writer, ObjectInputStream reader) {
+        this.writer = writer;
+        this.reader = reader;
         gridPane = new GridPane();
         gridPane.setPrefSize(708, 25);
 
@@ -42,10 +51,11 @@ public class FollowingTextCell extends ListCell<String> {
         deleteButton.setStyle("-fx-background-color: #0a66cb;");
         deleteButton.setTextFill(WHITE);
         deleteButton.setOnAction(event -> {
-            DataBaseActions d = new DataBaseActions();
             String[] split = userInfo.getText().split("->");
             String followeeEmail = split[1].trim();
-            d.unfollowUsingEmail(followerEmail, followeeEmail);
+            String[] message = new String[]{followerEmail, followeeEmail};
+            Bridge b = new Bridge(Commands.UNFOLLOW_USING_EMAIL, message);
+            SendMessage.send(b, writer);
             String item = getItem();
             getListView().getItems().remove(item);
         });
