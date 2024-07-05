@@ -71,7 +71,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Button fx:id="contactInfoButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: TRANSPARENT;" text="Contact Info" textFill="BLUE" />
+                  <Button fx:id="contactInfoButton" mnemonicParsing="false" onAction="#contactInfoButtonPressed" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: TRANSPARENT;" text="Contact Info" textFill="BLUE" />
                </children>
             </HBox>
             <HBox fx:id="actionButtonsHBox" prefHeight="100.0" prefWidth="200.0">
