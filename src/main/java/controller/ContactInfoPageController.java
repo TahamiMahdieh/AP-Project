@@ -46,9 +46,6 @@ public class ContactInfoPageController implements Initializable {
     @FXML
     private Label phoneTypeLabel;
 
-    @FXML
-    private Label profileURLLabel;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -61,7 +58,6 @@ public class ContactInfoPageController implements Initializable {
             Bridge b = (Bridge) reader.readObject();
             if (b.getCommand() == Commands.GET_CONTACT_INFO) {
                 String[] contactInfo = b.get();
-                profileURLLabel.setText(contactInfo[0]);
                 emailLabel.setText(contactInfo[1]);
                 phoneNumberLabel.setText(contactInfo[2]);
                 phoneTypeLabel.setText(contactInfo[3]);

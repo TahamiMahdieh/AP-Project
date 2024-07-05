@@ -97,10 +97,15 @@ public class EditContactInfoController implements Initializable {
         if (!warningCheck()) {
             DataBaseActions da = new DataBaseActions();
             da.setPhoneNumber(email, phoneNumberTextField.getText().trim());
+
             da.setPhoneType(email, phoneTypeChoiceBox.getValue());
-            da.setAddress(email, addressTextArea.getText());
+
+            da.setAddress(email, addressTextArea.getText().trim());
+
             da.setBirthDate(email, birthDateDatePicker.getValue());
+
             da.setBirthDatePrivacy(email, birthDatePrivacyChoiceBox.getValue());
+
             da.setInstantMessaging(email,((TextField) messagingVBox.getChildren().get(0)).getText() + "," + ((TextField) messagingVBox.getChildren().get(1)).getText());
 
             LinkedInApplication.showEditInfoPage();

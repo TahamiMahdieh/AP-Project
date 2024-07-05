@@ -253,8 +253,8 @@ public class ClientHandler implements Runnable {
                     }
                     case GET_CONTACT_INFO -> {
                         String email = bridge.get();
-                        String[] contactInfo = {dataBaseActions.getProfileUrl(email), dataBaseActions.getContactInfoEmail(email), dataBaseActions.getPhoneNumber(email), dataBaseActions.getPhoneType(email), dataBaseActions.getAddress(email), dataBaseActions.getBirthDate(email).toString(), dataBaseActions.getInstantMessaging(email)};
-                        Bridge b = new Bridge(Commands.GET_SKILLS, contactInfo);
+                        String[] contactInfo = {dataBaseActions.getProfileUrl(email), email, dataBaseActions.getPhoneNumber(email), dataBaseActions.getPhoneType(email), dataBaseActions.getAddress(email), dataBaseActions.getBirthDate(email) == null ? "" : dataBaseActions.getBirthDate(email).toString(), dataBaseActions.getInstantMessaging(email)};
+                        Bridge b = new Bridge(Commands.GET_CONTACT_INFO, contactInfo);
                         SendMessage.send(b, writer);
                     }
                 }

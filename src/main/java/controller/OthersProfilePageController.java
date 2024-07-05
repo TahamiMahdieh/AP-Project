@@ -172,6 +172,11 @@ public class OthersProfilePageController implements Initializable {
     }
 
     @FXML
+    void contactInfoButtonPressed(ActionEvent event) {
+        LinkedInApplication.showContactInfoPage(otherUsersEmail);
+    }
+
+    @FXML
     void doneButtonPressed(ActionEvent event) {
         DataBaseActions da = new DataBaseActions();
         if (noteTextArea.getText().isEmpty()) {
