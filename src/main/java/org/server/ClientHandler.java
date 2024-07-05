@@ -229,6 +229,18 @@ public class ClientHandler implements Runnable {
                         Education education = bridge.get();
                         dataBaseActions.deleteEducation(education);
                     }
+                    case GET_SKILLS -> {
+                        String email = bridge.get();
+                        ArrayList<String> skills = dataBaseActions.getSkills(email);
+                        Bridge b = new Bridge(Commands.GET_SKILLS, skills);
+                        SendMessage.send(b, writer);
+                    }
+                    case GET_CONTACT_INFO -> {
+                        String email = bridge.get();
+                        String[] contactInfo = {dataBaseActions.getProfileUrl(email), dataBaseActions.getContactInfoEmail(email), dataBaseActions.getPhoneNumber(email), dataBaseActions.getPhoneType(email), dataBaseActions.getAddress(email), dataBaseActions.getBirthDate(email).toString(), dataBaseActions.getInstantMessaging(email)};
+                        Bridge b = new Bridge(Commands.GET_SKILLS, contactInfo);
+                        SendMessage.send(b, writer);
+                    }
                 }
             }
         }
