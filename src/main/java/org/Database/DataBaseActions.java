@@ -287,12 +287,11 @@ public class DataBaseActions {
     }
 
     private int getIntFromContactInfo(String email, String label) {
-        int userProfileId = getIntFromUsers(email, "user_profile_id");
-        int id = getIntFromUserProfile(email, "contact_info_id");
+        int contact_info_id = getIntFromUserProfile(email, "contact_info_id");
         String query = "SELECT " + label + " FROM contact_info WHERE id = ?;";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, email);
+            statement.setInt(1, contact_info_id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt(label);
@@ -305,12 +304,11 @@ public class DataBaseActions {
     }
 
     private Date getDateFromContactInfo(String email, String label) {
-        int userProfileId = getIntFromUsers(email, "user_profile_id");
         int id = getIntFromUserProfile(email, "contact_info_id");
         String query = "SELECT " + label + " FROM contact_info WHERE id = ?;";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, email);
+            statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getDate(label);
@@ -386,10 +384,12 @@ public class DataBaseActions {
     }
 
     private boolean setStringToContactInfo(String email, String label, String newStr) {
-        String query = "UPDATE contact_info SET " + label + " = \"" + newStr + "\" WHERE email = ?;";
+        String query = "UPDATE contact_info SET " + label + " = ? WHERE id = ?;";
+        int contact_info_id = getIntFromUserProfile(email, "contact_info_id");
         try {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, email);
+            statement.setString(1, newStr);
+            statement.setInt(2, contact_info_id);
             statement.executeUpdate();
             return true;
         }
