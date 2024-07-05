@@ -516,6 +516,17 @@ public class DataBaseActions {
         return null;
     }
 
+    public ArrayList<String> getSkills(String email) {
+        ArrayList<Education> educations = getEducations(email);
+        ArrayList<String> skills = new ArrayList<String>();
+
+        for (Education e : educations) {
+            skills.addAll(e.getSkills());
+        }
+
+        return skills;
+    }
+
     private static int insertAndGetId(Connection conn, String sql, Object... params) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             for (int i = 0; i < params.length; i++) {
@@ -736,6 +747,24 @@ public class DataBaseActions {
         }
         return followeeEmails;
     }
+    public boolean isUserFollowed(String thisUserEmail, String otherUserEmail) {
+        String query = "SELECT * FROM follows WHERE follower_id = ? AND followee_id = ?;";
+        int follower_id = getIntFromUsers(thisUserEmail, "id");
+        int followee_id = getIntFromUsers(otherUserEmail, "id");
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, follower_id);
+            preparedStatement.setInt(2, followee_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+                return true;
+            else
+                return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     public void sendConnectionRequest (String senderEmail, String receiverEmail, String note){
         int senderId = getIntFromUsers(senderEmail, "id");
         int receiverId = getIntFromUsers(receiverEmail, "id");
@@ -780,6 +809,31 @@ public class DataBaseActions {
             throw new RuntimeException(e);
         }
     }
+    public boolean doesConnectionExist(String user1Email, String user2Email) {
+        String query = "SELECT * FROM connections WHERE user1_id = ? AND user2_id = ?;";
+        int user1_id = getIntFromUsers(user1Email, "id");
+        int user2_id = getIntFromUsers(user2Email, "id");
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, user1_id);
+            preparedStatement.setInt(2, user2_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+                return true;
+            PreparedStatement preparedStatement2 = connection.prepareStatement(query);
+            preparedStatement2.setInt(1, user2_id);
+            preparedStatement2.setInt(2, user1_id);
+            ResultSet resultSet2 = preparedStatement.executeQuery();
+            if (resultSet2.next())
+                return true;
+            else
+                return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public void disconnect (String email1, String email2){
         int id1 = getIntFromUsers(email1, "id");
         int id2 = getIntFromUsers(email2, "id");

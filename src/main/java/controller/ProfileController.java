@@ -23,11 +23,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import static org.common.Commands.GET_EDUCATIONS;
+import static org.common.Commands.GET_SKILLS;
 
 public class ProfileController implements Initializable {
     private Socket socket;
@@ -55,7 +57,7 @@ public class ProfileController implements Initializable {
     @FXML
     private ListView<Education> educationListView;
     @FXML
-    private ListView<Education> skillsListView;
+    private ListView<String> skillsListView;
     @FXML
     private Label headlineLabel;
     @FXML
@@ -97,17 +99,26 @@ public class ProfileController implements Initializable {
                         return new EducationListCell(email, reader, writer);
                     }
                 });
-                skillsListView.setItems(educations);
-                skillsListView.setCellFactory(new Callback<ListView<Education>, ListCell<Education>>() {
-                    @Override
-                    public ListCell<Education> call(ListView<Education> param) {
-                        return new SkillsListCell(email, reader, writer);
-                    }
-                });
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+
+//        Bridge bridge1 = new Bridge(GET_SKILLS, email);
+//        SendMessage.send(bridge1, writer);
+//        try {
+//            Bridge b = (Bridge) reader.readObject();
+//            if (b.getCommand() == GET_SKILLS) {
+//                ArrayList<String> skillsArrayList = b.get();
+//                ObservableList<String> skills = FXCollections.observableArrayList();
+//                skills.addAll(skillsArrayList);
+//                skillsListView.setItems(skills);
+//            }
+//        }
+//        catch (IOException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @FXML

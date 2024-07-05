@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static org.common.Commands.GET_EDUCATIONS;
+import static org.common.Commands.GET_SKILLS;
 
 public class OthersProfilePageController implements Initializable {
     private String thisUsersEmail;
@@ -85,7 +86,7 @@ public class OthersProfilePageController implements Initializable {
     private Button sendMessageButton;
 
     @FXML
-    private ListView<Education> skillsListView;
+    private ListView<String> skillsListView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -123,17 +124,32 @@ public class OthersProfilePageController implements Initializable {
                         return new EducationListCell(otherUsersEmail, reader, writer);
                     }
                 });
-                skillsListView.setItems(educations);
-                skillsListView.setCellFactory(new Callback<ListView<Education>, ListCell<Education>>() {
-                    @Override
-                    public ListCell<Education> call(ListView<Education> param) {
-                        return new SkillsListCell(otherUsersEmail, reader, writer);
-                    }
-                });
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+
+//        Bridge bridge1 = new Bridge(GET_SKILLS, otherUsersEmail);
+//        SendMessage.send(bridge1, writer);
+//        try {
+//            Bridge b = (Bridge) reader.readObject();
+//            if (b.getCommand() == GET_SKILLS) {
+//                ArrayList<String> skillsArrayList = b.get();
+//                ObservableList<String> skills = FXCollections.observableArrayList();
+//                skills.addAll(skillsArrayList);
+//                skillsListView.setItems(skills);
+//            }
+//        }
+//        catch (IOException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+
+        if (da.isUserFollowed(thisUsersEmail, otherUsersEmail))
+            followButton.setDisable(true);
+        if (da.doesConnectionExist(thisUsersEmail, otherUsersEmail))
+            connectButton.setDisable(true);
+
     }
 
     @FXML
@@ -155,10 +171,16 @@ public class OthersProfilePageController implements Initializable {
     @FXML
     void followButtonPressed(ActionEvent event) {
 
+        DataBaseActions da = new DataBaseActions();
+        da.followUsingEmail(thisUsersEmail, otherUsersEmail);
+        followButton.setDisable(true);
+
     }
 
     @FXML
     void connectButtonPressed(ActionEvent event) {
+        DataBaseActions da = new DataBaseActions();
+        da.sendConnectionRequest(thisUsersEmail, otherUsersEmail, "");
 
     }
 
@@ -166,7 +188,7 @@ public class OthersProfilePageController implements Initializable {
     void sendMessageButtonPressed(ActionEvent event) {
 
     }
-    
+
     public String getThisUsersEmail() {
         return thisUsersEmail;
     }
