@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="453.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchPostsPageController">
+   <children>
+      <ListView fx:id="myPostsListView" focusTraversable="false" layoutX="30.0" layoutY="97.0" prefHeight="316.0" prefWidth="400.0" />
+      <ListView fx:id="othersPostListView" focusTraversable="false" layoutX="438.0" layoutY="97.0" prefHeight="316.0" prefWidth="400.0" />
+      <Label layoutX="30.0" layoutY="63.0" prefHeight="23.0" prefWidth="132.0" text="My Posts:">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="438.0" layoutY="63.0" prefHeight="23.0" prefWidth="132.0" text="My contacts' Posts:">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="searchTextField" focusTraversable="false" layoutX="206.0" layoutY="26.0" prefHeight="26.0" prefWidth="165.0" promptText="🔎 Search posts" />
+      <Button fx:id="homeButton" focusTraversable="false" layoutX="30.0" layoutY="26.0" mnemonicParsing="false" onAction="#homeButtonPressed" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #0a66cb;" text="🏠 Home" textFill="WHITE" />
+      <Button fx:id="exitButton" focusTraversable="false" layoutX="110.0" layoutY="26.0" mnemonicParsing="false" onAction="#exitButtonPressed" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #0a66cb;" text="🚪 Exit" textFill="WHITE" />
+   </children>
+</AnchorPane>

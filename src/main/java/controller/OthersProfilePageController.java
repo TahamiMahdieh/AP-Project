@@ -41,9 +41,6 @@ public class OthersProfilePageController implements Initializable {
     private ImageView backgroundPhotoImage;
 
     @FXML
-    private ListView<?> commentsListView;
-
-    @FXML
     private Button connectButton;
 
     @FXML
@@ -66,18 +63,18 @@ public class OthersProfilePageController implements Initializable {
 
     @FXML
     private Label locationLabel;
+    @FXML
+    private Label requestSentLabel;
 
     @FXML
     private Button myProfileButton;
+    @FXML
+    private Button doneButton;
+    @FXML
+    private TextArea noteTextArea;
 
     @FXML
     private Label nameLabel;
-
-    @FXML
-    private TabPane postsAndCommentsTabPane;
-
-    @FXML
-    private ListView<?> postsListView;
 
     @FXML
     private ImageView profilePhotoImage;
@@ -86,11 +83,13 @@ public class OthersProfilePageController implements Initializable {
     private Button sendMessageButton;
 
     @FXML
-    private ListView<String> skillsListView;
+    private ListView<Education> skillsListView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        noteTextArea.setDisable(true);
+        doneButton.setDisable(true);
+        requestSentLabel.setText("");
     }
 
     public void postInitialization() {
@@ -124,26 +123,17 @@ public class OthersProfilePageController implements Initializable {
                         return new EducationListCell(otherUsersEmail, reader, writer);
                     }
                 });
+                skillsListView.setItems(educations);
+                skillsListView.setCellFactory(new Callback<ListView<Education>, ListCell<Education>>() {
+                    @Override
+                    public ListCell<Education> call(ListView<Education> param) {
+                        return new SkillsListCell(otherUsersEmail, reader, writer);
+                    }
+                });
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
-//        Bridge bridge1 = new Bridge(GET_SKILLS, otherUsersEmail);
-//        SendMessage.send(bridge1, writer);
-//        try {
-//            Bridge b = (Bridge) reader.readObject();
-//            if (b.getCommand() == GET_SKILLS) {
-//                ArrayList<String> skillsArrayList = b.get();
-//                ObservableList<String> skills = FXCollections.observableArrayList();
-//                skills.addAll(skillsArrayList);
-//                skillsListView.setItems(skills);
-//            }
-//        }
-//        catch (IOException | ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
 
         if (da.isUserFollowed(thisUsersEmail, otherUsersEmail))
             followButton.setDisable(true);
@@ -177,10 +167,25 @@ public class OthersProfilePageController implements Initializable {
 
     @FXML
     void connectButtonPressed(ActionEvent event) {
-        DataBaseActions da = new DataBaseActions();
-        da.sendConnectionRequest(thisUsersEmail, otherUsersEmail, "");
+        noteTextArea.setDisable(false);
+        doneButton.setDisable(false);
     }
 
+    @FXML
+    void doneButtonPressed(ActionEvent event) {
+        DataBaseActions da = new DataBaseActions();
+        if (noteTextArea.getText().isEmpty()) {
+            da.sendConnectionRequest(thisUsersEmail, otherUsersEmail, "");
+        }
+        else {
+            da.sendConnectionRequest(thisUsersEmail, otherUsersEmail, noteTextArea.getText());
+        }
+        noteTextArea.setDisable(true);
+        doneButton.setDisable(true);
+        connectButton.setDisable(true);
+        requestSentLabel.setText("Request was sent");
+        requestSentLabel.setStyle("-fx-text-fill: #0b9b0b");
+    }
     @FXML
     void sendMessageButtonPressed(ActionEvent event) {
 

@@ -20,11 +20,12 @@ public class LinkedInApplication extends Application {
     private static ObjectInputStream reader = null;
     private static Stage stage = null;
 
+
     @Override
     public void start(Stage stage) {
         try {
             this.stage = stage;
-            socket = new Socket("127.0.0.1", 8000);
+            socket = new Socket("127.0.0.1", 8080);
             writer = new ObjectOutputStream(socket.getOutputStream());
             reader = new ObjectInputStream(socket.getInputStream());
 
@@ -48,6 +49,14 @@ public class LinkedInApplication extends Application {
         controller.setReader(reader);
         controller.setWriter(writer);
         controller.postInitialization(hashtagWord);
+    }
+    public static void showSearchPostPage(String word) {
+        SearchPostsPageController controller = changeScene(stage, "searchPostsPage.fxml", "LinkedIn");
+        controller.setEmail(thisUserEmail);
+        controller.setSocket(socket);
+        controller.setReader(reader);
+        controller.setWriter(writer);
+        controller.postInitialization(word);
     }
     public static void shoCommentsListPage(String post_id, Bridge bridge){
         CommentsListController controller = changeScene(stage, "commentsListPage.fxml", "LinkedIn");

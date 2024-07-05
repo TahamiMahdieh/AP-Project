@@ -25,4 +25,7 @@ public enum Commands {
     GET_EDUCATIONS,
     GET_SKILLS,
     GET_CONTACT_INFO,
+    SEARCH_MY_POSTS,
+    SEARCH_OTHERS_POSTS
+
 }

@@ -779,10 +779,11 @@ public class DataBaseActions {
             statement.setString(1, String.valueOf(senderId));
             statement.setString(2, String.valueOf(receiverId));
             statement.setString(3, "pending");
-            statement.setString(4, note);
+            System.out.println(note.trim() + 111);
+            statement.setString(4, note.trim());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
     public void acceptConnection (String senderEmail, String receiverEmail){
@@ -866,7 +867,7 @@ public class DataBaseActions {
     public void deleteRequest (String email1, String email2){
         int id1 = getIntFromUsers(email1, "id");
         int id2 = getIntFromUsers(email2, "id");
-        String query = "DELETE FROM connectionRequests WHERE ((connectionRequests.sender_id = ? AND connectionRequests.receiver_id) OR (connectionRequests.sender_id = ? AND connectionRequests.receiver_id));";
+        String query = "DELETE FROM connectionRequests WHERE ((connectionRequests.sender_id = ? AND connectionRequests.receiver_id = ?) OR (connectionRequests.sender_id = ? AND connectionRequests.receiver_id = ?));";
         try (PreparedStatement statement = connection.prepareStatement(query)){
             statement.setString(1, String.valueOf(id1));
             statement.setString(2, String.valueOf(id2));

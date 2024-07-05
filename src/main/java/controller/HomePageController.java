@@ -49,6 +49,8 @@ public class HomePageController implements Initializable {
     @FXML
     private TextField searchTextField;
     @FXML
+    private TextField searchPostTextField;
+    @FXML
     private Label noMatchFoundLabel;
     @FXML
     private ListView<String> myInformationListView;
@@ -74,7 +76,6 @@ public class HomePageController implements Initializable {
         // define and manifest the information ListView
         Bridge bridge = new Bridge(Commands.HOMEPAGE_INFORMATION_LISTVIEW, email);
         SendMessage.send(bridge, writer);
-
         try {
             Bridge b = (Bridge) reader.readObject();
             if (b.getCommand() == Commands.HOMEPAGE_INFORMATION_LISTVIEW) {
@@ -151,9 +152,6 @@ public class HomePageController implements Initializable {
         }
 
     }
-    public void runInformationListViewTask() {
-
-    }
     @FXML
     void exitButtonPressed(ActionEvent event) {
         Stage stage = (Stage) exitButton.getScene().getWindow();
@@ -179,6 +177,10 @@ public class HomePageController implements Initializable {
     public void post (){
         postTextField.getParent().requestFocus();
         LinkedInApplication.showPostingPage();
+    }
+    public void searchPost (){
+        searchPostTextField.getParent().requestFocus();
+        LinkedInApplication.showSearchPostPage(" ");
     }
     public void search () {
         String searchPhrase = searchTextField.getText();

@@ -4,8 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -92,43 +91,33 @@
             </HBox>
          </children>
       </VBox>
-      <TabPane fx:id="postsAndCommentsTabPane" layoutX="14.0" layoutY="300.0" prefHeight="284.0" prefWidth="385.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="Posts">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <ListView fx:id="postsListView" prefHeight="257.0" prefWidth="385.0" />
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Comments">
-               <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <ListView fx:id="commentsListView" prefHeight="257.0" prefWidth="385.0" />
-                     </children>
-                  </AnchorPane>
-               </content>
-          </Tab>
-        </tabs>
-      </TabPane>
-      <VBox layoutX="401.0" layoutY="162.0" prefHeight="424.0" prefWidth="385.0">
+      <VBox layoutX="401.0" layoutY="162.0" prefHeight="424.0" prefWidth="385.0" spacing="5.0">
          <children>
             <Label prefHeight="20.0" prefWidth="433.0" text="Education:">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <ListView fx:id="educationListView" prefHeight="200.0" prefWidth="385.0" />
+            <ListView fx:id="educationListView" prefHeight="200.0" prefWidth="385.0">
+               <padding>
+                  <Insets left="10.0" />
+               </padding></ListView>
             <Label text="Skills:">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <ListView fx:id="skillsListView" prefHeight="200.0" prefWidth="200.0" />
+            <ListView fx:id="skillsListView" prefHeight="200.0" prefWidth="200.0">
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding></ListView>
          </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
       </VBox>
+      <TextArea fx:id="noteTextArea" layoutX="14.0" layoutY="300.0" prefHeight="286.0" prefWidth="386.0" promptText="Write your note here" />
+      <Button fx:id="doneButton" layoutX="343.0" layoutY="552.0" mnemonicParsing="false" onAction="#doneButtonPressed" text="Done" />
+      <Label fx:id="requestSentLabel" layoutX="152.0" layoutY="555.0" prefHeight="18.0" prefWidth="178.0" />
    </children>
 </AnchorPane>

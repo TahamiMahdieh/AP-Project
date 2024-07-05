@@ -57,7 +57,7 @@ public class ProfileController implements Initializable {
     @FXML
     private ListView<Education> educationListView;
     @FXML
-    private ListView<String> skillsListView;
+    private ListView<Education> skillsListView;
     @FXML
     private Label headlineLabel;
     @FXML
@@ -99,26 +99,17 @@ public class ProfileController implements Initializable {
                         return new EducationListCell(email, reader, writer);
                     }
                 });
+                skillsListView.setItems(educations);
+                skillsListView.setCellFactory(new Callback<ListView<Education>, ListCell<Education>>() {
+                    @Override
+                    public ListCell<Education> call(ListView<Education> param) {
+                        return new SkillsListCell(email, reader, writer);
+                    }
+                });
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
-//        Bridge bridge1 = new Bridge(GET_SKILLS, email);
-//        SendMessage.send(bridge1, writer);
-//        try {
-//            Bridge b = (Bridge) reader.readObject();
-//            if (b.getCommand() == GET_SKILLS) {
-//                ArrayList<String> skillsArrayList = b.get();
-//                ObservableList<String> skills = FXCollections.observableArrayList();
-//                skills.addAll(skillsArrayList);
-//                skillsListView.setItems(skills);
-//            }
-//        }
-//        catch (IOException | ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
     }
 
     @FXML

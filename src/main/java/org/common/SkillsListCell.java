@@ -40,14 +40,17 @@ public class SkillsListCell extends ListCell<Education> {
         if (empty || item == null) {
             setGraphic(null); // don't display anything
         }
-        else if ( item.getSkills() == null ){
+        else if (item.getSkills() == null ){
+            setGraphic(null);
+        }
+        else if (item.getSkills().isEmpty()){
             setGraphic(null);
         }
         else {
             ArrayList<String> skills = item.getSkills();
             String skillsString = "";
             for (String skill: skills){
-                skillsString += skill + "\n";
+                skillsString += skill + "\n\t\t\t\t" + "  ";
             }
             Label label = new Label("🔵 " + item.getSchoolName() + " : " + skillsString);
             vBox.getChildren().add(label);
