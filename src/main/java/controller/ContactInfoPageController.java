@@ -10,6 +10,8 @@ import org.common.Bridge;
 import org.common.Commands;
 import org.common.SendMessage;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -18,6 +20,7 @@ import java.util.ResourceBundle;
 
 public class ContactInfoPageController implements Initializable {
     private String email;
+    private boolean thisUser = false;
     private ObjectInputStream reader;
     private ObjectOutputStream writer;
     private Socket socket;
@@ -51,17 +54,44 @@ public class ContactInfoPageController implements Initializable {
 
     }
 
-//    public void postInitialization() {
-//        Bridge bridge = new Bridge(Commands.GET_CONTACT_INFO, email);
-//        SendMessage.send(bridge, writer);
-//        try {
-//            Bridge b = (Bridge)
-//        }
-//    }
+    public void postInitialization() {
+        Bridge bridge = new Bridge(Commands.GET_CONTACT_INFO, email);
+        SendMessage.send(bridge, writer);
+        try {
+            Bridge b = (Bridge) reader.readObject();
+            if (b.getCommand() == Commands.GET_CONTACT_INFO) {
+                String[] contactInfo = b.get();
+                profileURLLabel.setText(contactInfo[0]);
+                emailLabel.setText(contactInfo[1]);
+                phoneNumberLabel.setText(contactInfo[2]);
+                phoneTypeLabel.setText(contactInfo[3]);
+                addressLabel.setText(contactInfo[4]);
+                birthDateLabel.setText(contactInfo[5]);
+                messagingLabel.setText(contactInfo[6]);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+//        DataBaseActions da = new DataBaseActions();
+//
+//        profileURLLabel.setText(da.getProfileUrl(email));
+//        emailLabel.setText(da.getContactInfoEmail(email));
+//        phoneNumberLabel.setText(da.getPhoneNumber(email));
+//        phoneTypeLabel.setText(da.getPhoneType(email));
+//        addressLabel.setText(da.getAddress(email));
+//        if (da.getBirthDate(email) != null)
+//            birthDateLabel.setText(da.getBirthDate(email).toString());
+//        messagingLabel.setText(da.getInstantMessaging(email));
+    }
 
     @FXML
     void okButtonPressed(ActionEvent event) {
-
+        if (thisUser) {
+            LinkedInApplication.showProfilePage();
+        } else {
+            LinkedInApplication.showOthersProfilePage(email);
+        }
     }
 
     public String getEmail() {
@@ -94,5 +124,13 @@ public class ContactInfoPageController implements Initializable {
 
     public void setSocket(Socket socket) {
         this.socket = socket;
+    }
+
+    public boolean isThisUser() {
+        return thisUser;
+    }
+
+    public void setThisUser(boolean thisUser) {
+        this.thisUser = thisUser;
     }
 }
