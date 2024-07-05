@@ -15,7 +15,7 @@
 
 <AnchorPane prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditContactInfoController">
    <children>
-      <VBox layoutY="-1.0" prefHeight="477.0" prefWidth="400.0">
+      <VBox fx:id="mainVBox" layoutY="-1.0" prefHeight="477.0" prefWidth="400.0">
          <padding>
             <Insets left="15.0" right="15.0" />
          </padding>
@@ -76,12 +76,8 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Label>
-            <VBox fx:id="messagingVBox" prefHeight="23.0" prefWidth="370.0">
-               <children>
-                  <Button fx:id="addMessagingButton" mnemonicParsing="false" onAction="#addMessagingButtonPressed" text="Add messaging option" />
-               </children>
-            </VBox>
-            <Label alignment="CENTER" prefHeight="20.0" prefWidth="400.0" textFill="RED" />
+            <Button fx:id="addMessagingButton" mnemonicParsing="false" onAction="#addMessagingButtonPressed" text="Add messaging option" />
+            <Label fx:id="warningLabel" alignment="CENTER" prefHeight="20.0" prefWidth="400.0" textFill="RED" />
          </children>
       </VBox>
       <Button fx:id="doneButton" layoutX="341.0" layoutY="485.0" mnemonicParsing="false" onAction="#doneButtonPressed" text="Done" />

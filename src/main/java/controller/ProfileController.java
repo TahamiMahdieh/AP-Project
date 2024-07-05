@@ -140,7 +140,7 @@ public class ProfileController implements Initializable {
     }
     @FXML
     void contactInfoButtonPressed(ActionEvent event) {
-
+        LinkedInApplication.showContactInfoPage(email);
     }
     @FXML
     void addEducationButtonPressed (ActionEvent event) {

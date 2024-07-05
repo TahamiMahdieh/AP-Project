@@ -4,6 +4,7 @@ import org.common.*;
 
 import java.nio.file.Path;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -123,7 +124,7 @@ public class DataBaseActions {
     }
 
     public boolean setContactInfoEmail(String email, String contactInfoEmail) {
-        return true;
+        return setStringToContactInfo(email, "email", contactInfoEmail);
     }
 
     public String getPhoneNumber(String email) {
@@ -131,7 +132,7 @@ public class DataBaseActions {
     }
 
     public boolean setPhoneNumber(String email, String newPhoneNumber) {
-        return true;
+        return setStringToContactInfo(email, "phone_number", newPhoneNumber);
     }
 
     public String getPhoneType(String email) {
@@ -139,7 +140,7 @@ public class DataBaseActions {
     }
 
     public boolean setPhoneType(String email, String newPhoneType) {
-        return true;
+        return setStringToContactInfo(email, "phone_type", newPhoneType);
     }
 
     public String getAddress(String email) {
@@ -147,15 +148,25 @@ public class DataBaseActions {
     }
 
     public boolean setAddress(String email, String newAddress) {
-        return true;
+        return setStringToContactInfo(email, "address", newAddress);
     }
 
     public Date getBirthDate(String email) {
         return getDateFromContactInfo(email, "birth_date");
     }
 
-    public boolean setBirthDate(String email, Date newBirthDate) {
-        return true;
+    public boolean setBirthDate(String email, LocalDate newBirthDate) {
+        String query = "UPDATE contact_info SET birth_date = '" + newBirthDate.getYear() + "-" + newBirthDate.getMonthValue() + "-" + newBirthDate.getDayOfMonth() + "' WHERE id = ?;";
+        int contact_info_id = getIntFromUserProfile(email, "contact_info_id");
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, contact_info_id);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public String getBirthDatePrivacy(String email) {
@@ -163,7 +174,7 @@ public class DataBaseActions {
     }
 
     public boolean setBirthDatePrivacy(String email, String newBirthDatePrivacy) {
-        return true;
+        return setStringToContactInfo(email, "birth_date_privacy", newBirthDatePrivacy);
     }
 
     public String getInstantMessaging(String email) {
@@ -171,7 +182,7 @@ public class DataBaseActions {
     }
 
     public boolean setInstantMessaging(String email, String newInstantMessaging) {
-        return true;
+        return setStringToContactInfo(email, "instant_messaging", newInstantMessaging);
     }
 
     private String getStringFromUsers(String email, String label) {
@@ -387,11 +398,6 @@ public class DataBaseActions {
             return false;
         }
     }
-
-//    public boolean setDateToContactInfo(String email, String label, Date date) {
-//
-//    }
-
 
     public boolean addUserToUsersTable (User user) {
         try {

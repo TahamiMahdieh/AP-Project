@@ -20,9 +20,11 @@ public class EditContactInfoController implements Initializable {
     private String email;
     private String jwt;
     private final String[] PHONE_TYPE_CHOICES  = new String[]{"Home", "Work", "Mobile"};
-    private final String[] BIRTH_DATE_PRIVACY_CHOICES  = new String[]{"Only you", "Your connections", "Your network", "All LinkedIn members"};
+    private final String[] BIRTH_DATE_PRIVACY_CHOICES  = new String[]{"Only you", "Your connections", "All LinkedIn members"};
     private final String[] SERVICE_CHOICES  = new String[]{"Skype", "ICQ", "Google Hangouts", "QQ", "WeChat"};
 
+    @FXML
+    private VBox mainVBox;
     @FXML
     private Hyperlink profileLink; // has to be implemented
     @FXML
@@ -41,6 +43,7 @@ public class EditContactInfoController implements Initializable {
     private Button addMessagingButton;
     @FXML
     private VBox messagingVBox;
+
     @FXML
     private Label warningLabel;
     @FXML
@@ -50,7 +53,7 @@ public class EditContactInfoController implements Initializable {
 
     private int messagingOptionsCount;
     private final int MAX_MESSAGING_OPTIONS = 1;
-    private ArrayList<VBox> messagingOptionsVBoxes = new ArrayList<>();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -75,11 +78,13 @@ public class EditContactInfoController implements Initializable {
         if (messagingOptionsCount < MAX_MESSAGING_OPTIONS) {
             VBox newOptionVBox = new VBox();
             TextField optionTextField = new TextField();
-            ChoiceBox<String> serviceChoiceBox = new ChoiceBox<String>(FXCollections.observableList(List.of(SERVICE_CHOICES)));
+            TextField serviceTextField = new TextField();
             optionTextField.setPromptText("Enter username");
+            serviceTextField.setPromptText("Enter service");
             newOptionVBox.getChildren().add(optionTextField);
-            newOptionVBox.getChildren().add(serviceChoiceBox);
-            messagingOptionsVBoxes.add(newOptionVBox);
+            newOptionVBox.getChildren().add(serviceTextField);
+            mainVBox.getChildren().add(newOptionVBox);
+            messagingVBox = newOptionVBox;
             messagingOptionsCount++;
         }
         if (messagingOptionsCount == MAX_MESSAGING_OPTIONS) {
@@ -94,9 +99,9 @@ public class EditContactInfoController implements Initializable {
             da.setPhoneNumber(email, phoneNumberTextField.getText().trim());
             da.setPhoneType(email, phoneTypeChoiceBox.getValue());
             da.setAddress(email, addressTextArea.getText());
-            da.setBirthDate(email, Date.valueOf(birthDateDatePicker.getValue()));
+            da.setBirthDate(email, birthDateDatePicker.getValue());
             da.setBirthDatePrivacy(email, birthDatePrivacyChoiceBox.getValue());
-            da.setInstantMessaging(email, ((TextField) messagingOptionsVBoxes.get(0).getChildren().get(0)).getText());
+            da.setInstantMessaging(email,((TextField) messagingVBox.getChildren().get(0)).getText() + "," + ((TextField) messagingVBox.getChildren().get(1)).getText());
 
             LinkedInApplication.showEditInfoPage();
         }

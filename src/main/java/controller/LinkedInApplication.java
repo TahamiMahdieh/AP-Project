@@ -113,6 +113,18 @@ public class LinkedInApplication extends Application {
         controller.postInitialization();
     }
 
+    public static void showContactInfoPage(String email) {
+        ContactInfoPageController controller = changeScene(stage, "contactInfoPage.fxml", "LinkedIn");
+        controller.setReader(reader);
+        controller.setEmail(thisUserEmail);
+        controller.setSocket(socket);
+        controller.setWriter(writer);
+        if (email.equals(thisUserEmail)) {
+            controller.setThisUser(true);
+        }
+        controller.postInitialization();
+    }
+
     public static void showLikeListPage (Bridge bridge){
         LikeListPageController controller = changeScene(stage, "likeListPage.fxml", "LinkedIn");
         controller.setEmail(thisUserEmail);
