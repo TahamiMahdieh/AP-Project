@@ -5,12 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import org.Database.DataBaseActions;
 import org.common.Bridge;
 import org.common.Commands;
 import org.common.SendMessage;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,7 +17,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ContactInfoPageController implements Initializable {
-    private String email;
+    private String othersEmail;
+    private String thisUsersEmail;
     private boolean thisUser = false;
     private ObjectInputStream reader;
     private ObjectOutputStream writer;
@@ -52,7 +51,7 @@ public class ContactInfoPageController implements Initializable {
     }
 
     public void postInitialization() {
-        Bridge bridge = new Bridge(Commands.GET_CONTACT_INFO, email);
+        Bridge bridge = new Bridge(Commands.GET_CONTACT_INFO, othersEmail);
         SendMessage.send(bridge, writer);
         try {
             Bridge b = (Bridge) reader.readObject();
@@ -62,23 +61,40 @@ public class ContactInfoPageController implements Initializable {
                 phoneNumberLabel.setText(contactInfo[2]);
                 phoneTypeLabel.setText(contactInfo[3]);
                 addressLabel.setText(contactInfo[4]);
-                birthDateLabel.setText(contactInfo[5]);
-                messagingLabel.setText(contactInfo[6]);
+                messagingLabel.setText(contactInfo[7]);
+
+                if (thisUser) {
+                    birthDateLabel.setText(contactInfo[6]);
+                }
+                else if (contactInfo[5].equals("Only you")) {
+                    birthDateLabel.setText("");
+                }
+                else if (contactInfo[5].equals("All LinkedIn members")) {
+                    birthDateLabel.setText(contactInfo[6]);
+                }
+                else {
+                    bridge = new Bridge(Commands.ARE_USERS_CONNECTED, new String[]{othersEmail, thisUsersEmail});
+                    SendMessage.send(bridge, writer);
+                    try {
+                        b = (Bridge) reader.readObject();
+                        if (b.getCommand() == Commands.ARE_USERS_CONNECTED) {
+                            boolean areUsersConnected = b.get();
+                            if (areUsersConnected)
+                                birthDateLabel.setText(contactInfo[6]);
+                            else
+                                birthDateLabel.setText("");
+                        }
+                    } catch (IOException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-//        DataBaseActions da = new DataBaseActions();
-//
-//        profileURLLabel.setText(da.getProfileUrl(email));
-//        emailLabel.setText(da.getContactInfoEmail(email));
-//        phoneNumberLabel.setText(da.getPhoneNumber(email));
-//        phoneTypeLabel.setText(da.getPhoneType(email));
-//        addressLabel.setText(da.getAddress(email));
-//        if (da.getBirthDate(email) != null)
-//            birthDateLabel.setText(da.getBirthDate(email).toString());
-//        messagingLabel.setText(da.getInstantMessaging(email));
     }
 
     @FXML
@@ -86,16 +102,24 @@ public class ContactInfoPageController implements Initializable {
         if (thisUser) {
             LinkedInApplication.showProfilePage();
         } else {
-            LinkedInApplication.showOthersProfilePage(email);
+            LinkedInApplication.showOthersProfilePage(othersEmail);
         }
     }
 
-    public String getEmail() {
-        return email;
+    public String getOthersEmail() {
+        return othersEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setOthersEmail(String othersEmail) {
+        this.othersEmail = othersEmail;
+    }
+
+    public String getThisUsersEmail() {
+        return thisUsersEmail;
+    }
+
+    public void setThisUsersEmail(String thisUsersEmail) {
+        this.thisUsersEmail = thisUsersEmail;
     }
 
     public ObjectInputStream getReader() {
